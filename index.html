@@ -1,600 +1,643 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Avenir Capital</title>
-    <style>
-        :root{
-            --bg:#f8f9fa;
-            --card:#ffffff;
-            --tx:#1a1a1a;
-            --mu:#6b7280;
-            --pr:#5541e0;
-            --pr2:#e9e5ff;
-            --bd:#e5e7eb;
-            --wa:#00b4eb;
-            --er:#dc2626;
-            box-sizing:border-box;
-            padding-top:env(safe-area-inset-top,0px);
-        }
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,sans-serif;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
-        #app{max-width:480px;margin:auto;padding:16px;padding-top:env(safe-area-inset-top,16px)}
-        h1,h2,h3{margin:0 0 12px;font-weight:600}
-        h1{font-size:24px}h2{font-size:20px}
-        .card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
-        input,select{width:100%;padding:14px 12px;margin:8px 0 16px;border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx);font:inherit;font-size:16px;outline:none}
-        input:focus{border-color:var(--pr)}
-        label{font-size:14px;color:var(--mu);font-weight:500}
-        button{font:inherit;cursor:pointer;border:none;outline:none}
-        .btn{width:100%;padding:15px;border-radius:12px;background:var(--pr);color:#fff;font-weight:600;font-size:16px;transition:opacity .2s}
-        .btn:hover{opacity:.92}
-        .btn.sec{background:var(--pr2);color:var(--pr)}
-        .btn.out{background:transparent;border:1px solid var(--er);color:var(--er)}
-        .mu{color:var(--mu);font-size:14px;line-height:1.5}
-        .err{color:var(--er);font-size:14px;min-height:22px;margin-bottom:8px}
-        .back{background:none;border:none;color:var(--pr);padding:0 0 12px;font-weight:600;font-size:16px;display:inline-block}
-        nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -2px 10px rgba(0,0,0,.05)}
-        nav button{flex:1;padding:10px 4px;background:none;color:var(--mu);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px}
-        nav button.on{color:var(--pr);font-weight:600}
-        nav span{font-size:22px}
-        .num{font-size:26px;font-weight:700;letter-spacing:2px}
-        .ref-box{background:var(--pr2);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;margin:12px 0}
-        .ref-box input{flex:1;margin:0;border:none;background:transparent;color:var(--pr);font-weight:600;padding:0}
-        .copy-btn{background:var(--pr);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:14px;font-weight:600;white-space:nowrap}
-        a{text-decoration:none;color:inherit}
-        .loader-box{text-align:center;padding:60px 20px}
-        .tag{font-size:12px;padding:4px 10px;border-radius:20px;background:#fef3c7;color:#92400e;font-weight:500}
-        .tag.pr{background:var(--pr2);color:var(--pr)}
-        .li{display:flex;justify-content:space-between;align-items:center;width:100%;padding:16px;margin-bottom:8px;border-radius:12px;background:var(--card);border:1px solid var(--bd)}
-        .wave-border{border:2px solid var(--wa)}
-        .disabled{opacity:.5;cursor:not-allowed}
-        .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
-        .chips button{padding:8px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
-        .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-        input::placeholder{color:#b0bec5}
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4B3FE4">
+<title>Wave</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234B3FE4'/><path d='M14 56c9-14 17-14 24 0s15 14 24 0 15-14 24 0' fill='none' stroke='white' stroke-width='9' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --violet:#4B3FE4; --violet-d:#3329B8; --ciel:#7FD6FF; --ciel-l:#DDF3FF;
+  --encre:#16134A; --gris:#6B6A8A; --fond:#F4F4FB; --blanc:#fff;
+  --ok:#17A673; --err:#D8344A;
+  --ft-titre:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --ft-texte:"Nunito Sans","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--ft-texte);color:var(--encre);background:var(--fond);font-size:16px;line-height:1.45}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--ciel);outline-offset:2px}
+.hidden{display:none!important}
+
+/* ---------- Écrans ---------- */
+.ecran{min-height:100%;display:none;flex-direction:column}
+.ecran.actif{display:flex}
+
+/* Inscription */
+.auth{background:var(--violet);position:relative;overflow:hidden}
+.vagues{position:absolute;left:0;right:0;top:0;height:46%;opacity:.35;pointer-events:none}
+.auth-haut{position:relative;padding:calc(env(safe-area-inset-top,0px) + 36px) 24px 28px;color:#fff;text-align:center}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--ft-titre);font-weight:800;font-size:34px;letter-spacing:-.5px}
+.logo svg{width:44px;height:44px}
+.auth-haut p{margin-top:8px;opacity:.9;font-size:17px}
+.carte{position:relative;background:#fff;border-radius:28px 28px 0 0;flex:1;padding:28px 22px calc(env(safe-area-inset-bottom,0px) + 28px);margin-top:auto;box-shadow:0 -10px 40px rgba(22,19,74,.25)}
+.carte-in{max-width:440px;margin:0 auto}
+h1{font-family:var(--ft-titre);font-size:26px;line-height:1.15;letter-spacing:-.4px}
+.sous{color:var(--gris);margin:6px 0 22px}
+.etape{display:none}
+.etape.actif{display:block;animation:entre .28s ease-out}
+@keyframes entre{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+label.champ{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+.tel{display:flex;gap:10px}
+.tel select{border:2px solid #E3E2F1;background:#fff;border-radius:14px;padding:0 10px;height:54px;font-weight:700;width:112px}
+.tel input{flex:1;min-width:0}
+input[type=text],input[type=tel],input[type=password],input[type=number]{width:100%;height:54px;border:2px solid #E3E2F1;border-radius:14px;padding:0 16px;font-size:18px;background:#fff;transition:border-color .15s}
+input:focus{border-color:var(--violet);outline:none}
+input.faux{border-color:var(--err)}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mt{margin-top:16px}
+.btn{width:100%;height:56px;border-radius:16px;background:var(--violet);color:#fff;font-weight:800;font-size:17px;font-family:var(--ft-titre);display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s,background .15s;margin-top:22px}
+.btn:hover{background:var(--violet-d)}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn.clair{background:var(--ciel-l);color:var(--violet)}
+.btn.clair:hover{background:#C9EAFB}
+.lien{color:var(--violet);font-weight:700;padding:8px 4px}
+.lien[disabled]{color:var(--gris);cursor:default}
+.centre{text-align:center;margin-top:10px}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-size:14.5px;display:none}
+.msg.err{display:block;background:#FDECEF;color:#9B1C2E}
+.msg.info{display:block;background:var(--ciel-l);color:#14407A}
+.mini-info{font-size:13px;color:var(--gris);margin-top:14px;text-align:center}
+.retour{display:inline-flex;align-items:center;gap:6px;color:var(--gris);font-weight:700;margin-bottom:14px;padding:4px 0}
+
+/* Code SMS */
+.code{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.code input{height:60px;padding:0;text-align:center;font-size:26px;font-weight:800;font-family:var(--ft-titre);border-radius:14px}
+.spin{width:20px;height:20px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:t .7s linear infinite}
+@keyframes t{to{transform:rotate(360deg)}}
+
+/* Succès */
+.succes{align-items:center;justify-content:center;text-align:center;padding:32px 24px;background:var(--violet);color:#fff}
+.coche{width:112px;height:112px;border-radius:50%;background:#fff;display:grid;place-items:center;margin-bottom:24px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.coche svg{width:56px;height:56px}
+.coche path{stroke-dasharray:60;stroke-dashoffset:60;animation:trace .5s .3s forwards}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes trace{to{stroke-dashoffset:0}}
+.succes h1{color:#fff;font-size:30px}
+.succes p{opacity:.92;margin-top:10px;max-width:320px}
+.succes .btn{background:#fff;color:var(--violet);max-width:340px}
+.succes .btn:hover{background:var(--ciel-l)}
+
+/* Accueil */
+.accueil{background:var(--fond)}
+.hero{background:var(--violet);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 70px;position:relative}
+.barre{display:flex;justify-content:space-between;align-items:center}
+.pastille{background:rgba(255,255,255,.18);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
+.ico-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#fff}
+.ico-btn svg{width:22px;height:22px}
+.solde{text-align:center;margin-top:10px;font-family:var(--ft-titre);font-weight:800;font-size:44px;display:flex;justify-content:center;align-items:center;gap:10px}
+.solde small{font-size:26px;font-weight:700}
+.oeil{width:34px;height:34px;color:#fff;opacity:.85;display:grid;place-items:center}
+.oeil svg{width:22px;height:22px}
+.bonj{text-align:center;opacity:.9;font-size:15px}
+.qr-carte{margin:18px auto 0;max-width:340px;background:var(--ciel);border-radius:22px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 12px,transparent 12px 24px)}
+.qr-boite{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:13px;color:var(--encre)}
+.qr-boite #qr{width:120px;height:120px}
+.qr-boite img,.qr-boite canvas{width:120px!important;height:120px!important}
+.pingouin{width:70px;height:auto}
+.panneau{margin-top:-44px;background:var(--fond);border-radius:28px 28px 0 0;padding:22px 16px calc(env(safe-area-inset-bottom,0px) + 90px);flex:1;position:relative}
+.grille{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px;max-width:460px;margin:0 auto}
+.tuile{display:flex;flex-direction:column;align-items:center;gap:7px;font-weight:700;font-size:13.5px;padding:4px 0;border-radius:14px;transition:transform .12s}
+.tuile:active{transform:scale(.94)}
+.rond{width:58px;height:58px;border-radius:50%;display:grid;place-items:center}
+.rond svg{width:28px;height:28px}
+.promo{max-width:460px;margin:20px auto 0;background:var(--ciel);border-radius:20px;padding:16px;display:flex;align-items:center;gap:12px;position:relative;color:var(--encre)}
+.promo b{font-family:var(--ft-titre);font-size:17px}
+.promo p{font-size:14px;margin-top:2px}
+.promo .x{position:absolute;top:8px;right:10px;font-size:18px;opacity:.7;width:30px;height:30px}
+.drap{display:flex;flex-direction:column;border-radius:6px;overflow:hidden;width:44px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.drap i{display:block;height:20px}
+.gratuit{max-width:460px;margin:26px auto 0;text-align:center}
+.gratuit b{display:block;font-size:17px;font-family:var(--ft-titre)}
+.gratuit button{color:var(--violet);font-weight:700;margin-top:6px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #E7E6F3;display:flex;padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);z-index:5}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:700;color:var(--gris);padding:4px}
+.nav button.on{color:var(--violet)}
+.nav svg{width:24px;height:24px}
+
+/* Feuilles */
+.voile{position:fixed;inset:0;background:rgba(22,19,74,.5);z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+.voile.on{opacity:1;pointer-events:auto}
+.feuille{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:26px 26px 0 0;max-height:88%;overflow:auto;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.9,.3,1);padding:10px 20px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.feuille.on{transform:none}
+.feuille .poignee{width:44px;height:5px;border-radius:3px;background:#D9D8EA;margin:0 auto 14px}
+.feuille-in{max-width:480px;margin:0 auto}
+.feuille h2{font-family:var(--ft-titre);font-size:22px;margin-bottom:4px}
+.liste{margin-top:12px;display:flex;flex-direction:column}
+.ligne{display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px solid #EEEDF7;text-align:left;width:100%;font-weight:700}
+.ligne:last-child{border:0}
+.ligne .pt{width:42px;height:42px;border-radius:12px;background:var(--ciel-l);color:var(--violet);display:grid;place-items:center;font-weight:800;font-family:var(--ft-titre);flex:none}
+.ligne small{display:block;font-weight:400;color:var(--gris)}
+.ligne .mt-r{margin-left:auto;font-weight:800}
+.plus{color:var(--ok)} .moins{color:var(--err)}
+.vide{color:var(--gris);padding:18px 0;text-align:center}
+.coffre-solde{font-family:var(--ft-titre);font-weight:800;font-size:36px;text-align:center;margin:10px 0 4px}
+.rangee{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rangee .btn{margin-top:14px;height:50px;font-size:15px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translate(-50%,20px);background:var(--encre);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;font-size:14.5px;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:90%;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (min-width:700px){
+  .carte{max-width:520px;margin:0 auto;border-radius:28px;margin-bottom:40px}
+  .auth{justify-content:center}
+  .feuille{max-width:520px;margin:0 auto}
+}
+</style>
 </head>
 <body>
-<div id="app"></div>
-<nav id="nav"></nav>
 
-<script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,doc,setDoc,onSnapshot,collection,addDoc,runTransaction,query,where} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig={
-    apiKey:"AIzaSyC8jUCtIrHrySXzNAXTdRTaCBTNgEirS8w",
-    authDomain:"avenir-capital.firebaseapp.com",
-    projectId:"avenir-capital",
-    storageBucket:"avenir-capital.firebasestorage.app",
-    messagingSenderId:"565430762059",
-    appId:"1:565430762059:web:3c7d536d55d3277d35ebce"
-};
-
-const SITE_URL="https://papoleriche61-ai.github.io/avenir/";
-const WAVE_NUM="0171518903";
-const SUPPORT="https://wa.me/message/ABZ2BRFJPVIOE1";
-const VIP=[{n:"VIP1",p:5000,d:600},{n:"VIP2",p:10000,d:1500},{n:"VIP3",p:50000,d:3500},{n:"VIP4",p:100000,d:5000}];
-const METH=["Wave","MTN Money","Moov Money","Orange Money"];
-
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const fs=getFirestore(app);
-
-const em=p=>p.replace(/\D/g,"")+"@avenir.app";
-let ud=null,recs=[],rets=[],buys=[],gains=[],unsubs=[],loading=true,P="signup",T={};
-let codeAttendu="";
-const me=new Proxy({},{get:(_,k)=>(ud||{})[k]});
-const U=()=>ud&&{...ud,recs,rets,buys,gains};
-const F=n=>Number(n||0).toLocaleString("fr-FR")+" F";
-const D=()=>new Date().toLocaleDateString("fr-FR");
-const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const $=id=>document.getElementById(id)?document.getElementById(id).value.trim():"";
-
-window.copierLien = async function(){
-    try {
-        await navigator.clipboard.writeText(SITE_URL);
-        alert("✅ Lien copié avec succès !");
-    } catch (e) {
-        const input = document.getElementById('site-link');
-        if(input){input.select();document.execCommand('copy');}
-        alert("✅ Lien copié avec succès !");
-    }
-};
-
-window.partagerDirect = async function(){
-    if(navigator.share){
-        try {
-            await navigator.share({
-                title: "Avenir Capital",
-                text: "Rejoignez Avenir Capital pour investir et gagner !",
-                url: SITE_URL
-            });
-        } catch (e) {}
-    } else {
-        copierLien();
-    }
-};
-
-window.copyN = function(){
-    try{navigator.clipboard.writeText(WAVE_NUM)}catch(e){}
-    const btn=document.getElementById("cp");
-    if(btn)btn.textContent="Copié ✓";
-};
-
-window.go = function(p,t){P=p;if(t)Object.assign(T,t);render();scrollTo(0,0)};
-function err(m){const e=document.getElementById("err");if(e)e.textContent=m}
-window.err = err;
-
-const msg=e=>({
-    "auth/email-already-in-use":"Ce numéro est déjà inscrit.",
-    "auth/invalid-credential":"Numéro ou mot de passe incorrect.",
-    "auth/weak-password":"Mot de passe : 6 caractères minimum."
-}[e.code]||("Erreur : "+(e.code||e.message)));
-
-const back=(p="home")=>`<button class="back" onclick="go('${p}')">‹ Retour</button>`;
-const hist=(a,empty)=>a.length?a.map(x=>`<div class="card"><div class="row"><div><b>${F(x.a)}</b><div class="mu">${x.m||"Wave"} · ${x.t||""}</div></div><span class="tag">${x.s||"En attente"}</span></div></div>`).join(""):`<p class="mu">${empty}</p>`;
-
-window.envoyerCode = function(){
-    const n = $("n"), p = $("ph");
-    if(!n || n.length < 2) return err("Entrez votre nom complet.");
-    if(p.length < 8) return err("Entrez un numéro valide.");
-    codeAttendu = Math.floor(1000 + Math.random() * 9000).toString();
-    alert(`📱 Code de vérification envoyé !\n\n👉 Votre code est : ${codeAttendu}`);
-    document.getElementById("form-step1").style.display = "none";
-    document.getElementById("form-step2").style.display = "block";
-    err("");
-};
-
-window.verifierCode = async function(){
-    const saisi = $("code");
-    const n = $("n"), p = $("ph");
-    if(saisi !== codeAttendu){
-        const e2 = document.getElementById("err2");
-        if(e2)e2.textContent = "❌ Code incorrect. Réessayez.";
-        return;
-    }
-    const motDePasse = p;
-    try {
-        const c = await createUserWithEmailAndPassword(auth, em(p), motDePasse);
-        await setDoc(doc(fs, "users", c.user.uid), {
-            name: n, phone: p, bal: 0, card: null, ts: Date.now()
-        });
-    } catch(e) {
-        const e2 = document.getElementById("err2");
-        if(e2)e2.textContent = msg(e);
-    }
-};
-
-window.retourEtape1 = function(){
-    document.getElementById("form-step1").style.display = "block";
-    document.getElementById("form-step2").style.display = "none";
-    const cd = document.getElementById("code");if(cd)cd.value="";
-    err("");
-};
-
-window.login = async function(){
-    try {
-        await signInWithEmailAndPassword(auth, em($("ph")), $("pw"));
-    } catch(e) {
-        err(msg(e));
-    }
-};
-
-window.logout = function(){
-    signOut(auth);
-};
-
-window.toMethod = function(){
-    const a = +$("a");
-    if(a < 1000) return err("Montant minimum : 1 000 F.");
-    T.amt = a;
-    go("method");
-};
-
-window.confirmPay = async function(){
-    const p = $("pn"), t = $("tx");
-    if(p.length < 8 || t.length < 4) return err("Entrez votre numéro et l'ID de transaction.");
-    try {
-        await addDoc(collection(fs, "recharges"), {
-            uid: auth.currentUser.uid,
-            a: T.amt,
-            m: "Wave · " + esc(p) + " · ID " + esc(t),
-            pn: p,
-            tx: t,
-            t: D(),
-            ts: Date.now(),
-            s: "En attente"
-        });
-        go("histRec");
-        alert("✅ Demande enregistrée ! Le solde sera crédité après vérification.");
-    } catch(e) {
-        err(msg(e));
-    }
-};
-
-window.doWd = async function(){
-    const a = +$("a"), p = $("pn"), ref = doc(fs, "users", auth.currentUser.uid);
-    if(a < 1000) return err("Montant minimum : 1 000 F.");
-    if(p.length < 8) return err("Entrez un numéro valide.");
-    try {
-        await runTransaction(fs, async t => {
-            const snap = await t.get(ref);
-            const b = snap.exists() ? (snap.data().bal || 0) : 0;
-            if(b < a) throw { message: "Solde insuffisant." };
-            t.update(ref, { bal: b - a });
-            const newWdRef = doc(collection(fs, "withdrawals"));
-            t.set(newWdRef, {
-                uid: auth.currentUser.uid,
-                a: a,
-                m: esc(p),
-                pn: p,
-                t: D(),
-                ts: Date.now(),
-                s: "En attente"
-            });
-        });
-        go("histRet");
-        alert("✅ Demande de retrait envoyée !");
-    } catch(e) {
-        err(e.message||"Erreur lors du retrait.");
-    }
-};
-
-window.doLink = async function(){
-    const p = $("pn");
-    if(p.length < 8) return err("Entrez un numéro valide.");
-    await setDoc(doc(fs, "users", auth.currentUser.uid), {
-        card: { m: $("m"), num: p }
-    }, { merge: true });
-    go("card");
-    alert("✅ Compte lié avec succès !");
-};
-
-window.buy = async function(i){
-    const v = VIP[i], ref = doc(fs, "users", auth.currentUser.uid);
-    try {
-        await runTransaction(fs, async t => {
-            const snap = await t.get(ref);
-            const b = snap.exists() ? (snap.data().bal || 0) : 0;
-            if(b < v.p) throw { message: "Solde insuffisant. Rechargez votre compte." };
-            t.update(ref, { bal: b - v.p });
-            const newBuyRef = doc(collection(fs, "purchases"));
-            t.set(newBuyRef, {
-                uid: auth.currentUser.uid,
-                n: v.n,
-                p: v.p,
-                d: v.d,
-                t: D(),
-                ts: Date.now(),
-                daysLeft: 31
-            });
-        });
-        go("achats");
-    } catch(e) {
-        err(e.message||"Erreur lors de l'achat.");
-    }
-};
-
-const pages={
-    signup:()=>`<div style="text-align:center;padding:20px 0">
-        <div style="background:linear-gradient(135deg,#5541e0,#6b5ce8);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <span style="font-size:36px">👤</span>
-        </div>
-        <h1 style="margin:0;font-size:22px">Créer votre compte</h1>
-        <p class="mu">Remplissez vos informations pour commencer</p>
+<!-- ============ INSCRIPTION ============ -->
+<main id="ecran-auth" class="ecran auth actif">
+  <svg class="vagues" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 80c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
+    <path d="M0 130c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
+    <path d="M0 180c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
+    <path d="M0 230c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
+  </svg>
+  <header class="auth-haut">
+    <div class="logo">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="24" fill="#fff"/><path d="M14 56c9-14 17-14 24 0s15 14 24 0 15-14 24 0" fill="none" stroke="#4B3FE4" stroke-width="9" stroke-linecap="round"/></svg>
+      Wave
     </div>
-    
-    <div class="card" id="form-step1">
-        <label>Nom complet</label>
-        <input id="n" placeholder="Utilisateur">
-        
-        <label>Numéro de téléphone</label>
-        <input id="ph" type="tel" placeholder="Ex: 0700000000">
-        
-        <div id="err" class="err"></div>
-        <button class="btn" onclick="envoyerCode()">Envoyer le code</button>
+    <p>Envoyez et recevez de l’argent, simplement.</p>
+  </header>
+
+  <section class="carte">
+    <div class="carte-in">
+
+      <!-- Étape 1 : informations + numéro -->
+      <div class="etape actif" id="e-tel">
+        <h1>Créez votre compte Wave</h1>
+        <p class="sous">Remplissez vos informations. Nous vous envoyons ensuite un code par SMS.</p>
+        <div class="deux">
+          <div><label class="champ" for="prenom">Prénom</label><input id="prenom" type="text" autocomplete="given-name"></div>
+          <div><label class="champ" for="nom">Nom</label><input id="nom" type="text" autocomplete="family-name"></div>
+        </div>
+        <div class="mt"><label class="champ" for="num">Numéro de téléphone</label>
+          <div class="tel">
+            <select id="pays" aria-label="Indicatif du pays">
+              <option value="+225">CI +225</option>
+              <option value="+221">SN +221</option>
+              <option value="+223">ML +223</option>
+              <option value="+226">BF +226</option>
+              <option value="+228">TG +228</option>
+              <option value="+229">BJ +229</option>
+              <option value="+224">GN +224</option>
+              <option value="+33">FR +33</option>
+            </select>
+            <input id="num" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="07 00 00 00 00" maxlength="16">
+          </div>
+        </div>
+        <div class="deux mt">
+          <div><label class="champ" for="pin">Code secret (4 chiffres)</label>
+            <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div>
+          <div><label class="champ" for="pin2">Confirmez le code</label>
+            <input id="pin2" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div>
+        </div>
+        <button class="btn" id="btn-envoyer"><span>Recevoir le code par SMS</span></button>
+        <div id="msg-tel" class="msg" role="alert"></div>
+        <p class="mini-info">Des frais de SMS de votre opérateur peuvent s’appliquer.</p>
+      </div>
+
+      <!-- Étape 2 : code -->
+      <div class="etape" id="e-code">
+        <button class="retour" id="btn-retour" type="button">← Changer de numéro</button>
+        <h1>Entrez le code reçu</h1>
+        <p class="sous" id="txt-envoye">Un code à 6 chiffres vient d’être envoyé par SMS.</p>
+        <div class="code" id="code" role="group" aria-label="Code à 6 chiffres">
+          <input inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Chiffre 1">
+          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 2">
+          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 3">
+          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 4">
+          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 5">
+          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 6">
+        </div>
+        <button class="btn" id="btn-verifier"><span>Valider le code</span></button>
+        <div class="centre"><button class="lien" id="btn-renvoyer" disabled>Renvoyer le code</button></div>
+        <div id="msg-code" class="msg" role="alert"></div>
+      </div>
+
+      <!-- Connexion par code secret -->
+      <div class="etape" id="e-pin">
+        <h1>Bon retour <span id="pin-nom"></span></h1>
+        <p class="sous">Entrez votre code secret pour ouvrir Wave.</p>
+        <label class="champ" for="pin-login">Code secret</label>
+        <input id="pin-login" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+        <button class="btn" id="btn-ouvrir"><span>Ouvrir Wave</span></button>
+        <div class="centre"><button class="lien" id="btn-autre">Utiliser un autre numéro</button></div>
+        <div id="msg-pin" class="msg" role="alert"></div>
+      </div>
+
     </div>
-    
-    <div class="card" id="form-step2" style="display:none">
-        <div style="text-align:center;margin-bottom:16px">
-            <h3>Code de vérification</h3>
-            <p class="mu">Un code à 4 chiffres a été envoyé à votre numéro</p>
-        </div>
-        
-        <label>Entrez le code à 4 chiffres</label>
-        <input id="code" type="text" maxlength="4" placeholder="••••" style="text-align:center;font-size:24px;letter-spacing:10px">
-        
-        <div id="err2" class="err"></div>
-        
-        <button class="btn" onclick="verifierCode()">Confirmer</button>
-        <button class="btn sec" style="margin-top:8px" onclick="retourEtape1()">‹ Modifier mon numéro</button>
+  </section>
+</main>
+
+<!-- ============ SUCCÈS ============ -->
+<main id="ecran-succes" class="ecran succes">
+  <div class="coche"><svg viewBox="0 0 52 52" fill="none" stroke="#4B3FE4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 27l10 10 18-21"/></svg></div>
+  <h1>Bienvenue sur Wave, <span id="succes-nom"></span></h1>
+  <p>Votre compte est créé et votre numéro est vérifié.</p>
+  <button class="btn" id="btn-entrer">Ouvrir Wave</button>
+</main>
+
+<!-- ============ ACCUEIL ============ -->
+<main id="ecran-accueil" class="ecran accueil">
+  <section class="hero">
+    <div class="barre">
+      <button class="ico-btn" data-ouvre="reglages" aria-label="Réglages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+      <span class="pastille" id="pt-points">Wave</span>
     </div>
-    
-    <button class="btn sec" onclick="go('login')">J'ai déjà un compte</button>`,
-
-    login:()=>`<div style="text-align:center;padding:20px 0">
-        <div style="background:linear-gradient(135deg,#5541e0,#6b5ce8);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <span style="font-size:36px">🔐</span>
-        </div>
-        <h1 style="margin:0">Connexion</h1>
-        <p class="mu">Accédez à votre compte</p>
+    <p class="bonj" id="bonjour" style="margin-top:6px"></p>
+    <div class="solde"><span id="solde">0</span><small>F</small>
+      <button class="oeil" id="btn-oeil" aria-label="Masquer ou afficher le solde">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
-    <div class="card">
-        <label>Numéro de téléphone</label>
-        <input id="ph" type="tel" placeholder="Ex: 0700000000">
-        <label>Mot de passe</label>
-        <input id="pw" type="password" placeholder="Votre mot de passe">
-        <div id="err" class="err"></div>
-        <button class="btn" onclick="login()">Se connecter</button>
+    <div class="qr-carte">
+      <button class="qr-boite" data-ouvre="scanner" aria-label="Mon code QR">
+        <div id="qr"></div><span>Scanner</span>
+      </button>
+      <svg class="pingouin" viewBox="0 0 80 100" aria-hidden="true">
+        <ellipse cx="40" cy="58" rx="30" ry="38" fill="#16134A"/>
+        <ellipse cx="40" cy="64" rx="19" ry="28" fill="#fff"/>
+        <circle cx="31" cy="38" r="4.5" fill="#fff"/><circle cx="49" cy="38" r="4.5" fill="#fff"/>
+        <circle cx="31" cy="38" r="2" fill="#16134A"/><circle cx="49" cy="38" r="2" fill="#16134A"/>
+        <path d="M33 46l7 6 7-6z" fill="#FFB020"/>
+        <ellipse cx="28" cy="96" rx="9" ry="4" fill="#FFB020"/><ellipse cx="52" cy="96" rx="9" ry="4" fill="#FFB020"/>
+      </svg>
     </div>
-    <button class="btn sec" onclick="go('signup')">Créer un compte</button>`,
+  </section>
 
-    home:()=>{
-        const u=U();
-        return `
-        <div style="background:linear-gradient(180deg,#5541e0,#6b5ce8);margin:-16px -16px 0 -16px;padding:20px 16px 30px;border-radius:0 0 24px 24px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-                <span style="font-size:24px">⚙️</span>
-                <span style="background:rgba(255,255,255,0.2);padding:6px 12px;border-radius:20px;font-size:14px;color:#fff">📇 ${esc(u.phone||"")}</span>
-            </div>
-            <div style="font-size:42px;font-weight:700;color:#fff;margin:10px 0">${F(u.bal)}</div>
-            <span style="color:rgba(255,255,255,0.85);font-size:15px">Bonjour, ${esc(u.name)} 👋</span>
-        </div>
-
-        <div style="background:linear-gradient(135deg,#34cfff,#00b4eb);border-radius:20px;padding:20px;text-align:center;margin:16px;margin-bottom:24px">
-            <div style="background:#fff;border-radius:12px;padding:15px;display:inline-block;margin-bottom:8px">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(SITE_URL)}" alt="QR Code" style="width:140px;height:140px">
-                <div style="font-size:13px;color:#555;margin-top:5px">📷 Scanner</div>
-            </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:0 8px 24px">
-            <div style="text-align:center;cursor:pointer" onclick="go('recharge')">
-                <div style="width:60px;height:60px;background:#e3f2fd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">👤</div>
-                <span style="font-size:13px;color:var(--tx)">Recharger</span>
-            </div>
-            <div style="text-align:center;cursor:pointer" onclick="go('withdraw')">
-                <div style="width:60px;height:60px;background:#fff3e0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">🛒</div>
-                <span style="font-size:13px;color:var(--tx)">Retirer</span>
-            </div>
-            <div style="text-align:center;cursor:pointer" onclick="go('invest')">
-                <div style="width:60px;height:60px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">🏦</div>
-                <span style="font-size:13px;color:var(--tx)">Investir</span>
-            </div>
-            <div style="text-align:center;cursor:pointer" onclick="go('share')">
-                <div style="width:60px;height:60px;background:#f3e5f5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">💳</div>
-                <span style="font-size:13px;color:var(--tx)">Partager</span>
-            </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:0 8px 28px">
-            <div style="text-align:center;cursor:pointer" onclick="go('bonus')">
-                <div style="width:60px;height:60px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">🎁</div>
-                <span style="font-size:13px;color:var(--tx)">Bonus</span>
-            </div>
-            <div style="text-align:center;cursor:pointer" onclick="go('account')">
-                <div style="width:60px;height:60px;background:#fce4ec;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">🔐</div>
-                <span style="font-size:13px;color:var(--tx)">Sécurité</span>
-            </div>
-            <div style="text-align:center;cursor:pointer" onclick="go('histRec')">
-                <div style="width:60px;height:60px;background:#e3f2fd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">📄</div>
-                <span style="font-size:13px;color:var(--tx)">Historique</span>
-            </div>
-            <div style="text-align:center;cursor:pointer" onclick="go('service')">
-                <div style="width:60px;height:60px;background:#e0f7fa;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:26px">🛡️</div>
-                <span style="font-size:13px;color:var(--tx)">Support</span>
-            </div>
-        </div>
-
-        <div style="background:#fff;border-radius:16px;padding:20px;text-align:center;margin:0 8px">
-            <p style="margin:0 0 8px 0;font-size:17px">💱 Dépôt et retrait gratuits !</p>
-            <a href="${SUPPORT}" target="_blank" style="color:#00b4eb;font-size:15px;text-decoration:none">Contactez-nous pour trouver votre agent le plus proche →</a>
-        </div>
-        `;
-    },
-
-    share:()=>`${back()}<h2 style="text-align:center;margin-bottom:20px">🔗 Partager l'application</h2>
-    <div class="card">
-        <p class="mu" style="text-align:center;margin-bottom:16px">Partagez Avenir Capital avec vos proches et gagnez ensemble !</p>
-        
-        <h3>🌐 Lien du site</h3>
-        <div class="ref-box">
-            <input type="text" value="${SITE_URL}" readonly id="site-link">
-            <button class="copy-btn" onclick="copierLien()">📋 Copier</button>
-        </div>
-        
-        <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <a href="https://wa.me/?text=Découvre%20Avenir%20Capital%20:%20${encodeURIComponent(SITE_URL)}" 
-               target="_blank" rel="noopener" class="btn" style="background:#25d366;text-align:center">
-                💬 WhatsApp
-            </a>
-            <button class="btn sec" onclick="partagerDirect()">📤 Partager</button>
-        </div>
-    </div>`,
-
-    bonus:()=>`${back()}<div style="text-align:center;padding:20px 0">
-        <div style="font-size:60px;margin-bottom:16px">🎁</div>
-        <h2>Bonus de bienvenue</h2>
-        <p style="font-size:32px;font-weight:700;color:var(--pr);margin:16px 0">350 000 F</p>
-        <p class="mu">Obtenez votre bonus dès maintenant !</p>
+  <section class="panneau">
+    <div class="grille">
+      <button class="tuile" data-ouvre="transfert"><span class="rond" style="background:#DCE2FF;color:#3D52D5"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0z"/></svg></span>Transfert</button>
+      <button class="tuile" data-ouvre="paiements"><span class="rond" style="background:#FFF1CC;color:#D68A00"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 11H5z"/><path d="M8 9l3-5M16 9l-3-5"/></svg></span>Paiements</button>
+      <button class="tuile" data-ouvre="banque"><span class="rond" style="background:#FFDCE0;color:#D8344A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/></svg></span>Banque</button>
+      <button class="tuile" data-ouvre="carte"><span class="rond" style="background:#E7DCFF;color:#6A3DD5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg></span>Carte</button>
+      <button class="tuile" data-ouvre="cadeaux"><span class="rond" style="background:#D8F7E4;color:#17A673"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9M12 8C9 8 7 6.5 8 5s4 0 4 3zM12 8c3 0 5-1.500 4-3s-4 0-4 3z"/></svg></span>Cadeaux</button>
+      <button class="tuile" data-ouvre="coffre"><span class="rond" style="background:#FFD9EC;color:#D12B86"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="12" cy="12" r="3.500"/><path d="M12 8.500v-1M12 16.500v-1"/></svg></span>Coffre</button>
+      <button class="tuile" data-ouvre="depenses"><span class="rond" style="background:#DDE3FF;color:#4B5BD6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg></span>Dépenses</button>
+      <button class="tuile" data-ouvre="assurance"><span class="rond" style="background:#D2F5EC;color:#0F9D7A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg></span>Assurance</button>
     </div>
-    <div class="card">
-        <p class="mu" style="text-align:center;margin-bottom:20px">Pour réclamer votre bonus de 350.000 F, contactez notre service client qui validera votre compte et créditera votre solde.</p>
-        <a class="btn" href="${SUPPORT}" target="_blank" style="display:block;text-align:center">💬 Contacter pour obtenir le bonus</a>
-    </div>`,
 
-    invest:()=>`<h2>Investir</h2>`+VIP.map((v,i)=>`<div class="card">
-        <div class="row"><b>${v.n}</b><b>${F(v.p)}</b></div>
-        <p class="mu">Revenu : ${F(v.d)} chaque jour pendant 31 jours<br>Total : ${F(v.d*31)}</p>
-        <button class="btn" onclick="buy(${i})">Investir</button>
-    </div>`).join("")+`<div id="err" class="err"></div>`,
-
-    achats:()=>{
-        const b=U().buys;
-        return `<h2>Mes investissements</h2>`+(b.length?b.map(x=>`<div class="card">
-            <div class="row"><b>${esc(x.n)}</b><span class="tag pr">${(x.daysLeft ?? 31) > 0 ? "Actif" : "Terminé"}</span></div>
-            <div class="mu">Investi : ${F(x.p)} · ${F(x.d)}/jour<br>Acheté le ${esc(x.t)}</div>
-        </div>`).join(""):`<p class="mu">Aucun investissement pour le moment.</p>`);
-    },
-
-    account:()=>{
-        const u=U();
-        return `<h2>Mon compte</h2>
-        <div class="card" style="text-align:center">
-            <div style="font-size:40px;margin-bottom:8px">👤</div>
-            <b style="font-size:18px">${esc(u.name)}</b>
-            <div class="mu">${esc(me.phone)}</div>
-            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)">
-                <span style="font-size:24px;font-weight:700;color:var(--pr)">${F(u.bal)}</span>
-                <div class="mu">Solde disponible</div>
-            </div>
-        </div>`+[
-            ["histRec","📥 Historique des recharges"],
-            ["histRet","📤 Historique des retraits"],
-            ["histGain","💰 Historique des gains"],
-            ["achats","📈 Mes investissements"],
-            ["share","🔗 Partager l'application"],
-            ["link","🔗 Lier mon compte de retrait"],
-            ["card","💳 Ma méthode de paiement"],
-            ["service","💬 Service client"]
-        ].map(x=>`<button class="li" onclick="go('${x[0]}')">${x[1]} <span>›</span></button>`).join("")+
-        `<button class="btn out" style="margin-top:16px" onclick="logout()">Se déconnecter</button>`;
-    },
-
-    recharge:()=>`${back()}<h2>Recharger</h2><div class="card">
-        <label>Montant (minimum 1 000 F)</label>
-        <input id="a" type="number" inputmode="numeric" value="${T.amt||""}">
-        <div class="chips">${[5000,10000,50000,100000].map(v=>`<button onclick="document.getElementById('a').value=${v}">${v.toLocaleString("fr-FR")}</button>`).join("")}</div>
-        <div id="err" class="err"></div>
-        <button class="btn" onclick="toMethod()">Confirmer</button>
-    </div>`,
-
-    method:()=>`${back("recharge")}<h2>Choisir la méthode</h2>
-    <p class="mu">Montant : <b>${F(T.amt)}</b></p>`+METH.map(m=>m=="Wave"?
-        `<button class="li wave-border" onclick="go('pay')"><b>Wave</b><span>›</span></button>`:
-        `<button class="li disabled" onclick="err('${m} : indisponible pour le moment. Utilisez Wave.')"><b>${m}</b><span>Indisponible</span></button>`
-    ).join("")+`<div id="err" class="err"></div>`,
-
-    pay:()=>`${back("method")}<h2>Paiement Wave</h2>
-    <div class="card wave-border">
-        <p class="mu">Copiez le numéro et effectuez votre paiement de <b>${F(T.amt)}</b></p>
-        <div class="row" style="margin-top:12px"><span class="num">${WAVE_NUM}</span>
-        <button class="btn sec" style="width:auto;padding:10px 14px" onclick="copyN()" id="cp">Copier</button></div>
+    <div class="promo" id="promo">
+      <div style="flex:1"><b>Transferts au Sénégal</b><p>Envoyez de l’argent entre la Côte d’Ivoire et le Sénégal pour 1,5 % de frais.</p></div>
+      <div class="drap"><i style="background:#F77F00"></i><i style="background:#fff"></i><i style="background:#009E60"></i></div>
+      <button class="x" id="promo-x" aria-label="Fermer">✕</button>
     </div>
-    <div class="card">
-        <label>Votre numéro de paiement</label><input id="pn" type="tel" placeholder="Ex: 0700000000">
-        <label>ID de la transaction</label><input id="tx" placeholder="Reçu de paiement">
-        <div id="err" class="err"></div>
-        <button class="btn" onclick="confirmPay()">Confirmer le paiement</button>
-    </div>`,
 
-    histRec:()=>`${back("account")}<h2>Historique des recharges</h2>`+hist(U().recs,"Aucune recharge."),
-    histRet:()=>`${back("account")}<h2>Historique des retraits</h2>`+hist(U().rets,"Aucun retrait."),
-    histGain:()=>`${back("account")}<h2>Historique des gains</h2>`+(U().gains.length?U().gains.map(x=>`<div class="card"><div class="row"><div><b>+${F(x.a)}</b><div class="mu">Gain journalier · ${esc(x.t)}</div></div><span class="tag pr">Crédité</span></div></div>`).join(""):`<p class="mu">Aucun gain pour le moment.</p>`),
+    <div class="gratuit">
+      <b>Dépôt et retrait gratuits !</b>
+      <button data-ouvre="agent">Contactez Wave pour trouver votre agent le plus proche</button>
+    </div>
+  </section>
 
-    withdraw:()=>{
-        const c=U().card;
-        return `${back()}<h2>Retirer</h2><div class="card">
-            <p class="mu">Solde disponible : ${F(U().bal)}</p>
-            <label>Montant (minimum 1 000 F)</label><input id="a" type="number" inputmode="numeric">
-            <label>Votre numéro</label><input id="pn" type="tel" value="${c?esc(c.num):""}" placeholder="Ex: 0700000000">
-            <div id="err" class="err"></div>
-            <button class="btn" onclick="doWd()">Confirmer le retrait</button>
-        </div>`;
-    },
+  <nav class="nav" aria-label="Navigation">
+    <button class="on" data-nav="accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Accueil</button>
+    <button data-ouvre="historique"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Historique</button>
+    <button data-ouvre="reglages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profil</button>
+  </nav>
+</main>
 
-    link:()=>`${back("account")}<h2>Lier mon compte de retrait</h2><div class="card">
-        <label>Méthode</label><select id="m">${METH.map(m=>`<option>${m}</option>`).join("")}</select>
-        <label>Numéro</label><input id="pn" type="tel" placeholder="Ex: 0700000000">
-        <div id="err" class="err"></div>
-        <button class="btn" onclick="doLink()">Confirmer</button>
-    </div>`,
+<div class="voile" id="voile"></div>
+<div class="feuille" id="feuille" role="dialog" aria-modal="true"><div class="poignee"></div><div class="feuille-in" id="feuille-in"></div></div>
+<div class="toast" id="toast" role="status"></div>
+<div id="recaptcha" style="position:fixed;bottom:0;right:0"></div>
 
-    card:()=>{
-        const c=U().card;
-        return `${back("account")}<h2>Ma méthode de paiement</h2>`+
-        (c?`<div class="card" style="text-align:center;background:linear-gradient(135deg,#5541e0,#6b5ce8);color:#fff">
-            <small style="opacity:.8">${esc(c.m)}</small>
-            <div style="font-size:28px;font-weight:700;margin:8px 0">${esc(c.num)}</div>
-            <small>${esc(U().name)}</small>
-        </div>`:`<p class="mu">Aucune méthode liée.</p><button class="btn" onclick="go('link')">Lier un compte</button>`);
-    },
-
-    service:()=>`${back("account")}<h2 style="text-align:center">Service client</h2><div class="card" style="text-align:center">
-        <div style="font-size:50px;margin-bottom:16px">💬</div>
-        <p class="mu">Une question ? Besoin d'aide ? Écrivez-nous directement sur WhatsApp.</p>
-        <a class="btn" style="display:block;text-align:center;margin-top:16px;background:#25d366" href="${SUPPORT}" target="_blank" rel="noopener">Contacter sur WhatsApp</a>
-        <p class="mu" style="margin-top:16px">Disponible tous les jours pour vous aider.</p>
-    </div>`
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* =====================================================================
+   CONFIGURATION SMS RÉEL (Firebase Authentication)
+   Remplacez les valeurs ci-dessous par celles de VOTRE projet Firebase :
+   Console Firebase > Paramètres du projet > Vos applications > Web > Config
+   ===================================================================== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDcJkUzDFqe2h4b6ynZuJ8OBe_nVT0KR4k",
+  authDomain: "capital-wave-8cf4d.firebaseapp.com",
+  projectId: "capital-wave-8cf4d",
+  appId: "1:221002794489:web:84c676150aafec62ee6928"
 };
 
-function render(){
-    const app=document.getElementById("app"),n=document.getElementById("nav");
-    if(loading){
-        app.innerHTML='<div class="loader-box"><h1>Avenir Capital</h1><p class="mu">Chargement en cours…</p></div>';
-        n.style.display="none";
-        return;
-    }
-    
-    if(!U()){
-        if(P !== "login" && P !== "signup") P = "signup";
-    } else {
-        if(P === "signup" || P === "login") P = "home";
-    }
-
-    app.innerHTML=pages[P]?pages[P]():pages["home"]();
-    
-    const tabs=[["home","🏠","Accueil"],["invest","📈","Investir"],["share","🔗","Partager"],["achats","🧾","Achats"],["account","👤","Compte"]];
-    n.style.display=U()?"flex":"none";
-    n.innerHTML=tabs.map(t=>`<button class="${t[0]==P?"on":""}" onclick="go('${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join("");
+/* ---------- Outils ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmt = n => new Intl.NumberFormat("fr-FR").format(n).replace(/\u202f|\u00a0/g, " ");
+const ls = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+let toastT;
+function toast(t) { const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove("on"), 2600); }
+function montre(id) { $$(".ecran").forEach(e => e.classList.remove("actif")); $(id).classList.add("actif"); window.scrollTo(0, 0); }
+function etape(id) { $$(".etape").forEach(e => e.classList.remove("actif")); $(id).classList.add("actif"); }
+function msg(id, type, txt) { const e = $(id); e.className = "msg" + (type ? " " + type : ""); e.textContent = txt || ""; }
+function attente(btn, on, label) {
+  btn.disabled = on;
+  btn.innerHTML = on ? '<span class="spin"></span>' : "<span>" + label + "</span>";
+}
+async function hash(t) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("wave:" + t));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
 }
 
-onAuthStateChanged(auth, user => {
-    unsubs.forEach(u=>u());
-    unsubs=[];
-    recs = []; rets = []; buys = []; gains = [];
-    
-    if(user){
-        unsubs.push(onSnapshot(doc(fs, "users", user.uid), snap => {
-            ud = snap.exists() ? snap.data() : null;
-            loading = false;
-            render();
-        }));
+/* ---------- Firebase ---------- */
+const configOk = !Object.values(FIREBASE_CONFIG).some(v => /COLLEZ|VOTRE/.test(v));
+let auth = null, verifier = null, confirmation = null, numeroComplet = "";
+if (configOk && window.firebase) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  auth = firebase.auth();
+  auth.languageCode = "fr";
+}
 
-        const qRec = query(collection(fs, "recharges"), where("uid", "==", user.uid));
-        unsubs.push(onSnapshot(qRec, snap => {
-            recs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0));
-            render();
-        }));
+function erreurFr(e) {
+  const c = (e && e.code) || "";
+  const m = {
+    "auth/invalid-phone-number": "Ce numéro n’est pas valide. Vérifiez l’indicatif et le numéro.",
+    "auth/missing-phone-number": "Entrez votre numéro de téléphone.",
+    "auth/too-many-requests": "Trop de tentatives. Patientez quelques minutes puis réessayez.",
+    "auth/quota-exceeded": "Le quota de SMS est atteint. Réessayez plus tard.",
+    "auth/invalid-verification-code": "Ce code est incorrect. Vérifiez le SMS reçu.",
+    "auth/code-expired": "Ce code a expiré. Demandez un nouveau code.",
+    "auth/network-request-failed": "Pas de connexion internet. Vérifiez votre réseau.",
+    "auth/captcha-check-failed": "La vérification de sécurité a échoué. Réessayez.",
+    "auth/unauthorized-domain": "Ce site n’est pas autorisé dans Firebase. Ajoutez votre domaine dans Authentication > Paramètres > Domaines autorisés.",
+    "auth/operation-not-allowed": "La connexion par téléphone n’est pas activée dans Firebase (Authentication > Méthode de connexion > Téléphone).",
+    "auth/billing-not-enabled": "Firebase demande d’activer la facturation (formule Blaze) pour envoyer de vrais SMS."
+  };
+  return m[c] || "Une erreur est survenue (" + (c || "inconnue") + "). Réessayez.";
+}
 
-        const qWd = query(collection(fs, "withdrawals"), where("uid", "==", user.uid));
-        unsubs.push(onSnapshot(qWd, snap => {
-            rets = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0));
-            render();
-        }));
+function preparerVerifier() {
+  if (verifier) { try { verifier.clear(); } catch {} verifier = null; }
+  $("#recaptcha").innerHTML = "";
+  verifier = new firebase.auth.RecaptchaVerifier($("#recaptcha"), { size: "invisible" });
+}
 
-        const qBuy = query(collection(fs, "purchases"), where("uid", "==", user.uid));
-        unsubs.push(onSnapshot(qBuy, snap => {
-            buys = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0));
-            render();
-        }));
+function numeroNormalise() {
+  const ind = $("#pays").value;
+  let n = $("#num").value.replace(/[^\d]/g, "");
+  if (!n) return null;
+  if (ind === "+33" && n.startsWith("0")) n = n.slice(1);
+  if (n.length < 7 || n.length > 12) return null;
+  return ind + n;
+}
 
-        const qGain = query(collection(fs, "gains"), where("uid", "==", user.uid));
-        unsubs.push(onSnapshot(qGain, snap => {
-            gains = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0));
-            render();
-        }));
+/* ---------- Étape 1 : envoi du SMS ---------- */
+let minuterie;
+function lanceMinuteur() {
+  const b = $("#btn-renvoyer"); let s = 60; b.disabled = true; clearInterval(minuterie);
+  b.textContent = "Renvoyer le code (" + s + " s)";
+  minuterie = setInterval(() => {
+    s--; if (s <= 0) { clearInterval(minuterie); b.disabled = false; b.textContent = "Renvoyer le code"; }
+    else b.textContent = "Renvoyer le code (" + s + " s)";
+  }, 1000);
+}
 
-    } else {
-        ud = null;
-        loading = false;
-        render();
-    }
+function champsValides() {
+  ["#prenom", "#nom", "#num", "#pin", "#pin2"].forEach(s => $(s).classList.remove("faux"));
+  const f = (s, t) => { $(s).classList.add("faux"); $(s).focus(); msg("#msg-tel", "err", t); return false; };
+  if (!$("#prenom").value.trim()) return f("#prenom", "Entrez votre prénom.");
+  if (!$("#nom").value.trim()) return f("#nom", "Entrez votre nom.");
+  if (!numeroNormalise()) return f("#num", "Entrez un numéro de téléphone valide.");
+  if (!/^\d{4}$/.test($("#pin").value)) return f("#pin", "Le code secret doit contenir exactement 4 chiffres.");
+  if ($("#pin").value !== $("#pin2").value) return f("#pin2", "Les deux codes secrets sont différents.");
+  return true;
+}
+
+async function envoyerSMS(depuisRenvoi) {
+  const btn = $("#btn-envoyer");
+  msg("#msg-tel", "", "");
+  if (!depuisRenvoi && !champsValides()) return;
+  const num = depuisRenvoi ? numeroComplet : numeroNormalise();
+  if (!num) { $("#num").classList.add("faux"); msg("#msg-tel", "err", "Entrez un numéro de téléphone valide."); $("#num").focus(); return; }
+  $("#num").classList.remove("faux");
+  if (!auth) { msg(depuisRenvoi ? "#msg-code" : "#msg-tel", "err", "L’envoi de SMS n’est pas encore activé : ajoutez la configuration Firebase en haut du fichier index.html (voir les instructions)."); return; }
+  if (!depuisRenvoi) attente(btn, true);
+  try {
+    preparerVerifier();
+    confirmation = await auth.signInWithPhoneNumber(num, verifier);
+    numeroComplet = num;
+    $("#txt-envoye").textContent = "Un code à 6 chiffres vient d’être envoyé par SMS au " + num + ".";
+    $$("#code input").forEach(i => i.value = "");
+    msg("#msg-code", "", "");
+    etape("#e-code"); lanceMinuteur();
+    $("#code input").focus();
+    if (depuisRenvoi) toast("Nouveau code envoyé");
+  } catch (e) {
+    msg(depuisRenvoi ? "#msg-code" : "#msg-tel", "err", erreurFr(e));
+  } finally {
+    if (!depuisRenvoi) attente(btn, false, "Recevoir le code par SMS");
+  }
+}
+$("#btn-envoyer").addEventListener("click", () => envoyerSMS(false));
+$("#num").addEventListener("keydown", e => { if (e.key === "Enter") envoyerSMS(false); });
+$("#btn-renvoyer").addEventListener("click", () => envoyerSMS(true));
+$("#btn-retour").addEventListener("click", () => { clearInterval(minuterie); etape("#e-tel"); });
+
+/* ---------- Étape 2 : saisie du code ---------- */
+const cases = $$("#code input");
+cases.forEach((c, i) => {
+  c.addEventListener("input", () => {
+    c.value = c.value.replace(/\D/g, "").slice(-1);
+    if (c.value && i < 5) cases[i + 1].focus();
+    if (cases.every(x => x.value)) verifierCode();
+  });
+  c.addEventListener("keydown", e => {
+    if (e.key === "Backspace" && !c.value && i > 0) cases[i - 1].focus();
+    if (e.key === "Enter") verifierCode();
+  });
+  c.addEventListener("paste", e => {
+    const t = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, 6);
+    if (!t) return; e.preventDefault();
+    t.split("").forEach((ch, k) => cases[k].value = ch);
+    cases[Math.min(t.length, 5)].focus();
+    if (t.length === 6) verifierCode();
+  });
 });
+let enCours = false;
+async function verifierCode() {
+  if (enCours) return;
+  const code = cases.map(c => c.value).join("");
+  if (code.length < 6) { msg("#msg-code", "err", "Entrez les 6 chiffres du code."); return; }
+  if (!confirmation) { msg("#msg-code", "err", "Demandez d’abord un code par SMS."); return; }
+  enCours = true; const btn = $("#btn-verifier"); attente(btn, true); msg("#msg-code", "", "");
+  try {
+    await confirmation.confirm(code);
+    clearInterval(minuterie);
+    const existant = ls.get("wave_profil", null);
+    if (existant && existant.tel === numeroComplet) { ouvrirAccueil(); }
+    else {
+      const prenom = $("#prenom").value.trim();
+      try { await auth.currentUser.updateProfile({ displayName: prenom + " " + $("#nom").value.trim() }); } catch (e) {}
+      ls.set("wave_profil", { prenom, nom: $("#nom").value.trim(), tel: numeroComplet, pin: await hash($("#pin").value), solde: 0, coffre: 0, histo: [] });
+      $("#succes-nom").textContent = prenom;
+      montre("#ecran-succes");
+    }
+  } catch (e) {
+    msg("#msg-code", "err", erreurFr(e));
+    cases.forEach(c => c.value = ""); cases[0].focus();
+  } finally { enCours = false; attente(btn, false, "Valider le code"); }
+}
+$("#btn-verifier").addEventListener("click", verifierCode);
+
+$("#btn-entrer").addEventListener("click", ouvrirAccueil);
+
+/* ---------- Connexion par code secret (compte déjà créé) ---------- */
+$("#btn-ouvrir").addEventListener("click", async () => {
+  const p = ls.get("wave_profil", null);
+  const v = $("#pin-login").value;
+  if (!p) return;
+  if (!/^\d{4}$/.test(v)) return msg("#msg-pin", "err", "Entrez votre code secret à 4 chiffres.");
+  if (await hash(v) !== p.pin) { $("#pin-login").value = ""; return msg("#msg-pin", "err", "Code secret incorrect."); }
+  ouvrirAccueil();
+});
+$("#pin-login").addEventListener("keydown", e => { if (e.key === "Enter") $("#btn-ouvrir").click(); });
+$("#btn-autre").addEventListener("click", async () => { if (auth) await auth.signOut(); etape("#e-tel"); });
+
+/* ---------- Accueil ---------- */
+let cache = ls.get("wave_cache", false);
+let qr = null;
+function profil() { return ls.get("wave_profil", null); }
+function sauve(p) { ls.set("wave_profil", p); }
+function ouvrirAccueil() {
+  const p = profil(); if (!p) { montre("#ecran-auth"); return; }
+  $("#bonjour").textContent = "Bonjour " + p.prenom;
+  majSolde();
+  $("#qr").innerHTML = "";
+  qr = new QRCode($("#qr"), { text: "wave:" + p.tel, width: 120, height: 120, colorDark: "#16134A", colorLight: "#ffffff" });
+  montre("#ecran-accueil");
+}
+function majSolde() {
+  const p = profil(); if (!p) return;
+  $("#solde").textContent = cache ? "•••" : fmt(p.solde);
+}
+$("#btn-oeil").addEventListener("click", () => { cache = !cache; ls.set("wave_cache", cache); majSolde(); });
+$("#promo-x").addEventListener("click", () => $("#promo").classList.add("hidden"));
+
+/* ---------- Feuilles (fenêtres du bas) ---------- */
+function ouvreFeuille(html) { $("#feuille-in").innerHTML = html; $("#voile").classList.add("on"); $("#feuille").classList.add("on"); $("#feuille").scrollTop = 0; }
+function fermeFeuille() { $("#voile").classList.remove("on"); $("#feuille").classList.remove("on"); }
+$("#voile").addEventListener("click", fermeFeuille);
+document.addEventListener("keydown", e => { if (e.key === "Escape") fermeFeuille(); });
+
+const liste = (items) => '<div class="liste">' + items.map(i =>
+  '<div class="ligne"><span class="pt">' + i[0] + '</span><span>' + i[1] + (i[2] ? '<small>' + i[2] + '</small>' : '') + '</span></div>').join("") + '</div>';
+const histoHtml = (h) => h.length ? '<div class="liste">' + h.map(x =>
+  '<div class="ligne"><span class="pt">' + (x.m > 0 ? "+" : "−") + '</span><span>' + x.t + '<small>' + x.d + '</small></span><span class="mt-r ' + (x.m > 0 ? "plus" : "moins") + '">' + (x.m > 0 ? "+" : "−") + fmt(Math.abs(x.m)) + ' F</span></div>').join("") + '</div>'
+  : '<p class="vide">Aucune opération pour le moment.</p>';
+const dateNow = () => new Date().toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+function ajoute(p, t, m) { p.histo.unshift({ t, m, d: dateNow() }); p.histo = p.histo.slice(0, 50); }
+
+const vues = {
+  transfert() {
+    ouvreFeuille('<h2>Transfert</h2><p class="sous">Envoyez de l’argent à un numéro Wave.</p>' +
+      '<label class="champ" for="t-num">Numéro du destinataire</label><input id="t-num" type="tel" inputmode="numeric" placeholder="07 00 00 00 00">' +
+      '<div class="mt"><label class="champ" for="t-mt">Montant (F)</label><input id="t-mt" type="number" inputmode="numeric" min="1" placeholder="5000"></div>' +
+      '<div id="t-msg" class="msg"></div><button class="btn" id="t-go">Envoyer</button>');
+    $("#t-go").onclick = () => {
+      const p = profil(), n = $("#t-num").value.replace(/\D/g, ""), m = parseInt($("#t-mt").value, 10);
+      const e = $("#t-msg");
+      if (n.length < 8) { e.className = "msg err"; e.textContent = "Entrez un numéro valide."; return; }
+      if (!m || m < 1) { e.className = "msg err"; e.textContent = "Entrez un montant valide."; return; }
+      if (m > p.solde) { e.className = "msg err"; e.textContent = "Solde insuffisant. Ajoutez de l’argent depuis un agent Wave."; return; }
+      p.solde -= m; ajoute(p, "Transfert vers " + n, -m); sauve(p); majSolde(); fermeFeuille(); toast("Transfert de " + fmt(m) + " F envoyé");
+    };
+  },
+  paiements() {
+    ouvreFeuille('<h2>Paiements</h2><p class="sous">Factures, recharges et abonnements.</p>' + liste([
+      ["CI", "Prépayé CIE", "Électricité"], ["C+", "Canal+", "Abonnement TV"], ["SO", "SODECI", "Eau"],
+      ["FP", "Fer Péage", "Recharge"], ["SL", "SOTRA Liberté", "Transport"]]).replace(/class="ligne"/g, 'class="ligne" onclick="toast(\'Bientôt disponible\')" style="cursor:pointer"'));
+  },
+  banque() {
+    ouvreFeuille('<h2>Lier votre banque ou SFD</h2><p class="sous">Choisissez votre établissement.</p>' + liste([
+      ["CB", "Coris Bank"], ["EB", "Ecobank"], ["GT", "GTBank"], ["MB", "MANSA Bank"], ["NS", "NSIA Banque"], ["OB", "Orabank"], ["UB", "UBA"], ["VB", "Versus Bank"]
+    ]).replace(/class="ligne"/g, 'class="ligne" onclick="toast(\'Liaison bancaire bientôt disponible\')" style="cursor:pointer"'));
+  },
+  carte() {
+    ouvreFeuille('<h2>Carte Wave</h2><p class="sous">Payez en ligne et en magasin avec votre carte virtuelle.</p>' +
+      '<div class="qr-carte" style="margin:0;max-width:none;height:150px;background-color:var(--violet);color:#fff;flex-direction:column;align-items:flex-start;justify-content:flex-end"><b style="font-family:var(--ft-titre);font-size:22px">Wave</b><span>•••• •••• •••• ' + (profil().tel.slice(-4)) + '</span></div>' +
+      '<button class="btn" onclick="toast(\'Carte bientôt disponible\')">Demander ma carte</button>');
+  },
+  cadeaux() {
+    ouvreFeuille('<h2>Cadeaux</h2><p class="sous">Gains déjà versés : 0 F</p><p class="vide">Revenez bientôt pour de nouvelles surprises.</p>');
+  },
+  coffre() {
+    const p = profil();
+    ouvreFeuille('<h2>Coffre</h2><p class="sous">Mettez de l’argent de côté.</p><div class="coffre-solde" id="c-solde">' + fmt(p.coffre) + ' F</div>' +
+      '<label class="champ" for="c-mt">Montant (F)</label><input id="c-mt" type="number" inputmode="numeric" min="1" placeholder="1000">' +
+      '<div id="c-msg" class="msg"></div>' +
+      '<div class="rangee"><button class="btn" id="c-garder">Garder</button><button class="btn clair" id="c-recup">Récupérer</button></div>');
+    const op = (sens) => {
+      const q = profil(), m = parseInt($("#c-mt").value, 10), e = $("#c-msg");
+      if (!m || m < 1) { e.className = "msg err"; e.textContent = "Entrez un montant valide."; return; }
+      if (sens > 0 && m > q.solde) { e.className = "msg err"; e.textContent = "Solde insuffisant."; return; }
+      if (sens < 0 && m > q.coffre) { e.className = "msg err"; e.textContent = "Le coffre ne contient pas autant."; return; }
+      q.solde -= sens * m; q.coffre += sens * m;
+      ajoute(q, sens > 0 ? "Transfert vers coffre" : "Transfert depuis coffre", sens > 0 ? -m : m);
+      sauve(q); majSolde(); $("#c-solde").textContent = fmt(q.coffre) + " F"; $("#c-mt").value = ""; e.className = "msg";
+      toast(sens > 0 ? "Argent mis au coffre" : "Argent récupéré");
+    };
+    $("#c-garder").onclick = () => op(1); $("#c-recup").onclick = () => op(-1);
+  },
+  depenses() {
+    const p = profil(), sortie = p.histo.filter(x => x.m < 0).reduce((s, x) => s + -x.m, 0);
+    ouvreFeuille('<h2>Dépenses</h2><p class="sous">Total des sorties d’argent</p><div class="coffre-solde">' + fmt(sortie) + ' F</div>' + histoHtml(p.histo.filter(x => x.m < 0)));
+  },
+  assurance() {
+    ouvreFeuille('<h2>Assurance</h2><p class="sous">Souscrivez une assurance automobile ou moto.</p>' + liste([
+      ["1", "Devis instantané", "Obtenez un prix en quelques secondes"], ["2", "Attestation digitale", "Disponible même hors ligne"], ["3", "Sinistres", "Déclarez-les facilement en ligne"]]) +
+      '<button class="btn" onclick="toast(\'Devis bientôt disponible\')">Obtenir un devis</button>');
+  },
+  agent() {
+    ouvreFeuille('<h2>Trouver un agent</h2><p class="sous">Dépôt et retrait gratuits chez les agents Wave.</p><p class="vide">La liste des agents près de vous arrive bientôt.</p>');
+  },
+  scanner() {
+    ouvreFeuille('<h2>Mon code QR</h2><p class="sous">Faites-le scanner pour recevoir de l’argent.</p><div style="display:grid;place-items:center;padding:12px"><div id="qr-grand"></div></div>');
+    new QRCode($("#qr-grand"), { text: "wave:" + profil().tel, width: 220, height: 220, colorDark: "#16134A", colorLight: "#ffffff" });
+  },
+  historique() {
+    ouvreFeuille('<h2>Historique</h2><p class="sous">Vos dernières opérations.</p>' + histoHtml(profil().histo));
+  },
+  reglages() {
+    const p = profil();
+    ouvreFeuille('<h2>' + p.prenom + ' ' + p.nom + '</h2><p class="sous">' + p.tel + '</p>' +
+      '<div class="rangee"><button class="btn clair" id="r-depot">Dépôt test</button><button class="btn clair" id="r-pin">Verrouiller</button></div>' +
+      '<button class="btn" id="r-out" style="background:var(--err)">Se déconnecter</button>');
+    $("#r-depot").onclick = () => { const q = profil(); q.solde += 10000; ajoute(q, "Dépôt de test", 10000); sauve(q); majSolde(); fermeFeuille(); toast("10 000 F ajoutés (test)"); };
+    $("#r-pin").onclick = () => { fermeFeuille(); montrePin(); };
+    $("#r-out").onclick = async () => { fermeFeuille(); if (auth) await auth.signOut(); localStorage.removeItem("wave_profil"); montre("#ecran-auth"); etape("#e-tel"); toast("Déconnecté"); };
+  }
+};
+$$("[data-ouvre]").forEach(b => b.addEventListener("click", () => { const f = vues[b.dataset.ouvre]; if (f) f(); }));
+$("[data-nav=accueil]").addEventListener("click", () => { fermeFeuille(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+function montrePin() {
+  const p = profil(); if (!p) return;
+  $("#pin-nom").textContent = p.prenom; $("#pin-login").value = ""; msg("#msg-pin", "", "");
+  etape("#e-pin"); montre("#ecran-auth");
+}
+
+/* ---------- Démarrage ---------- */
+if (auth) {
+  auth.onAuthStateChanged(u => {
+    const p = profil();
+    if (u && p && p.tel === u.phoneNumber) montrePin();
+  });
+} else if (profil()) {
+  /* sans Firebase, on ne montre jamais un compte non vérifié */
+}
 </script>
 </body>
 </html>
