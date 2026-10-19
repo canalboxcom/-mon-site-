@@ -1,643 +1,906 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#4B3FE4">
-<title>Wave</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234B3FE4'/><path d='M14 56c9-14 17-14 24 0s15 14 24 0 15-14 24 0' fill='none' stroke='white' stroke-width='9' stroke-linecap='round'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canal Box - Espace Client VIP</title>
 <style>
-:root{
-  --violet:#4B3FE4; --violet-d:#3329B8; --ciel:#7FD6FF; --ciel-l:#DDF3FF;
-  --encre:#16134A; --gris:#6B6A8A; --fond:#F4F4FB; --blanc:#fff;
-  --ok:#17A673; --err:#D8344A;
-  --ft-titre:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
-  --ft-texte:"Nunito Sans","Segoe UI",system-ui,sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
-body{font-family:var(--ft-texte);color:var(--encre);background:var(--fond);font-size:16px;line-height:1.45}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;border:0;background:none}
-:focus-visible{outline:3px solid var(--ciel);outline-offset:2px}
+:root{--violet:#6C5CE7;--violet-fonce:#4B38B3;--noir:#0F0F12;--blanc:#FFF;--gris-fond:#F4F6F9;--texte:#2D3436;--texte-secondaire:#636E72;--succes:#00B894;--erreur:#FF7675;--ombre:0 10px 30px rgba(108,92,231,.12);--ombre-sm:0 4px 12px rgba(0,0,0,.04)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{background:var(--gris-fond);color:var(--texte);min-height:100vh}
+button,input,select{font-family:inherit;border:none;outline:none}
+button{cursor:pointer}
 .hidden{display:none!important}
-
-/* ---------- Écrans ---------- */
-.ecran{min-height:100%;display:none;flex-direction:column}
-.ecran.actif{display:flex}
-
-/* Inscription */
-.auth{background:var(--violet);position:relative;overflow:hidden}
-.vagues{position:absolute;left:0;right:0;top:0;height:46%;opacity:.35;pointer-events:none}
-.auth-haut{position:relative;padding:calc(env(safe-area-inset-top,0px) + 36px) 24px 28px;color:#fff;text-align:center}
-.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--ft-titre);font-weight:800;font-size:34px;letter-spacing:-.5px}
-.logo svg{width:44px;height:44px}
-.auth-haut p{margin-top:8px;opacity:.9;font-size:17px}
-.carte{position:relative;background:#fff;border-radius:28px 28px 0 0;flex:1;padding:28px 22px calc(env(safe-area-inset-bottom,0px) + 28px);margin-top:auto;box-shadow:0 -10px 40px rgba(22,19,74,.25)}
-.carte-in{max-width:440px;margin:0 auto}
-h1{font-family:var(--ft-titre);font-size:26px;line-height:1.15;letter-spacing:-.4px}
-.sous{color:var(--gris);margin:6px 0 22px}
-.etape{display:none}
-.etape.actif{display:block;animation:entre .28s ease-out}
-@keyframes entre{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-label.champ{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
-.tel{display:flex;gap:10px}
-.tel select{border:2px solid #E3E2F1;background:#fff;border-radius:14px;padding:0 10px;height:54px;font-weight:700;width:112px}
-.tel input{flex:1;min-width:0}
-input[type=text],input[type=tel],input[type=password],input[type=number]{width:100%;height:54px;border:2px solid #E3E2F1;border-radius:14px;padding:0 16px;font-size:18px;background:#fff;transition:border-color .15s}
-input:focus{border-color:var(--violet);outline:none}
-input.faux{border-color:var(--err)}
-.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mt{margin-top:16px}
-.btn{width:100%;height:56px;border-radius:16px;background:var(--violet);color:#fff;font-weight:800;font-size:17px;font-family:var(--ft-titre);display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s,background .15s;margin-top:22px}
-.btn:hover{background:var(--violet-d)}
+#appLoading{position:fixed;inset:0;background:linear-gradient(135deg,var(--violet-fonce),var(--violet));display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity .3s}
+.spinner{width:48px;height:48px;border:4px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+#appLoading div{color:#fff;font-weight:600;font-size:16px}
+#auth{min-height:100vh;display:none;justify-content:center;align-items:center;padding:20px;background:#FAF9FE}
+.auth-box{width:100%;max-width:420px;background:#fff;padding:32px 24px;border-radius:24px;box-shadow:var(--ombre);border:1px solid rgba(108,92,231,.08)}
+.logo{text-align:center;margin-bottom:24px}
+.logo-circle{width:65px;height:65px;margin:0 auto;border-radius:20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--violet),var(--violet-fonce));color:#fff;font-size:26px;font-weight:800;box-shadow:0 8px 20px rgba(108,92,231,.3)}
+.logo h1{color:var(--violet-fonce);font-size:24px;margin-top:12px;font-weight:800}
+.logo p{color:var(--texte-secondaire);font-size:14px;margin-top:4px}
+.tabs{display:flex;gap:6px;background:#EFEFF6;padding:4px;border-radius:12px;margin-bottom:24px}
+.tabs button{flex:1;padding:12px;background:transparent;color:var(--texte-secondaire);border-radius:10px;font-weight:700;font-size:14px;transition:.2s}
+.tabs button.active{background:#fff;color:var(--violet);box-shadow:var(--ombre-sm)}
+.field{margin-bottom:18px}
+.field label{display:block;margin-bottom:8px;font-size:13px;font-weight:700}
+.field input,.field select{width:100%;padding:14px 16px;border:2px solid #EAEAEA;border-radius:12px;font-size:15px;transition:border .2s;background:#FAFAFC}
+.field input:focus,.field select:focus{border-color:var(--violet);background:#fff}
+.btn{width:100%;padding:16px;border-radius:14px;font-weight:700;font-size:15px;text-align:center;display:inline-block;text-decoration:none;transition:transform .15s}
 .btn:active{transform:scale(.98)}
-.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
-.btn.clair{background:var(--ciel-l);color:var(--violet)}
-.btn.clair:hover{background:#C9EAFB}
-.lien{color:var(--violet);font-weight:700;padding:8px 4px}
-.lien[disabled]{color:var(--gris);cursor:default}
-.centre{text-align:center;margin-top:10px}
-.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-size:14.5px;display:none}
-.msg.err{display:block;background:#FDECEF;color:#9B1C2E}
-.msg.info{display:block;background:var(--ciel-l);color:#14407A}
-.mini-info{font-size:13px;color:var(--gris);margin-top:14px;text-align:center}
-.retour{display:inline-flex;align-items:center;gap:6px;color:var(--gris);font-weight:700;margin-bottom:14px;padding:4px 0}
+.btn:disabled{opacity:.6}
+.btn.violet{background:linear-gradient(135deg,var(--violet),var(--violet-fonce));color:#fff;box-shadow:0 6px 18px rgba(108,92,231,.28)}
+.btn.blanc{background:#fff;color:var(--violet);border:2px solid var(--violet);margin-top:10px}
+.btn.rouge{background:linear-gradient(135deg,#FF7675,#D63031);color:#fff;margin-top:10px;box-shadow:0 6px 18px rgba(214,48,49,.25)}
+#app{display:none;min-height:100vh;padding-bottom:90px}
+.topbar{position:sticky;top:0;height:65px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.top-title{color:var(--violet-fonce);font-size:20px;font-weight:800}
+.top-user{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--violet-fonce));color:#fff;display:flex;justify-content:center;align-items:center;font-weight:700;font-size:16px;cursor:pointer}
+.page{display:none;padding:20px;animation:fadeIn .25s ease-out}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,var(--violet),var(--violet-fonce));color:#fff;border-radius:24px;padding:26px;margin-bottom:24px;box-shadow:0 12px 28px rgba(108,92,231,.25)}
+.hero small{opacity:.85;font-size:14px;font-weight:500}
+.hero-balance{font-size:38px;font-weight:800;margin:10px 0}
+.hero-actions{display:flex;gap:12px;margin-top:18px}
+.blanc-btn,.transparent-btn{padding:12px 18px;border-radius:12px;font-weight:700;flex:1;font-size:14px}
+.blanc-btn{background:#fff;color:var(--violet-fonce)}
+.transparent-btn{background:rgba(255,255,255,.18);color:#fff}
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px}
+.quick-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--ombre-sm);border:1px solid rgba(0,0,0,.03);cursor:pointer;transition:transform .2s}
+.quick-card:active{transform:scale(.97)}
+.quick-icon{width:44px;height:44px;border-radius:14px;background:rgba(108,92,231,.1);display:flex;justify-content:center;align-items:center;font-size:20px;margin-bottom:10px}
+.quick-card strong{display:block;font-size:15px;font-weight:700}
+.quick-card p{font-size:12px;color:var(--texte-secondaire);margin-top:3px}
+.section-title{font-size:20px;font-weight:800;margin-bottom:6px}
+.section-sub{color:var(--texte-secondaire);margin-bottom:20px;font-size:13px;line-height:1.4}
+.box{background:#fff;padding:22px;border-radius:20px;box-shadow:var(--ombre-sm)}
+.vip-grid{display:grid;gap:16px}
+.vip-card{background:#fff;border-radius:20px;padding:24px;text-align:center;box-shadow:var(--ombre-sm);border:1.5px solid rgba(108,92,231,.12)}
+.vip-name{font-size:18px;font-weight:800;margin-bottom:8px}
+.vip-amount{font-size:30px;font-weight:800;color:var(--violet);margin-bottom:6px}
+.vip-details{color:var(--texte-secondaire);font-size:13px;margin:6px 0}
+.vip-income{font-size:16px;font-weight:700;color:var(--succes);margin:10px 0 16px}
+.linked-badge{background:#fff;border-radius:20px;padding:24px;box-shadow:var(--ombre-sm);border:2px solid rgba(108,92,231,.15);display:flex;align-items:center;gap:18px;margin-bottom:20px}
+.linked-icon{width:60px;height:60px;border-radius:16px;background:rgba(108,92,231,.1);display:flex;justify-content:center;align-items:center;font-size:30px}
+.history-list{display:flex;flex-direction:column;gap:12px}
+.history-item{background:#fff;border-radius:16px;padding:16px;box-shadow:var(--ombre-sm);border:1px solid rgba(0,0,0,.03)}
+.history-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.history-type{font-weight:700;font-size:14px}
+.history-status{padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.status-pending{background:#FFF8E7;color:#D68910}
+.status-success{background:#E8F8F5;color:var(--succes)}
+.status-cancel{background:#FDEDEC;color:var(--erreur)}
+.history-date{font-size:12px;color:var(--texte-secondaire);margin-bottom:4px}
+.history-amount{font-size:18px;font-weight:800}
+.amount-plus{color:var(--succes)}
+.amount-minus{color:var(--erreur)}
+.empty-history{text-align:center;padding:50px 20px;color:var(--texte-secondaire);font-size:14px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-around;align-items:center;z-index:50}
+.nav-btn{flex:1;background:transparent;color:var(--texte-secondaire);font-size:11px;font-weight:600;text-align:center;padding:6px}
+.nav-btn span{display:block;font-size:20px;margin-bottom:2px}
+.nav-btn.active{color:var(--violet);font-weight:700}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--noir);color:#fff;padding:12px 20px;border-radius:12px;opacity:0;transition:.25s;z-index:300;font-size:13px;font-weight:600;text-align:center;max-width:90%}
+#toast.show{opacity:1;transform:translateX(-50%)}
 
-/* Code SMS */
-.code{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.code input{height:60px;padding:0;text-align:center;font-size:26px;font-weight:800;font-family:var(--ft-titre);border-radius:14px}
-.spin{width:20px;height:20px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:t .7s linear infinite}
-@keyframes t{to{transform:rotate(360deg)}}
-
-/* Succès */
-.succes{align-items:center;justify-content:center;text-align:center;padding:32px 24px;background:var(--violet);color:#fff}
-.coche{width:112px;height:112px;border-radius:50%;background:#fff;display:grid;place-items:center;margin-bottom:24px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
-.coche svg{width:56px;height:56px}
-.coche path{stroke-dasharray:60;stroke-dashoffset:60;animation:trace .5s .3s forwards}
-@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes trace{to{stroke-dashoffset:0}}
-.succes h1{color:#fff;font-size:30px}
-.succes p{opacity:.92;margin-top:10px;max-width:320px}
-.succes .btn{background:#fff;color:var(--violet);max-width:340px}
-.succes .btn:hover{background:var(--ciel-l)}
-
-/* Accueil */
-.accueil{background:var(--fond)}
-.hero{background:var(--violet);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 70px;position:relative}
-.barre{display:flex;justify-content:space-between;align-items:center}
-.pastille{background:rgba(255,255,255,.18);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
-.ico-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#fff}
-.ico-btn svg{width:22px;height:22px}
-.solde{text-align:center;margin-top:10px;font-family:var(--ft-titre);font-weight:800;font-size:44px;display:flex;justify-content:center;align-items:center;gap:10px}
-.solde small{font-size:26px;font-weight:700}
-.oeil{width:34px;height:34px;color:#fff;opacity:.85;display:grid;place-items:center}
-.oeil svg{width:22px;height:22px}
-.bonj{text-align:center;opacity:.9;font-size:15px}
-.qr-carte{margin:18px auto 0;max-width:340px;background:var(--ciel);border-radius:22px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 12px,transparent 12px 24px)}
-.qr-boite{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:13px;color:var(--encre)}
-.qr-boite #qr{width:120px;height:120px}
-.qr-boite img,.qr-boite canvas{width:120px!important;height:120px!important}
-.pingouin{width:70px;height:auto}
-.panneau{margin-top:-44px;background:var(--fond);border-radius:28px 28px 0 0;padding:22px 16px calc(env(safe-area-inset-bottom,0px) + 90px);flex:1;position:relative}
-.grille{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px;max-width:460px;margin:0 auto}
-.tuile{display:flex;flex-direction:column;align-items:center;gap:7px;font-weight:700;font-size:13.5px;padding:4px 0;border-radius:14px;transition:transform .12s}
-.tuile:active{transform:scale(.94)}
-.rond{width:58px;height:58px;border-radius:50%;display:grid;place-items:center}
-.rond svg{width:28px;height:28px}
-.promo{max-width:460px;margin:20px auto 0;background:var(--ciel);border-radius:20px;padding:16px;display:flex;align-items:center;gap:12px;position:relative;color:var(--encre)}
-.promo b{font-family:var(--ft-titre);font-size:17px}
-.promo p{font-size:14px;margin-top:2px}
-.promo .x{position:absolute;top:8px;right:10px;font-size:18px;opacity:.7;width:30px;height:30px}
-.drap{display:flex;flex-direction:column;border-radius:6px;overflow:hidden;width:44px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.drap i{display:block;height:20px}
-.gratuit{max-width:460px;margin:26px auto 0;text-align:center}
-.gratuit b{display:block;font-size:17px;font-family:var(--ft-titre)}
-.gratuit button{color:var(--violet);font-weight:700;margin-top:6px}
-.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #E7E6F3;display:flex;padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);z-index:5}
-.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:700;color:var(--gris);padding:4px}
-.nav button.on{color:var(--violet)}
-.nav svg{width:24px;height:24px}
-
-/* Feuilles */
-.voile{position:fixed;inset:0;background:rgba(22,19,74,.5);z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
-.voile.on{opacity:1;pointer-events:auto}
-.feuille{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:26px 26px 0 0;max-height:88%;overflow:auto;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.9,.3,1);padding:10px 20px calc(env(safe-area-inset-bottom,0px) + 24px)}
-.feuille.on{transform:none}
-.feuille .poignee{width:44px;height:5px;border-radius:3px;background:#D9D8EA;margin:0 auto 14px}
-.feuille-in{max-width:480px;margin:0 auto}
-.feuille h2{font-family:var(--ft-titre);font-size:22px;margin-bottom:4px}
-.liste{margin-top:12px;display:flex;flex-direction:column}
-.ligne{display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px solid #EEEDF7;text-align:left;width:100%;font-weight:700}
-.ligne:last-child{border:0}
-.ligne .pt{width:42px;height:42px;border-radius:12px;background:var(--ciel-l);color:var(--violet);display:grid;place-items:center;font-weight:800;font-family:var(--ft-titre);flex:none}
-.ligne small{display:block;font-weight:400;color:var(--gris)}
-.ligne .mt-r{margin-left:auto;font-weight:800}
-.plus{color:var(--ok)} .moins{color:var(--err)}
-.vide{color:var(--gris);padding:18px 0;text-align:center}
-.coffre-solde{font-family:var(--ft-titre);font-weight:800;font-size:36px;text-align:center;margin:10px 0 4px}
-.rangee{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.rangee .btn{margin-top:14px;height:50px;font-size:15px}
-.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translate(-50%,20px);background:var(--encre);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;font-size:14.5px;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:90%;text-align:center}
-.toast.on{opacity:1;transform:translate(-50%,0)}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (min-width:700px){
-  .carte{max-width:520px;margin:0 auto;border-radius:28px;margin-bottom:40px}
-  .auth{justify-content:center}
-  .feuille{max-width:520px;margin:0 auto}
-}
+/* ===== Page de paiement ===== */
+.steps{display:flex;gap:8px;margin-bottom:18px}
+.step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--texte-secondaire)}
+.step i{display:flex;width:30px;height:30px;margin:0 auto 5px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--violet-fonce));color:#fff;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;box-shadow:0 4px 10px rgba(108,92,231,.3)}
+.pay-card{background:#fff;border-radius:24px;padding:22px;box-shadow:var(--ombre);border:1px solid rgba(108,92,231,.1)}
+.net-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(108,92,231,.1);color:var(--violet-fonce);padding:7px 16px;border-radius:20px;font-weight:700;font-size:13px}
+.pay-amount{font-size:36px;font-weight:800;color:var(--violet);margin:6px 0 10px;letter-spacing:-.5px}
+.copy-row{display:flex;align-items:center;gap:10px;background:#F0EFF9;border-radius:14px;padding:12px 14px;margin-top:12px;text-align:left}
+.copy-row .lbl{font-size:11px;color:var(--texte-secondaire);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.copy-row .val{font-size:19px;font-weight:800;margin-top:2px;word-break:break-all}
+.copy-btn{flex:none;margin-left:auto;background:#fff;color:var(--violet);padding:9px 14px;border-radius:10px;font-weight:700;font-size:12px;box-shadow:var(--ombre-sm);border:1.5px solid rgba(108,92,231,.25);transition:.2s}
+.copy-btn.ok{background:var(--succes);color:#fff;border-color:var(--succes)}
+.copy-btn.centre{margin:0 auto;display:inline-block}
+.pay-sep{height:1px;background:#EEE;margin:20px 0 16px}
+.pay-label{display:block;text-align:left;font-size:13px;font-weight:700;margin-bottom:8px}
+.input-wrap{display:flex;gap:8px}
+.input-wrap input{flex:1;min-width:0;padding:14px 16px;border:2px solid #EAEAEA;border-radius:12px;font-size:15px;background:#FAFAFC;transition:border .2s}
+.input-wrap input:focus{border-color:var(--violet);background:#fff}
+.paste-btn{flex:none;padding:0 16px;border-radius:12px;background:rgba(108,92,231,.1);color:var(--violet);font-weight:700;font-size:13px}
+.note{background:#FFF8E7;color:#9A6700;border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.5;margin:14px 0;text-align:left}
+.success{text-align:center;padding:10px 0}
+.success-icon{width:84px;height:84px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,#00B894,#00A383);color:#fff;font-size:42px;display:flex;align-items:center;justify-content:center;animation:pop .4s ease-out;box-shadow:0 10px 24px rgba(0,184,148,.3)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.recap{background:#F0EFF9;border-radius:14px;padding:6px 14px;margin:16px 0 18px;text-align:left}
+.recap div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;font-size:13px;border-bottom:1px solid rgba(0,0,0,.05)}
+.recap div:last-child{border-bottom:none}
+.recap span{color:var(--texte-secondaire);font-weight:600}
+.recap b{text-align:right;word-break:break-all}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
-<!-- ============ INSCRIPTION ============ -->
-<main id="ecran-auth" class="ecran auth actif">
-  <svg class="vagues" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 80c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
-    <path d="M0 130c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
-    <path d="M0 180c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
-    <path d="M0 230c40-30 80-30 120 0s80 30 120 0 80-30 160 0" fill="none" stroke="#fff" stroke-width="3"/>
-  </svg>
-  <header class="auth-haut">
-    <div class="logo">
-      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="24" fill="#fff"/><path d="M14 56c9-14 17-14 24 0s15 14 24 0 15-14 24 0" fill="none" stroke="#4B3FE4" stroke-width="9" stroke-linecap="round"/></svg>
-      Wave
+<div id="appLoading"><div class="spinner"></div><div>Canal Box VIP...</div></div>
+
+<div id="auth">
+  <div class="auth-box">
+    <div class="logo"><div class="logo-circle">CB</div><h1>Canal Box</h1><p>Votre plateforme financière haut de gamme</p></div>
+    <div class="tabs">
+      <button id="loginTab" class="active" onclick="showAuth('login')">Connexion</button>
+      <button id="registerTab" onclick="showAuth('register')">Inscription</button>
     </div>
-    <p>Envoyez et recevez de l’argent, simplement.</p>
-  </header>
+    <div id="loginForm">
+      <div class="field"><label>Numéro de téléphone</label><input id="loginContact" type="text" inputmode="tel" placeholder="Ex: 0700000000"></div>
+      <div class="field"><label>Mot de passe</label><input id="loginPassword" type="password" placeholder="••••••••"></div>
+      <button class="btn violet" onclick="seConnecter()">SE CONNECTER</button>
+    </div>
+    <div id="registerForm" class="hidden">
+      <div class="field"><label>Nom complet</label><input id="regName" type="text" placeholder="Votre nom et prénom"></div>
+      <div class="field"><label>Numéro de téléphone</label><input id="regPhone" type="tel" placeholder="+225 07 XX XX XX XX"></div>
+      <div class="field"><label>Mot de passe (6 caractères minimum)</label><input id="regPassword" type="password" placeholder="••••••"></div>
+      <button class="btn violet" onclick="creerCompte()">CRÉER UN COMPTE</button>
+    </div>
+  </div>
+</div>
 
-  <section class="carte">
-    <div class="carte-in">
+<div id="app">
+  <div class="topbar">
+    <div class="top-title">💎 Canal Box VIP</div>
+    <div class="top-user" id="topUser" onclick="openPage('accountPage')">U</div>
+  </div>
 
-      <!-- Étape 1 : informations + numéro -->
-      <div class="etape actif" id="e-tel">
-        <h1>Créez votre compte Wave</h1>
-        <p class="sous">Remplissez vos informations. Nous vous envoyons ensuite un code par SMS.</p>
-        <div class="deux">
-          <div><label class="champ" for="prenom">Prénom</label><input id="prenom" type="text" autocomplete="given-name"></div>
-          <div><label class="champ" for="nom">Nom</label><input id="nom" type="text" autocomplete="family-name"></div>
-        </div>
-        <div class="mt"><label class="champ" for="num">Numéro de téléphone</label>
-          <div class="tel">
-            <select id="pays" aria-label="Indicatif du pays">
-              <option value="+225">CI +225</option>
-              <option value="+221">SN +221</option>
-              <option value="+223">ML +223</option>
-              <option value="+226">BF +226</option>
-              <option value="+228">TG +228</option>
-              <option value="+229">BJ +229</option>
-              <option value="+224">GN +224</option>
-              <option value="+33">FR +33</option>
-            </select>
-            <input id="num" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="07 00 00 00 00" maxlength="16">
+  <section id="homePage" class="page active">
+    <div class="hero">
+      <small>Solde disponible</small>
+      <div class="hero-balance" id="homeBalance">0 FCFA</div>
+      <small id="homeWelcome">Bienvenue sur votre espace</small>
+      <div class="hero-actions">
+        <button class="blanc-btn" onclick="openPage('rechargePage')">＋ Recharger</button>
+        <button class="transparent-btn" onclick="openPage('investPage')">💰 Investir</button>
+      </div>
+    </div>
+    <div class="cards-grid">
+      <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & Gains</p></div>
+      <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
+      <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Voir Compte Lié</strong><p>Mode de réception</p></div>
+      <div class="quick-card" onclick="openPage('linkPage')"><div class="quick-icon">🔗</div><strong>Lier un Compte</strong><p>Nouveau compte</p></div>
+      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains</p></div>
+      <div class="quick-card" onclick="openPage('teamPage')"><div class="quick-icon">👥</div><strong>Mon Équipe</strong><p>Parrainage & Filleuls</p></div>
+      <div class="quick-card" onclick="openPage('historyPage')"><div class="quick-icon">📋</div><strong>Historique</strong><p>Toutes mes opérations</p></div>
+      <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support 24/7 & Aide</p></div>
+      <div class="quick-card" onclick="openPage('accountPage')"><div class="quick-icon">👤</div><strong>Mon Compte</strong><p>Profil & Déconnexion</p></div>
+    </div>
+    <h2 class="section-title">Offres d'Investissement 👑</h2>
+    <p class="section-sub">Sélectionnez une formule pour générer vos revenus quotidiens</p>
+    <div class="vip-grid" id="vipHome"></div>
+  </section>
+
+  <section id="viewLinkedPage" class="page">
+    <h2 class="section-title">Mon Compte Lié 💳</h2>
+    <p class="section-sub">Détails de votre compte de réception pour les retraits</p>
+    <div id="linkedAccountCardContainer"></div>
+    <button class="btn violet" onclick="openPage('linkPage')">✏️ MODIFIER LE COMPTE</button>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR À L'ACCUEIL</button>
+  </section>
+
+  <section id="linkPage" class="page">
+    <h2 class="section-title">Lier un Compte de Paiement 🔗</h2>
+    <p class="section-sub">Enregistrez le compte à utiliser pour vos retraits et recharges</p>
+    <div class="box">
+      <div class="field"><label>Service / Réseau</label>
+        <select id="linkedType">
+          <option value="wave">🌊 Wave Mobile</option>
+          <option value="orange">🍊 Orange Money</option>
+          <option value="mtn">💛 MTN MoMo</option>
+          <option value="moov">💙 Moov Money</option>
+          <option value="banque">🏦 Compte Bancaire / RIB</option>
+        </select></div>
+      <div class="field"><label>Numéro de téléphone ou IBAN</label><input id="linkedPhone" type="text" placeholder="Ex: 0700000000"></div>
+      <div class="field"><label>Confirmer le numéro ou IBAN</label><input id="linkedPhone2" type="text" placeholder="Confirmation"></div>
+      <button class="btn violet" onclick="enregistrerLien()">✅ LIER CE COMPTE</button>
+    </div>
+    <button class="btn blanc" onclick="openPage('viewLinkedPage')">👁️ VOIR MON COMPTE LIÉ</button>
+  </section>
+
+  <section id="servicePage" class="page">
+    <h2 class="section-title">Service Client 24/7 📞</h2>
+    <p class="section-sub">Besoin d'aide ? Notre équipe vous assiste</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px">
+      <div class="box" style="text-align:center;padding:18px"><div style="font-size:36px">💬</div><div style="font-weight:800;font-size:14px;margin-top:6px">WhatsApp</div>
+        <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" rel="noopener" class="btn violet" style="margin-top:10px;padding:8px;font-size:12px">DISCUTER</a></div>
+      <div class="box" style="text-align:center;padding:18px"><div style="font-size:36px">✈️</div><div style="font-weight:800;font-size:14px;margin-top:6px">Telegram</div>
+        <a href="https://t.me/+tygIrcCkyvQ0NmQ0" target="_blank" rel="noopener" class="btn violet" style="margin-top:10px;padding:8px;font-size:12px">REJOINDRE</a></div>
+    </div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
+
+  <section id="accountPage" class="page">
+    <h2 class="section-title">Mon Profil & Compte 👤</h2>
+    <div class="box" style="margin-bottom:20px">
+      <div class="field"><label>Nom complet</label><input id="profileName" type="text" readonly style="background:#F0EFF9"></div>
+      <div class="field"><label>E-mail</label><input id="profileEmail" type="text" readonly style="background:#F0EFF9"></div>
+      <div class="field"><label>Numéro de téléphone</label><input id="profilePhone" type="text" readonly style="background:#F0EFF9"></div>
+      <div class="field"><label>Solde actuel</label><input id="profileBalance" type="text" readonly style="background:#F0EFF9;font-weight:800;color:var(--violet)"></div>
+    </div>
+    <button class="btn rouge" onclick="deconnexion()">🚪 SE DÉCONNECTER</button>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
+
+  <section id="investPage" class="page">
+    <h2 class="section-title">Investissements VIP 💰</h2>
+    <p class="section-sub">Toutes nos formules d'investissement disponibles</p>
+    <div class="vip-grid" id="vipInvest"></div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
+
+  <section id="achatsPage" class="page">
+    <h2 class="section-title">Mes Achats & Plans 🛒</h2>
+    <div id="achatsList" class="history-list"></div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
+
+  <section id="teamPage" class="page">
+    <h2 class="section-title">Mon Équipe 👥</h2>
+    <div id="teamList" class="history-list"></div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
+
+  <section id="rechargePage" class="page">
+    <h2 class="section-title">Recharger mon Solde 💳</h2>
+    <div class="box">
+      <div class="field"><label>Réseau de paiement</label>
+        <select id="rechargeMethod">
+          <option value="wave">🌊 Wave Mobile</option>
+          <option value="orange">🍊 Orange Money</option>
+          <option value="mtn">💛 MTN Money</option>
+          <option value="moov">💙 Moov Money</option>
+        </select></div>
+      <div class="field"><label>Montant (FCFA)</label><input id="rechargeAmount" type="number" placeholder="Ex: 5000"></div>
+      <div class="field"><label>Numéro de paiement</label><input id="rechargePhone" type="text" placeholder="Ex: 0700000000"></div>
+      <button class="btn violet" onclick="continuerPaiementRecharge()">Continuer →</button>
+    </div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
+
+  <section id="rechargePaymentPage" class="page">
+
+    <!-- Formulaire de paiement -->
+    <div id="payForm">
+      <h2 class="section-title">Transfert de Fonds 💸</h2>
+      <p class="section-sub">Copiez les informations, payez depuis votre application mobile, puis collez l'ID reçu par SMS.</p>
+
+      <div class="steps">
+        <div class="step"><i>1</i>Copier</div>
+        <div class="step"><i>2</i>Payer</div>
+        <div class="step"><i>3</i>Confirmer</div>
+      </div>
+
+      <div class="pay-card" style="text-align:center">
+        <span class="net-badge" id="payNetwork">🌊 Wave Mobile</span>
+        <p style="font-size:14px;color:var(--texte-secondaire);margin-top:16px">Envoyez le montant exact de :</p>
+        <div class="pay-amount" id="payAmountDisplay" data-raw="0">0 FCFA</div>
+        <button class="copy-btn centre" data-src="payAmountDisplay" onclick="copierDepuis(this)">📋 Copier le montant</button>
+
+        <div class="copy-row">
+          <div>
+            <div class="lbl">Bénéficiaire</div>
+            <div class="val" id="payCompany" data-raw="Canal Box VIP">Canal Box VIP</div>
           </div>
+          <button class="copy-btn" data-src="payCompany" onclick="copierDepuis(this)">📋 Copier</button>
         </div>
-        <div class="deux mt">
-          <div><label class="champ" for="pin">Code secret (4 chiffres)</label>
-            <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div>
-          <div><label class="champ" for="pin2">Confirmez le code</label>
-            <input id="pin2" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div>
+
+        <div class="copy-row">
+          <div>
+            <div class="lbl">Numéro de paiement</div>
+            <div class="val" id="companyNumber" data-raw="00000000">00000000</div>
+          </div>
+          <button class="copy-btn" data-src="companyNumber" onclick="copierDepuis(this)">📋 Copier</button>
         </div>
-        <button class="btn" id="btn-envoyer"><span>Recevoir le code par SMS</span></button>
-        <div id="msg-tel" class="msg" role="alert"></div>
-        <p class="mini-info">Des frais de SMS de votre opérateur peuvent s’appliquer.</p>
-      </div>
 
-      <!-- Étape 2 : code -->
-      <div class="etape" id="e-code">
-        <button class="retour" id="btn-retour" type="button">← Changer de numéro</button>
-        <h1>Entrez le code reçu</h1>
-        <p class="sous" id="txt-envoye">Un code à 6 chiffres vient d’être envoyé par SMS.</p>
-        <div class="code" id="code" role="group" aria-label="Code à 6 chiffres">
-          <input inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Chiffre 1">
-          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 2">
-          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 3">
-          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 4">
-          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 5">
-          <input inputmode="numeric" maxlength="1" aria-label="Chiffre 6">
+        <div class="pay-sep"></div>
+
+        <label class="pay-label" for="rechargeTxId">ID de Transaction / Référence</label>
+        <div class="input-wrap">
+          <input id="rechargeTxId" type="text" placeholder="Ex: TX12345678" autocomplete="off" autocapitalize="characters">
+          <button class="paste-btn" onclick="collerTxId()">📥 Coller</button>
         </div>
-        <button class="btn" id="btn-verifier"><span>Valider le code</span></button>
-        <div class="centre"><button class="lien" id="btn-renvoyer" disabled>Renvoyer le code</button></div>
-        <div id="msg-code" class="msg" role="alert"></div>
+
+        <div class="note">⚠️ Envoyez exactement le montant indiqué. Votre solde sera crédité après vérification de l'ID de transaction.</div>
+
+        <button class="btn violet" id="btnConfirmer" onclick="confirmerPaiementRecharge()">✅ CONFIRMER LE PAIEMENT</button>
+        <button class="btn blanc" onclick="openPage('rechargePage')">⬅ MODIFIER LE MONTANT</button>
       </div>
+    </div>
 
-      <!-- Connexion par code secret -->
-      <div class="etape" id="e-pin">
-        <h1>Bon retour <span id="pin-nom"></span></h1>
-        <p class="sous">Entrez votre code secret pour ouvrir Wave.</p>
-        <label class="champ" for="pin-login">Code secret</label>
-        <input id="pin-login" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
-        <button class="btn" id="btn-ouvrir"><span>Ouvrir Wave</span></button>
-        <div class="centre"><button class="lien" id="btn-autre">Utiliser un autre numéro</button></div>
-        <div id="msg-pin" class="msg" role="alert"></div>
+    <!-- Écran de succès -->
+    <div id="paySuccess" class="hidden">
+      <div class="pay-card success">
+        <div class="success-icon">✓</div>
+        <h2 class="section-title">Paiement envoyé !</h2>
+        <p class="section-sub" style="margin-bottom:0">Votre demande est en attente de validation. Votre solde sera crédité dès que le paiement sera vérifié.</p>
+        <div class="recap" id="payRecap"></div>
+        <button class="btn violet" onclick="openPage('historyPage')">📋 VOIR MON HISTORIQUE</button>
+        <button class="btn blanc" onclick="openPage('homePage')">🏠 RETOUR À L'ACCUEIL</button>
       </div>
+    </div>
 
-    </div>
-  </section>
-</main>
-
-<!-- ============ SUCCÈS ============ -->
-<main id="ecran-succes" class="ecran succes">
-  <div class="coche"><svg viewBox="0 0 52 52" fill="none" stroke="#4B3FE4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 27l10 10 18-21"/></svg></div>
-  <h1>Bienvenue sur Wave, <span id="succes-nom"></span></h1>
-  <p>Votre compte est créé et votre numéro est vérifié.</p>
-  <button class="btn" id="btn-entrer">Ouvrir Wave</button>
-</main>
-
-<!-- ============ ACCUEIL ============ -->
-<main id="ecran-accueil" class="ecran accueil">
-  <section class="hero">
-    <div class="barre">
-      <button class="ico-btn" data-ouvre="reglages" aria-label="Réglages">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-      </button>
-      <span class="pastille" id="pt-points">Wave</span>
-    </div>
-    <p class="bonj" id="bonjour" style="margin-top:6px"></p>
-    <div class="solde"><span id="solde">0</span><small>F</small>
-      <button class="oeil" id="btn-oeil" aria-label="Masquer ou afficher le solde">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
-    </div>
-    <div class="qr-carte">
-      <button class="qr-boite" data-ouvre="scanner" aria-label="Mon code QR">
-        <div id="qr"></div><span>Scanner</span>
-      </button>
-      <svg class="pingouin" viewBox="0 0 80 100" aria-hidden="true">
-        <ellipse cx="40" cy="58" rx="30" ry="38" fill="#16134A"/>
-        <ellipse cx="40" cy="64" rx="19" ry="28" fill="#fff"/>
-        <circle cx="31" cy="38" r="4.5" fill="#fff"/><circle cx="49" cy="38" r="4.5" fill="#fff"/>
-        <circle cx="31" cy="38" r="2" fill="#16134A"/><circle cx="49" cy="38" r="2" fill="#16134A"/>
-        <path d="M33 46l7 6 7-6z" fill="#FFB020"/>
-        <ellipse cx="28" cy="96" rx="9" ry="4" fill="#FFB020"/><ellipse cx="52" cy="96" rx="9" ry="4" fill="#FFB020"/>
-      </svg>
-    </div>
   </section>
 
-  <section class="panneau">
-    <div class="grille">
-      <button class="tuile" data-ouvre="transfert"><span class="rond" style="background:#DCE2FF;color:#3D52D5"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0z"/></svg></span>Transfert</button>
-      <button class="tuile" data-ouvre="paiements"><span class="rond" style="background:#FFF1CC;color:#D68A00"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 11H5z"/><path d="M8 9l3-5M16 9l-3-5"/></svg></span>Paiements</button>
-      <button class="tuile" data-ouvre="banque"><span class="rond" style="background:#FFDCE0;color:#D8344A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/></svg></span>Banque</button>
-      <button class="tuile" data-ouvre="carte"><span class="rond" style="background:#E7DCFF;color:#6A3DD5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg></span>Carte</button>
-      <button class="tuile" data-ouvre="cadeaux"><span class="rond" style="background:#D8F7E4;color:#17A673"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9M12 8C9 8 7 6.5 8 5s4 0 4 3zM12 8c3 0 5-1.500 4-3s-4 0-4 3z"/></svg></span>Cadeaux</button>
-      <button class="tuile" data-ouvre="coffre"><span class="rond" style="background:#FFD9EC;color:#D12B86"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="12" cy="12" r="3.500"/><path d="M12 8.500v-1M12 16.500v-1"/></svg></span>Coffre</button>
-      <button class="tuile" data-ouvre="depenses"><span class="rond" style="background:#DDE3FF;color:#4B5BD6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg></span>Dépenses</button>
-      <button class="tuile" data-ouvre="assurance"><span class="rond" style="background:#D2F5EC;color:#0F9D7A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg></span>Assurance</button>
+  <section id="withdrawPage" class="page">
+    <h2 class="section-title">Demande de Retrait 💸</h2>
+    <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--violet)">0 FCFA</strong></p>
+    <div class="box">
+      <div class="field"><label>Montant à retirer (FCFA)</label><input id="withdrawAmount" type="number" placeholder="Min: 1000 FCFA"></div>
+      <div class="field"><label>Numéro de réception</label><input id="withdrawPhone" type="text" placeholder="Ex: 0700000000"></div>
+      <button class="btn violet" onclick="confirmerDemandeRetrait()">✅ RETIRER LES FONDS</button>
     </div>
-
-    <div class="promo" id="promo">
-      <div style="flex:1"><b>Transferts au Sénégal</b><p>Envoyez de l’argent entre la Côte d’Ivoire et le Sénégal pour 1,5 % de frais.</p></div>
-      <div class="drap"><i style="background:#F77F00"></i><i style="background:#fff"></i><i style="background:#009E60"></i></div>
-      <button class="x" id="promo-x" aria-label="Fermer">✕</button>
-    </div>
-
-    <div class="gratuit">
-      <b>Dépôt et retrait gratuits !</b>
-      <button data-ouvre="agent">Contactez Wave pour trouver votre agent le plus proche</button>
-    </div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
   </section>
 
-  <nav class="nav" aria-label="Navigation">
-    <button class="on" data-nav="accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Accueil</button>
-    <button data-ouvre="historique"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Historique</button>
-    <button data-ouvre="reglages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profil</button>
-  </nav>
-</main>
+  <section id="historyPage" class="page">
+    <h2 class="section-title">Historique des Opérations 📋</h2>
+    <p class="section-sub">Toutes vos transactions et activités enregistrées</p>
+    <div id="historyAll" class="history-list"></div>
+    <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
+  </section>
 
-<div class="voile" id="voile"></div>
-<div class="feuille" id="feuille" role="dialog" aria-modal="true"><div class="poignee"></div><div class="feuille-in" id="feuille-in"></div></div>
-<div class="toast" id="toast" role="status"></div>
-<div id="recaptcha" style="position:fixed;bottom:0;right:0"></div>
+  <div class="bottom-nav">
+    <button class="nav-btn active" onclick="openPage('homePage')"><span>🏠</span>Accueil</button>
+    <button class="nav-btn" onclick="openPage('investPage')"><span>💰</span>Investir</button>
+    <button class="nav-btn" onclick="openPage('achatsPage')"><span>🛒</span>Achats</button>
+    <button class="nav-btn" onclick="openPage('viewLinkedPage')"><span>💳</span>Compte</button>
+    <button class="nav-btn" onclick="openPage('accountPage')"><span>👤</span>Profil</button>
+  </div>
+</div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<div id="toast"></div>
+
 <script>
-/* =====================================================================
-   CONFIGURATION SMS RÉEL (Firebase Authentication)
-   Remplacez les valeurs ci-dessous par celles de VOTRE projet Firebase :
-   Console Firebase > Paramètres du projet > Vos applications > Web > Config
-   ===================================================================== */
-const FIREBASE_CONFIG = {
+const firebaseConfig = {
   apiKey: "AIzaSyDcJkUzDFqe2h4b6ynZuJ8OBe_nVT0KR4k",
   authDomain: "capital-wave-8cf4d.firebaseapp.com",
+  databaseURL: "https://capital-wave-8cf4d-default-rtdb.firebaseio.com",
   projectId: "capital-wave-8cf4d",
+  storageBucket: "capital-wave-8cf4d.firebasestorage.app",
+  messagingSenderId: "221002794489",
   appId: "1:221002794489:web:84c676150aafec62ee6928"
 };
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const rtdb = firebase.database();
 
-/* ---------- Outils ---------- */
-const $ = (s, r = document) => r.querySelector(s);
-const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const fmt = n => new Intl.NumberFormat("fr-FR").format(n).replace(/\u202f|\u00a0/g, " ");
-const ls = {
-  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
-};
-let toastT;
-function toast(t) { const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove("on"), 2600); }
-function montre(id) { $$(".ecran").forEach(e => e.classList.remove("actif")); $(id).classList.add("actif"); window.scrollTo(0, 0); }
-function etape(id) { $$(".etape").forEach(e => e.classList.remove("actif")); $(id).classList.add("actif"); }
-function msg(id, type, txt) { const e = $(id); e.className = "msg" + (type ? " " + type : ""); e.textContent = txt || ""; }
-function attente(btn, on, label) {
-  btn.disabled = on;
-  btn.innerHTML = on ? '<span class="spin"></span>' : "<span>" + label + "</span>";
-}
-async function hash(t) {
-  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("wave:" + t));
-  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
-}
+const PLANS = [
+  ['VIP Bronze', 5000, 500], ['VIP Argent', 10000, 1000], ['VIP Or', 20000, 2000],
+  ['VIP Platine', 50000, 5500], ['VIP Diamant', 100000, 12000], ['VIP Master', 250000, 32000],
+  ['VIP Élite', 500000, 70000], ['VIP Ultime', 1000000, 150000]
+];
 
-/* ---------- Firebase ---------- */
-const configOk = !Object.values(FIREBASE_CONFIG).some(v => /COLLEZ|VOTRE/.test(v));
-let auth = null, verifier = null, confirmation = null, numeroComplet = "";
-if (configOk && window.firebase) {
-  firebase.initializeApp(FIREBASE_CONFIG);
-  auth = firebase.auth();
-  auth.languageCode = "fr";
-}
+// ⚙️ À MODIFIER : nom de l'entreprise et numéros de paiement affichés aux clients
+const NOM_ENTREPRISE = "Canal Box VIP";
+const COORDONNEES_ENTREPRISE = { wave: "00000000", orange: "00000000", mtn: "00000000", moov: "00000000" };
 
-function erreurFr(e) {
-  const c = (e && e.code) || "";
+const NOMS_RESEAUX = { wave: '🌊 Wave Mobile', orange: '🍊 Orange Money', mtn: '💛 MTN Money', moov: '💙 Moov Money' };
+const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', banque: '🏦' };
+
+let utilisateur = null, solde = 0;
+let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equipe = [];
+let compteLie = null, rechargeEnCours = {}, unsubscribeListener = null;
+let envoiEnCours = false;
+
+/* ===== OUTILS ===== */
+const cle = t => { const d = String(t || '').replace(/[^0-9]/g, ''); return (d.length === 13 && d.startsWith('225')) ? d.slice(3) : d; };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
+function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
+function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
+
+function erreurAuth(e) {
   const m = {
-    "auth/invalid-phone-number": "Ce numéro n’est pas valide. Vérifiez l’indicatif et le numéro.",
-    "auth/missing-phone-number": "Entrez votre numéro de téléphone.",
-    "auth/too-many-requests": "Trop de tentatives. Patientez quelques minutes puis réessayez.",
-    "auth/quota-exceeded": "Le quota de SMS est atteint. Réessayez plus tard.",
-    "auth/invalid-verification-code": "Ce code est incorrect. Vérifiez le SMS reçu.",
-    "auth/code-expired": "Ce code a expiré. Demandez un nouveau code.",
-    "auth/network-request-failed": "Pas de connexion internet. Vérifiez votre réseau.",
-    "auth/captcha-check-failed": "La vérification de sécurité a échoué. Réessayez.",
-    "auth/unauthorized-domain": "Ce site n’est pas autorisé dans Firebase. Ajoutez votre domaine dans Authentication > Paramètres > Domaines autorisés.",
-    "auth/operation-not-allowed": "La connexion par téléphone n’est pas activée dans Firebase (Authentication > Méthode de connexion > Téléphone).",
-    "auth/billing-not-enabled": "Firebase demande d’activer la facturation (formule Blaze) pour envoyer de vrais SMS."
+    'auth/email-already-in-use': "Ce numéro a déjà un compte. Connectez-vous.",
+    'auth/weak-password': "Mot de passe trop faible (6 caractères minimum).",
+    'auth/invalid-email': "Adresse e-mail invalide.",
+    'auth/network-request-failed': "Problème de connexion internet."
   };
-  return m[c] || "Une erreur est survenue (" + (c || "inconnue") + "). Réessayez.";
+  return m[e.code] || ("Erreur : " + e.message);
 }
 
-function preparerVerifier() {
-  if (verifier) { try { verifier.clear(); } catch {} verifier = null; }
-  $("#recaptcha").innerHTML = "";
-  verifier = new firebase.auth.RecaptchaVerifier($("#recaptcha"), { size: "invisible" });
+function rendrePlans() {
+  const html = lib => PLANS.map((p, i) => `
+    <div class="vip-card" onclick="investirPlan(${i})">
+      <div class="vip-name">${p[0]}</div>
+      <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
+      <div class="vip-details">⏳ 31 Jours</div>
+      <div class="vip-income">🎁 +${p[2].toLocaleString('fr-FR')} F / jour</div>
+      <button class="btn violet">${lib}</button>
+    </div>`).join('');
+  document.getElementById('vipHome').innerHTML = html('Investir maintenant');
+  document.getElementById('vipInvest').innerHTML = html('Souscrire');
 }
 
-function numeroNormalise() {
-  const ind = $("#pays").value;
-  let n = $("#num").value.replace(/[^\d]/g, "");
-  if (!n) return null;
-  if (ind === "+33" && n.startsWith("0")) n = n.slice(1);
-  if (n.length < 7 || n.length > 12) return null;
-  return ind + n;
+/* ===== ÉTAT : un seul endroit pour tout vider ===== */
+function reinitialiserEtat() {
+  if (unsubscribeListener) { unsubscribeListener(); unsubscribeListener = null; }
+  localStorage.clear();
+  utilisateur = null; solde = 0;
+  historiqueRecharges = []; historiqueRetraits = []; investissements = []; equipe = [];
+  compteLie = null; rechargeEnCours = {};
 }
 
-/* ---------- Étape 1 : envoi du SMS ---------- */
-let minuterie;
-function lanceMinuteur() {
-  const b = $("#btn-renvoyer"); let s = 60; b.disabled = true; clearInterval(minuterie);
-  b.textContent = "Renvoyer le code (" + s + " s)";
-  minuterie = setInterval(() => {
-    s--; if (s <= 0) { clearInterval(minuterie); b.disabled = false; b.textContent = "Renvoyer le code"; }
-    else b.textContent = "Renvoyer le code (" + s + " s)";
-  }, 1000);
+function appliquerDonnees(d) {
+  solde = d.solde !== undefined ? d.solde : 0;
+  historiqueRecharges = d.recharges || [];
+  historiqueRetraits = d.retraits || [];
+  investissements = d.investissements || [];
+  compteLie = d.compteLie || null;
+  equipe = d.equipe || [];
 }
 
-function champsValides() {
-  ["#prenom", "#nom", "#num", "#pin", "#pin2"].forEach(s => $(s).classList.remove("faux"));
-  const f = (s, t) => { $(s).classList.add("faux"); $(s).focus(); msg("#msg-tel", "err", t); return false; };
-  if (!$("#prenom").value.trim()) return f("#prenom", "Entrez votre prénom.");
-  if (!$("#nom").value.trim()) return f("#nom", "Entrez votre nom.");
-  if (!numeroNormalise()) return f("#num", "Entrez un numéro de téléphone valide.");
-  if (!/^\d{4}$/.test($("#pin").value)) return f("#pin", "Le code secret doit contenir exactement 4 chiffres.");
-  if ($("#pin").value !== $("#pin2").value) return f("#pin2", "Les deux codes secrets sont différents.");
-  return true;
+// Cherche le compte appartenant à CET utilisateur Firebase (uid, puis e-mail, puis téléphone)
+async function trouverCompte(uid, email, tel) {
+  const col = db.collection("comptes_tel");
+  let q = await col.where("user.uid", "==", uid).limit(1).get();
+  if (!q.empty) return q.docs[0].data();
+  if (email) {
+    q = await col.where("user.email", "==", email).limit(1).get();
+    if (!q.empty) return q.docs[0].data();
+  }
+  if (cle(tel)) {
+    const s = await col.doc(cle(tel)).get();
+    if (s.exists && (!s.data().user || !s.data().user.uid || s.data().user.uid === uid)) return s.data();
+  }
+  return null;
 }
 
-async function envoyerSMS(depuisRenvoi) {
-  const btn = $("#btn-envoyer");
-  msg("#msg-tel", "", "");
-  if (!depuisRenvoi && !champsValides()) return;
-  const num = depuisRenvoi ? numeroComplet : numeroNormalise();
-  if (!num) { $("#num").classList.add("faux"); msg("#msg-tel", "err", "Entrez un numéro de téléphone valide."); $("#num").focus(); return; }
-  $("#num").classList.remove("faux");
-  if (!auth) { msg(depuisRenvoi ? "#msg-code" : "#msg-tel", "err", "L’envoi de SMS n’est pas encore activé : ajoutez la configuration Firebase en haut du fichier index.html (voir les instructions)."); return; }
-  if (!depuisRenvoi) attente(btn, true);
-  try {
-    preparerVerifier();
-    confirmation = await auth.signInWithPhoneNumber(num, verifier);
-    numeroComplet = num;
-    $("#txt-envoye").textContent = "Un code à 6 chiffres vient d’être envoyé par SMS au " + num + ".";
-    $$("#code input").forEach(i => i.value = "");
-    msg("#msg-code", "", "");
-    etape("#e-code"); lanceMinuteur();
-    $("#code input").focus();
-    if (depuisRenvoi) toast("Nouveau code envoyé");
-  } catch (e) {
-    msg(depuisRenvoi ? "#msg-code" : "#msg-tel", "err", erreurFr(e));
-  } finally {
-    if (!depuisRenvoi) attente(btn, false, "Recevoir le code par SMS");
+/* ===== SAUVEGARDE / SYNCHRO ===== */
+function sauvegarderTout() {
+  const fb = auth.currentUser;
+  // Sécurité : on n'écrit que si le compte affiché est bien le compte connecté
+  if (!utilisateur || !fb || utilisateur.uid !== fb.uid) return;
+  utilisateur.solde = solde;
+  delete utilisateur.password;
+  localStorage.setItem('cb_user', JSON.stringify(utilisateur));
+
+  const docId = cle(utilisateur.phone);
+  if (!docId) return;
+  const payload = {
+    solde, nom: utilisateur.name || "Utilisateur", telephone: utilisateur.phone, user: utilisateur,
+    recharges: historiqueRecharges, retraits: historiqueRetraits, investissements, compteLie, equipe,
+    derniereModif: new Date().toISOString()
+  };
+  db.collection("comptes_tel").doc(docId).set(payload, { merge: true }).catch(console.error);
+  rtdb.ref("comptes_tel/" + docId).set(payload).catch(console.error);
+}
+
+function ecouterChangementsFirebase() {
+  if (!utilisateur || !cle(utilisateur.phone)) return;
+  if (unsubscribeListener) unsubscribeListener();
+  const uidCourant = utilisateur.uid;
+  unsubscribeListener = db.collection("comptes_tel").doc(cle(utilisateur.phone)).onSnapshot(doc => {
+    if (!doc.exists || !utilisateur || utilisateur.uid !== uidCourant) return;
+    const data = doc.data();
+    if (!data.user || data.user.uid !== uidCourant) return; // jamais afficher le compte d'un autre
+    appliquerDonnees(data);
+    utilisateur.solde = solde;
+    mettreAJourAccueil();
+    afficherCompteLie();
+    ['achatsPage:afficherAchats', 'historyPage:afficherHistorique', 'teamPage:afficherEquipe'].forEach(x => {
+      const [id, fn] = x.split(':');
+      if (document.getElementById(id).classList.contains('active')) window[fn]();
+    });
+  }, err => console.error(err));
+}
+
+/* ===== NAVIGATION ===== */
+function openPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById(pageId);
+  if (t) t.classList.add('active');
+  window.scrollTo(0, 0);
+  if (pageId === 'homePage') mettreAJourAccueil();
+  if (pageId === 'achatsPage') afficherAchats();
+  if (pageId === 'historyPage') afficherHistorique();
+  if (pageId === 'teamPage') afficherEquipe();
+  if (pageId === 'viewLinkedPage') afficherCompteLie();
+  if (pageId === 'accountPage') chargerProfil();
+  if (pageId === 'withdrawPage') {
+    document.getElementById('wBalance').textContent = formatArgent(solde);
+    if (compteLie) document.getElementById('withdrawPhone').value = compteLie.phone;
   }
 }
-$("#btn-envoyer").addEventListener("click", () => envoyerSMS(false));
-$("#num").addEventListener("keydown", e => { if (e.key === "Enter") envoyerSMS(false); });
-$("#btn-renvoyer").addEventListener("click", () => envoyerSMS(true));
-$("#btn-retour").addEventListener("click", () => { clearInterval(minuterie); etape("#e-tel"); });
 
-/* ---------- Étape 2 : saisie du code ---------- */
-const cases = $$("#code input");
-cases.forEach((c, i) => {
-  c.addEventListener("input", () => {
-    c.value = c.value.replace(/\D/g, "").slice(-1);
-    if (c.value && i < 5) cases[i + 1].focus();
-    if (cases.every(x => x.value)) verifierCode();
-  });
-  c.addEventListener("keydown", e => {
-    if (e.key === "Backspace" && !c.value && i > 0) cases[i - 1].focus();
-    if (e.key === "Enter") verifierCode();
-  });
-  c.addEventListener("paste", e => {
-    const t = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, 6);
-    if (!t) return; e.preventDefault();
-    t.split("").forEach((ch, k) => cases[k].value = ch);
-    cases[Math.min(t.length, 5)].focus();
-    if (t.length === 6) verifierCode();
-  });
-});
-let enCours = false;
-async function verifierCode() {
-  if (enCours) return;
-  const code = cases.map(c => c.value).join("");
-  if (code.length < 6) { msg("#msg-code", "err", "Entrez les 6 chiffres du code."); return; }
-  if (!confirmation) { msg("#msg-code", "err", "Demandez d’abord un code par SMS."); return; }
-  enCours = true; const btn = $("#btn-verifier"); attente(btn, true); msg("#msg-code", "", "");
+function showAuth(type) {
+  const login = type === 'login';
+  document.getElementById('loginTab').classList.toggle('active', login);
+  document.getElementById('registerTab').classList.toggle('active', !login);
+  document.getElementById('loginForm').classList.toggle('hidden', !login);
+  document.getElementById('registerForm').classList.toggle('hidden', login);
+}
+
+/* ===== INSCRIPTION : compte neuf, jamais lié à un ancien ===== */
+async function creerCompte() {
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const password = document.getElementById('regPassword').value;
+  const email = cle(phone) + "@canalbox.app"; // identifiant interne, invisible pour l'utilisateur
+
+  if (!name || !phone || !password) { toast("Remplissez tous les champs."); return; }
+  if (cle(phone).length < 8) { toast("Numéro de téléphone invalide."); return; }
+  if (password.length < 6) { toast("Mot de passe : 6 caractères minimum."); return; }
+
   try {
-    await confirmation.confirm(code);
-    clearInterval(minuterie);
-    const existant = ls.get("wave_profil", null);
-    if (existant && existant.tel === numeroComplet) { ouvrirAccueil(); }
-    else {
-      const prenom = $("#prenom").value.trim();
-      try { await auth.currentUser.updateProfile({ displayName: prenom + " " + $("#nom").value.trim() }); } catch (e) {}
-      ls.set("wave_profil", { prenom, nom: $("#nom").value.trim(), tel: numeroComplet, pin: await hash($("#pin").value), solde: 0, coffre: 0, histo: [] });
-      $("#succes-nom").textContent = prenom;
-      montre("#ecran-succes");
+    await auth.signOut();
+    reinitialiserEtat();
+
+    const userCred = await auth.createUserWithEmailAndPassword(email, password);
+    const uid = userCred.user.uid;
+
+    // Le numéro appartient-il déjà à un autre compte ?
+    const ref = db.collection("comptes_tel").doc(cle(phone));
+    const existant = await ref.get();
+    if (existant.exists) {
+      const ex = existant.data();
+      const em = ex.user ? ex.user.email : '';
+      // Profil orphelin : l'identifiant interne était libre (donc le compte Authentication a été supprimé)
+      // ou le profil n'a pas d'e-mail réel. Un compte créé avec un vrai e-mail reste protégé.
+      const orphelin = ex.user && ex.user.uid !== uid && (!em || !String(em).includes('@') || em === email);
+      if (orphelin) {
+        await ref.delete();
+      } else if (!ex.user || ex.user.uid !== uid) {
+        await userCred.user.delete();
+        reinitialiserEtat();
+        toast("Ce numéro est déjà utilisé par un autre compte. Connectez-vous.");
+        showAuth('login');
+        return;
+      }
     }
+
+    utilisateur = { uid, name, email, phone, solde: 0 };
+    sauvegarderTout();
+    verifierConnexion();
+    openPage('homePage');
+    toast("✅ Compte créé ! Solde : 0 FCFA.");
   } catch (e) {
-    msg("#msg-code", "err", erreurFr(e));
-    cases.forEach(c => c.value = ""); cases[0].focus();
-  } finally { enCours = false; attente(btn, false, "Valider le code"); }
-}
-$("#btn-verifier").addEventListener("click", verifierCode);
-
-$("#btn-entrer").addEventListener("click", ouvrirAccueil);
-
-/* ---------- Connexion par code secret (compte déjà créé) ---------- */
-$("#btn-ouvrir").addEventListener("click", async () => {
-  const p = ls.get("wave_profil", null);
-  const v = $("#pin-login").value;
-  if (!p) return;
-  if (!/^\d{4}$/.test(v)) return msg("#msg-pin", "err", "Entrez votre code secret à 4 chiffres.");
-  if (await hash(v) !== p.pin) { $("#pin-login").value = ""; return msg("#msg-pin", "err", "Code secret incorrect."); }
-  ouvrirAccueil();
-});
-$("#pin-login").addEventListener("keydown", e => { if (e.key === "Enter") $("#btn-ouvrir").click(); });
-$("#btn-autre").addEventListener("click", async () => { if (auth) await auth.signOut(); etape("#e-tel"); });
-
-/* ---------- Accueil ---------- */
-let cache = ls.get("wave_cache", false);
-let qr = null;
-function profil() { return ls.get("wave_profil", null); }
-function sauve(p) { ls.set("wave_profil", p); }
-function ouvrirAccueil() {
-  const p = profil(); if (!p) { montre("#ecran-auth"); return; }
-  $("#bonjour").textContent = "Bonjour " + p.prenom;
-  majSolde();
-  $("#qr").innerHTML = "";
-  qr = new QRCode($("#qr"), { text: "wave:" + p.tel, width: 120, height: 120, colorDark: "#16134A", colorLight: "#ffffff" });
-  montre("#ecran-accueil");
-}
-function majSolde() {
-  const p = profil(); if (!p) return;
-  $("#solde").textContent = cache ? "•••" : fmt(p.solde);
-}
-$("#btn-oeil").addEventListener("click", () => { cache = !cache; ls.set("wave_cache", cache); majSolde(); });
-$("#promo-x").addEventListener("click", () => $("#promo").classList.add("hidden"));
-
-/* ---------- Feuilles (fenêtres du bas) ---------- */
-function ouvreFeuille(html) { $("#feuille-in").innerHTML = html; $("#voile").classList.add("on"); $("#feuille").classList.add("on"); $("#feuille").scrollTop = 0; }
-function fermeFeuille() { $("#voile").classList.remove("on"); $("#feuille").classList.remove("on"); }
-$("#voile").addEventListener("click", fermeFeuille);
-document.addEventListener("keydown", e => { if (e.key === "Escape") fermeFeuille(); });
-
-const liste = (items) => '<div class="liste">' + items.map(i =>
-  '<div class="ligne"><span class="pt">' + i[0] + '</span><span>' + i[1] + (i[2] ? '<small>' + i[2] + '</small>' : '') + '</span></div>').join("") + '</div>';
-const histoHtml = (h) => h.length ? '<div class="liste">' + h.map(x =>
-  '<div class="ligne"><span class="pt">' + (x.m > 0 ? "+" : "−") + '</span><span>' + x.t + '<small>' + x.d + '</small></span><span class="mt-r ' + (x.m > 0 ? "plus" : "moins") + '">' + (x.m > 0 ? "+" : "−") + fmt(Math.abs(x.m)) + ' F</span></div>').join("") + '</div>'
-  : '<p class="vide">Aucune opération pour le moment.</p>';
-const dateNow = () => new Date().toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-function ajoute(p, t, m) { p.histo.unshift({ t, m, d: dateNow() }); p.histo = p.histo.slice(0, 50); }
-
-const vues = {
-  transfert() {
-    ouvreFeuille('<h2>Transfert</h2><p class="sous">Envoyez de l’argent à un numéro Wave.</p>' +
-      '<label class="champ" for="t-num">Numéro du destinataire</label><input id="t-num" type="tel" inputmode="numeric" placeholder="07 00 00 00 00">' +
-      '<div class="mt"><label class="champ" for="t-mt">Montant (F)</label><input id="t-mt" type="number" inputmode="numeric" min="1" placeholder="5000"></div>' +
-      '<div id="t-msg" class="msg"></div><button class="btn" id="t-go">Envoyer</button>');
-    $("#t-go").onclick = () => {
-      const p = profil(), n = $("#t-num").value.replace(/\D/g, ""), m = parseInt($("#t-mt").value, 10);
-      const e = $("#t-msg");
-      if (n.length < 8) { e.className = "msg err"; e.textContent = "Entrez un numéro valide."; return; }
-      if (!m || m < 1) { e.className = "msg err"; e.textContent = "Entrez un montant valide."; return; }
-      if (m > p.solde) { e.className = "msg err"; e.textContent = "Solde insuffisant. Ajoutez de l’argent depuis un agent Wave."; return; }
-      p.solde -= m; ajoute(p, "Transfert vers " + n, -m); sauve(p); majSolde(); fermeFeuille(); toast("Transfert de " + fmt(m) + " F envoyé");
-    };
-  },
-  paiements() {
-    ouvreFeuille('<h2>Paiements</h2><p class="sous">Factures, recharges et abonnements.</p>' + liste([
-      ["CI", "Prépayé CIE", "Électricité"], ["C+", "Canal+", "Abonnement TV"], ["SO", "SODECI", "Eau"],
-      ["FP", "Fer Péage", "Recharge"], ["SL", "SOTRA Liberté", "Transport"]]).replace(/class="ligne"/g, 'class="ligne" onclick="toast(\'Bientôt disponible\')" style="cursor:pointer"'));
-  },
-  banque() {
-    ouvreFeuille('<h2>Lier votre banque ou SFD</h2><p class="sous">Choisissez votre établissement.</p>' + liste([
-      ["CB", "Coris Bank"], ["EB", "Ecobank"], ["GT", "GTBank"], ["MB", "MANSA Bank"], ["NS", "NSIA Banque"], ["OB", "Orabank"], ["UB", "UBA"], ["VB", "Versus Bank"]
-    ]).replace(/class="ligne"/g, 'class="ligne" onclick="toast(\'Liaison bancaire bientôt disponible\')" style="cursor:pointer"'));
-  },
-  carte() {
-    ouvreFeuille('<h2>Carte Wave</h2><p class="sous">Payez en ligne et en magasin avec votre carte virtuelle.</p>' +
-      '<div class="qr-carte" style="margin:0;max-width:none;height:150px;background-color:var(--violet);color:#fff;flex-direction:column;align-items:flex-start;justify-content:flex-end"><b style="font-family:var(--ft-titre);font-size:22px">Wave</b><span>•••• •••• •••• ' + (profil().tel.slice(-4)) + '</span></div>' +
-      '<button class="btn" onclick="toast(\'Carte bientôt disponible\')">Demander ma carte</button>');
-  },
-  cadeaux() {
-    ouvreFeuille('<h2>Cadeaux</h2><p class="sous">Gains déjà versés : 0 F</p><p class="vide">Revenez bientôt pour de nouvelles surprises.</p>');
-  },
-  coffre() {
-    const p = profil();
-    ouvreFeuille('<h2>Coffre</h2><p class="sous">Mettez de l’argent de côté.</p><div class="coffre-solde" id="c-solde">' + fmt(p.coffre) + ' F</div>' +
-      '<label class="champ" for="c-mt">Montant (F)</label><input id="c-mt" type="number" inputmode="numeric" min="1" placeholder="1000">' +
-      '<div id="c-msg" class="msg"></div>' +
-      '<div class="rangee"><button class="btn" id="c-garder">Garder</button><button class="btn clair" id="c-recup">Récupérer</button></div>');
-    const op = (sens) => {
-      const q = profil(), m = parseInt($("#c-mt").value, 10), e = $("#c-msg");
-      if (!m || m < 1) { e.className = "msg err"; e.textContent = "Entrez un montant valide."; return; }
-      if (sens > 0 && m > q.solde) { e.className = "msg err"; e.textContent = "Solde insuffisant."; return; }
-      if (sens < 0 && m > q.coffre) { e.className = "msg err"; e.textContent = "Le coffre ne contient pas autant."; return; }
-      q.solde -= sens * m; q.coffre += sens * m;
-      ajoute(q, sens > 0 ? "Transfert vers coffre" : "Transfert depuis coffre", sens > 0 ? -m : m);
-      sauve(q); majSolde(); $("#c-solde").textContent = fmt(q.coffre) + " F"; $("#c-mt").value = ""; e.className = "msg";
-      toast(sens > 0 ? "Argent mis au coffre" : "Argent récupéré");
-    };
-    $("#c-garder").onclick = () => op(1); $("#c-recup").onclick = () => op(-1);
-  },
-  depenses() {
-    const p = profil(), sortie = p.histo.filter(x => x.m < 0).reduce((s, x) => s + -x.m, 0);
-    ouvreFeuille('<h2>Dépenses</h2><p class="sous">Total des sorties d’argent</p><div class="coffre-solde">' + fmt(sortie) + ' F</div>' + histoHtml(p.histo.filter(x => x.m < 0)));
-  },
-  assurance() {
-    ouvreFeuille('<h2>Assurance</h2><p class="sous">Souscrivez une assurance automobile ou moto.</p>' + liste([
-      ["1", "Devis instantané", "Obtenez un prix en quelques secondes"], ["2", "Attestation digitale", "Disponible même hors ligne"], ["3", "Sinistres", "Déclarez-les facilement en ligne"]]) +
-      '<button class="btn" onclick="toast(\'Devis bientôt disponible\')">Obtenir un devis</button>');
-  },
-  agent() {
-    ouvreFeuille('<h2>Trouver un agent</h2><p class="sous">Dépôt et retrait gratuits chez les agents Wave.</p><p class="vide">La liste des agents près de vous arrive bientôt.</p>');
-  },
-  scanner() {
-    ouvreFeuille('<h2>Mon code QR</h2><p class="sous">Faites-le scanner pour recevoir de l’argent.</p><div style="display:grid;place-items:center;padding:12px"><div id="qr-grand"></div></div>');
-    new QRCode($("#qr-grand"), { text: "wave:" + profil().tel, width: 220, height: 220, colorDark: "#16134A", colorLight: "#ffffff" });
-  },
-  historique() {
-    ouvreFeuille('<h2>Historique</h2><p class="sous">Vos dernières opérations.</p>' + histoHtml(profil().histo));
-  },
-  reglages() {
-    const p = profil();
-    ouvreFeuille('<h2>' + p.prenom + ' ' + p.nom + '</h2><p class="sous">' + p.tel + '</p>' +
-      '<div class="rangee"><button class="btn clair" id="r-depot">Dépôt test</button><button class="btn clair" id="r-pin">Verrouiller</button></div>' +
-      '<button class="btn" id="r-out" style="background:var(--err)">Se déconnecter</button>');
-    $("#r-depot").onclick = () => { const q = profil(); q.solde += 10000; ajoute(q, "Dépôt de test", 10000); sauve(q); majSolde(); fermeFeuille(); toast("10 000 F ajoutés (test)"); };
-    $("#r-pin").onclick = () => { fermeFeuille(); montrePin(); };
-    $("#r-out").onclick = async () => { fermeFeuille(); if (auth) await auth.signOut(); localStorage.removeItem("wave_profil"); montre("#ecran-auth"); etape("#e-tel"); toast("Déconnecté"); };
+    reinitialiserEtat();
+    toast(erreurAuth(e));
   }
-};
-$$("[data-ouvre]").forEach(b => b.addEventListener("click", () => { const f = vues[b.dataset.ouvre]; if (f) f(); }));
-$("[data-nav=accueil]").addEventListener("click", () => { fermeFeuille(); window.scrollTo({ top: 0, behavior: "smooth" }); });
-
-function montrePin() {
-  const p = profil(); if (!p) return;
-  $("#pin-nom").textContent = p.prenom; $("#pin-login").value = ""; msg("#msg-pin", "", "");
-  etape("#e-pin"); montre("#ecran-auth");
 }
 
-/* ---------- Démarrage ---------- */
-if (auth) {
-  auth.onAuthStateChanged(u => {
-    const p = profil();
-    if (u && p && p.tel === u.phoneNumber) montrePin();
+/* ===== CONNEXION ===== */
+async function seConnecter() {
+  const contact = document.getElementById('loginContact').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  if (!contact || !password) { toast("Remplissez tous les champs."); return; }
+  const parEmail = contact.includes('@');
+  let targetEmail = contact;
+
+  try {
+    await auth.signOut();
+    reinitialiserEtat();
+
+    if (!parEmail) {
+      try {
+        const s = await db.collection("comptes_tel").doc(cle(contact)).get();
+        const em = (s.exists && s.data().user) ? s.data().user.email : '';
+        targetEmail = (em && String(em).includes('@')) ? em : cle(contact) + "@canalbox.app";
+      } catch (_) { targetEmail = cle(contact) + "@canalbox.app"; }
+    }
+
+    let cred;
+    try {
+      cred = await auth.signInWithEmailAndPassword(targetEmail, password);
+    } catch (e1) {
+      const interne = cle(contact) + "@canalbox.app";
+      if (parEmail || targetEmail === interne) throw e1;
+      targetEmail = interne;
+      cred = await auth.signInWithEmailAndPassword(targetEmail, password);
+    }
+    const uid = cred.user.uid;
+    const d = await trouverCompte(uid, targetEmail, parEmail ? '' : contact);
+
+    if (d) {
+      utilisateur = { ...(d.user || {}), uid, email: targetEmail };
+      utilisateur.phone = utilisateur.phone || d.telephone || (parEmail ? '' : contact);
+      utilisateur.name = utilisateur.name || d.nom || "Membre";
+      delete utilisateur.password;
+      appliquerDonnees(d);
+    } else if (!parEmail) {
+      utilisateur = { uid, name: "Membre", email: targetEmail, phone: contact, solde: 0 };
+    } else {
+      await auth.signOut(); reinitialiserEtat();
+      toast("Profil introuvable pour cet e-mail. Contactez le support.");
+      return;
+    }
+
+    sauvegarderTout();
+    verifierConnexion();
+    openPage('homePage');
+    toast("✅ Connexion réussie !");
+  } catch (e) {
+    await auth.signOut().catch(() => {});
+    reinitialiserEtat();
+    const masque = String(targetEmail).replace(/^(.{3}).*(@.*)$/, '$1***$2');
+    toast("Échec avec " + masque + " (" + (e.code || e.message) + ")");
+  }
+}
+
+function deconnexion() {
+  auth.signOut().finally(() => {
+    reinitialiserEtat();
+    verifierConnexion();
+    showAuth('login');
+    toast("👋 Déconnexion réussie !");
   });
-} else if (profil()) {
-  /* sans Firebase, on ne montre jamais un compte non vérifié */
 }
+
+function verifierConnexion() {
+  const connecte = !!utilisateur;
+  document.getElementById('auth').style.display = connecte ? 'none' : 'flex';
+  document.getElementById('app').style.display = connecte ? 'block' : 'none';
+  if (connecte) { mettreAJourAccueil(); ecouterChangementsFirebase(); }
+}
+
+/* ===== AFFICHAGE ===== */
+function chargerProfil() {
+  if (!utilisateur) return;
+  document.getElementById('profileName').value = utilisateur.name || "Membre";
+  document.getElementById('profileEmail').value = (utilisateur.email && !utilisateur.email.endsWith('@canalbox.app')) ? utilisateur.email : "Non renseigné";
+  document.getElementById('profilePhone').value = utilisateur.phone || "Non renseigné";
+  document.getElementById('profileBalance').value = formatArgent(solde);
+}
+
+function mettreAJourAccueil() {
+  document.getElementById('homeBalance').textContent = formatArgent(solde);
+  document.getElementById('homeWelcome').textContent = "Bienvenue, " + (utilisateur ? (utilisateur.name || 'Membre') : 'Membre');
+  document.getElementById('topUser').textContent = utilisateur ? (utilisateur.name || 'U').charAt(0).toUpperCase() : 'U';
+}
+
+function enregistrerLien() {
+  const type = document.getElementById('linkedType').value;
+  const phone = document.getElementById('linkedPhone').value.trim();
+  const phone2 = document.getElementById('linkedPhone2').value.trim();
+  if (!phone || !phone2) { toast("Veuillez remplir tous les champs."); return; }
+  if (phone !== phone2) { toast("Les numéros ne correspondent pas !"); return; }
+  compteLie = { type, phone };
+  sauvegarderTout();
+  toast("✅ Compte lié avec succès !");
+  openPage('viewLinkedPage');
+}
+
+function afficherCompteLie() {
+  const c = document.getElementById('linkedAccountCardContainer');
+  if (compteLie) {
+    c.innerHTML = `
+      <div class="linked-badge">
+        <div class="linked-icon">${ICONES[compteLie.type] || '💳'}</div>
+        <div>
+          <div style="font-weight:800;font-size:18px">${esc(String(compteLie.type).toUpperCase())}</div>
+          <div style="font-size:15px;color:var(--texte-secondaire);font-weight:600;margin-top:2px">${esc(compteLie.phone)}</div>
+          <div style="font-size:12px;color:var(--succes);font-weight:700;margin-top:6px">● Compte Actif & Prêt pour les retraits</div>
+        </div>
+      </div>
+      <button class="btn rouge" onclick="detacherCompte()" style="margin-bottom:12px">🗑️ DÉTACHER CE COMPTE</button>`;
+  } else {
+    c.innerHTML = `
+      <div class="empty-history box" style="margin-bottom:20px">
+        <div style="font-size:40px;margin-bottom:10px">💳</div>
+        <strong>Aucun compte lié actuellement</strong>
+        <p style="font-size:13px;margin-top:6px">Liez votre numéro Wave, Orange, MTN ou Moov pour pouvoir effectuer vos retraits.</p>
+      </div>`;
+  }
+}
+
+function detacherCompte() { compteLie = null; sauvegarderTout(); afficherCompteLie(); toast("Compte détaché."); }
+
+function investirPlan(i) {
+  const [nom, montant, gain] = PLANS[i];
+  if (solde < montant) { toast("Solde insuffisant ! Veuillez recharger."); openPage('rechargePage'); return; }
+  solde -= montant;
+  investissements.unshift({ nom, montant, gain, date: new Date().toISOString(), statut: 'Activé' });
+  sauvegarderTout();
+  mettreAJourAccueil();
+  toast(`🎉 Plan ${nom} activé !`);
+  openPage('achatsPage');
+}
+
+function afficherAchats() {
+  const l = document.getElementById('achatsList');
+  if (!investissements.length) { l.innerHTML = `<div class="empty-history">Aucun achat.</div>`; return; }
+  l.innerHTML = investissements.map(inv => `
+    <div class="history-item">
+      <div class="history-top"><span class="history-type">👑 ${esc(inv.nom)}</span><span class="history-status status-success">${esc(inv.statut || 'Activé')}</span></div>
+      <div class="history-date">Acheté le ${formatDate(inv.date)}</div>
+      <div class="history-amount amount-minus">-${formatArgent(inv.montant)}</div>
+      <div style="font-size:13px;color:var(--succes);font-weight:700;margin-top:4px">Gains : +${formatArgent(inv.gain)} / jour</div>
+    </div>`).join('');
+}
+
+function afficherEquipe() {
+  const l = document.getElementById('teamList');
+  if (!equipe.length) { l.innerHTML = `<div class="empty-history">Aucun filleul pour le moment.</div>`; return; }
+  l.innerHTML = equipe.map(m => `<div class="history-item"><div class="history-type">👤 ${esc(m.nom || m.name || 'Filleul')}</div></div>`).join('');
+}
+
+/* ===== RECHARGE : copier / coller / confirmer ===== */
+function copieSecours(texte) {
+  try {
+    const a = document.createElement('textarea');
+    a.value = texte;
+    a.setAttribute('readonly', '');
+    a.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(a);
+    a.focus(); a.select(); a.setSelectionRange(0, 99999);
+    const ok = document.execCommand('copy');
+    document.body.removeChild(a);
+    return ok;
+  } catch (e) { return false; }
+}
+
+function copierTexte(texte, btn) {
+  const fini = ok => {
+    if (!ok) { toast("Copie impossible. Maintenez le doigt sur le texte pour le copier."); return; }
+    if (btn) {
+      if (!btn.dataset.t) btn.dataset.t = btn.textContent;
+      btn.textContent = '✔ Copié';
+      btn.classList.add('ok');
+      setTimeout(() => { btn.textContent = btn.dataset.t; btn.classList.remove('ok'); }, 1600);
+    }
+    toast("Copié ✔");
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(texte).then(() => fini(true)).catch(() => fini(copieSecours(texte)));
+  } else {
+    fini(copieSecours(texte));
+  }
+}
+
+function copierDepuis(btn) {
+  const el = document.getElementById(btn.dataset.src);
+  copierTexte(el.dataset.raw || el.textContent.trim(), btn);
+}
+
+async function collerTxId() {
+  const inp = document.getElementById('rechargeTxId');
+  try {
+    if (!(navigator.clipboard && navigator.clipboard.readText)) throw new Error('indisponible');
+    const t = (await navigator.clipboard.readText()).trim();
+    if (!t) { toast("Rien à coller : copiez d'abord l'ID reçu par SMS."); return; }
+    inp.value = t.replace(/\s+/g, '').slice(0, 60);
+    toast("ID collé ✔");
+  } catch (e) {
+    inp.focus();
+    toast("Appuyez longuement dans le champ, puis choisissez « Coller ».");
+  }
+}
+
+function continuerPaiementRecharge() {
+  const methode = document.getElementById('rechargeMethod').value;
+  const montant = parseFloat(document.getElementById('rechargeAmount').value);
+  const phone = document.getElementById('rechargePhone').value.trim();
+  if (!montant || montant < 100) { toast("Montant invalide (minimum 100 FCFA)."); return; }
+  rechargeEnCours = { methode, montant, phone };
+  envoiEnCours = false;
+
+  const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
+  const ecranMontant = document.getElementById('payAmountDisplay');
+  ecranMontant.textContent = formatArgent(montant);
+  ecranMontant.dataset.raw = String(montant);
+  document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
+  const company = document.getElementById('payCompany');
+  company.textContent = NOM_ENTREPRISE; company.dataset.raw = NOM_ENTREPRISE;
+  const num = document.getElementById('companyNumber');
+  num.textContent = numero; num.dataset.raw = numero.replace(/\s+/g, '');
+
+  document.getElementById('rechargeTxId').value = '';
+  const b = document.getElementById('btnConfirmer');
+  b.disabled = false; b.textContent = '✅ CONFIRMER LE PAIEMENT';
+  document.getElementById('payForm').classList.remove('hidden');
+  document.getElementById('paySuccess').classList.add('hidden');
+  openPage('rechargePaymentPage');
+}
+
+function confirmerPaiementRecharge() {
+  if (envoiEnCours) return;
+  if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
+
+  const inp = document.getElementById('rechargeTxId');
+  const txId = inp.value.trim().replace(/\s+/g, '');
+  if (!txId) { toast("Collez l'ID de transaction reçu par SMS."); inp.focus(); return; }
+  if (txId.length < 6) { toast("ID trop court. Vérifiez-le dans votre SMS."); inp.focus(); return; }
+  if (historiqueRecharges.some(r => String(r.txId || '').toLowerCase() === txId.toLowerCase())) {
+    toast("Cet ID de transaction a déjà été utilisé."); return;
+  }
+
+  envoiEnCours = true;
+  const b = document.getElementById('btnConfirmer');
+  b.disabled = true; b.textContent = 'Envoi en cours…';
+
+  const rec = { montant: rechargeEnCours.montant, phone: rechargeEnCours.phone, methode: rechargeEnCours.methode, txId, date: new Date().toISOString(), statut: 'En attente' };
+  historiqueRecharges.unshift(rec);
+  sauvegarderTout();
+
+  document.getElementById('payRecap').innerHTML = `
+    <div><span>Montant</span><b>${esc(formatArgent(rec.montant))}</b></div>
+    <div><span>Réseau</span><b>${esc(NOMS_RESEAUX[rec.methode] || rec.methode)}</b></div>
+    <div><span>Référence</span><b>${esc(txId)}</b></div>
+    <div><span>Statut</span><b style="color:#D68910">En attente</b></div>`;
+  document.getElementById('payForm').classList.add('hidden');
+  document.getElementById('paySuccess').classList.remove('hidden');
+  window.scrollTo(0, 0);
+  rechargeEnCours = {};
+  envoiEnCours = false;
+}
+
+function confirmerDemandeRetrait() {
+  const montant = parseFloat(document.getElementById('withdrawAmount').value);
+  const phone = document.getElementById('withdrawPhone').value.trim();
+  if (!montant || montant < 1000) { toast("Min: 1000 FCFA"); return; }
+  if (montant > solde) { toast("Solde insuffisant"); return; }
+  solde -= montant;
+  historiqueRetraits.unshift({ montant, compte: phone, date: new Date().toISOString(), statut: 'En attente' });
+  sauvegarderTout();
+  mettreAJourAccueil();
+  toast("Demande transmise !");
+  openPage('historyPage');
+}
+
+function afficherHistorique() {
+  const l = document.getElementById('historyAll');
+  const items = [
+    ...historiqueRecharges.map(r => ({ type: 'recharge', ...r })),
+    ...historiqueRetraits.map(r => ({ type: 'retrait', ...r })),
+    ...investissements.map(i => ({ type: 'achat', ...i }))
+  ].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée dans l'historique.</div>`; return; }
+
+  l.innerHTML = items.map(it => {
+    const st = it.statut || 'En attente';
+    const cls = (st === 'Validé' || st === 'Activé') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
+    let titre, signe, cm;
+    if (it.type === 'recharge') { titre = '💳 Recharge (' + esc(it.methode ? it.methode.toUpperCase() : 'MOMO') + ')'; signe = '+'; cm = 'amount-plus'; }
+    else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
+    else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
+    return `
+      <div class="history-item">
+        <div class="history-top"><span class="history-type">${titre}</span><span class="history-status ${cls}">${esc(st)}</span></div>
+        <div class="history-date">${formatDate(it.date)}</div>
+        <div class="history-amount ${cm}">${signe}${formatArgent(it.montant)}</div>
+        ${it.txId ? `<div style="font-size:12px;color:var(--texte-secondaire);margin-top:2px">Réf Tx: ${esc(it.txId)}</div>` : ''}
+        ${it.compte ? `<div style="font-size:12px;color:var(--texte-secondaire);margin-top:2px">Destinataire: ${esc(it.compte)}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+/* ===== DÉMARRAGE : Firebase Auth fait foi, jamais le cache seul ===== */
+window.addEventListener('load', () => {
+  rendrePlans();
+  const stop = auth.onAuthStateChanged(async fb => {
+    stop();
+    try {
+      if (fb) {
+        const cache = JSON.parse(localStorage.getItem('cb_user') || 'null');
+        if (cache && cache.uid === fb.uid) { utilisateur = cache; solde = cache.solde || 0; }
+        const d = await trouverCompte(fb.uid, fb.email, utilisateur ? utilisateur.phone : '');
+        if (d) {
+          utilisateur = { ...(d.user || {}), uid: fb.uid, email: fb.email };
+          utilisateur.phone = utilisateur.phone || d.telephone || '';
+          delete utilisateur.password;
+          appliquerDonnees(d);
+        } else if (!utilisateur) {
+          await auth.signOut(); reinitialiserEtat();
+        }
+      } else {
+        reinitialiserEtat();
+      }
+    } catch (e) { console.error(e); if (!utilisateur) reinitialiserEtat(); }
+
+    const loader = document.getElementById('appLoading');
+    loader.style.opacity = '0';
+    setTimeout(() => { loader.style.display = 'none'; verifierConnexion(); }, 300);
+  });
+});
 </script>
 </body>
 </html>
