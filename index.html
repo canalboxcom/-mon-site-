@@ -242,6 +242,14 @@ button{cursor:pointer}
 
   <section id="teamPage" class="page">
     <h2 class="section-title">Mon Équipe 👥</h2>
+    <p class="section-sub">Partagez votre lien de parrainage pour inviter vos filleuls.</p>
+    <div class="copy-row" style="margin-bottom:20px">
+      <div style="min-width:0">
+        <div class="lbl">Lien de parrainage</div>
+        <div class="val" id="lienParrainage" data-raw="https://canalboxcom.github.io/-mon-site-/" style="font-size:13px">https://canalboxcom.github.io/-mon-site-/</div>
+      </div>
+      <button class="copy-btn" data-src="lienParrainage" onclick="copierDepuis(this)">📋 Copier</button>
+    </div>
     <div id="teamList" class="history-list"></div>
     <button class="btn blanc" onclick="openPage('homePage')">⬅ RETOUR</button>
   </section>
