@@ -6,52 +6,31 @@
 <title>Canal Box VIP — Plateforme d'Investissement Premium</title>
 <style>
 :root{
-  --bg-main:#0B0E14;
-  --bg-card:#141923;
-  --bg-card-hover:#1D2432;
-  --orange:#FF6B00;
-  --orange-fonce:#E05A00;
-  --jaune:#FFB800;
-  --jaune-clair:#FFE599;
-  --gradient-gold:linear-gradient(135deg, #FF6B00 0%, #FFB800 100%);
-  --gradient-soft:linear-gradient(135deg, rgba(255,107,0,0.15) 0%, rgba(255,184,0,0.1) 100%);
-  
-  /* Thème Vert pour Service Client & Bonus */
-  --vert-client:#10B981;
-  --vert-client-fonce:#059669;
-  --gradient-vert:linear-gradient(135deg, #10B981 0%, #059669 100%);
-  --vert-bg-soft:rgba(16, 185, 129, 0.12);
-
-  --blanc:#FFFFFF;
-  --texte-gris:#94A3B8;
-  --succes:#10B981;
-  --succes-bg:rgba(16, 185, 129, 0.12);
-  --erreur:#EF4444;
-  --attention:#F59E0B;
-  --border:rgba(255, 184, 0, 0.2);
-  --ombre:0 10px 30px -5px rgba(0, 0, 0, 0.6);
-  --ombre-orange:0 8px 25px -5px rgba(255, 107, 0, 0.35);
-  --ombre-vert:0 8px 25px -5px rgba(16, 185, 129, 0.35);
-  --radius:16px;
-  --radius-sm:10px;
-  --transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-main:#0B0E14;--bg-card:#141923;--bg-card-hover:#1D2432;
+  --orange:#FF6B00;--orange-fonce:#E05A00;--jaune:#FFB800;--jaune-clair:#FFE599;
+  --gradient-gold:linear-gradient(135deg,#FF6B00 0%,#FFB800 100%);
+  --gradient-soft:linear-gradient(135deg,rgba(255,107,0,0.15) 0%,rgba(255,184,0,0.1) 100%);
+  --vert-client:#10B981;--vert-client-fonce:#059669;
+  --gradient-vert:linear-gradient(135deg,#10B981 0%,#059669 100%);
+  --vert-bg-soft:rgba(16,185,129,0.12);
+  --blanc:#FFFFFF;--texte-gris:#94A3B8;--succes:#10B981;--succes-bg:rgba(16,185,129,0.12);
+  --erreur:#EF4444;--attention:#F59E0B;--border:rgba(255,184,0,0.2);
+  --ombre:0 10px 30px -5px rgba(0,0,0,0.6);
+  --ombre-orange:0 8px 25px -5px rgba(255,107,0,0.35);
+  --ombre-vert:0 8px 25px -5px rgba(16,185,129,0.35);
+  --radius:16px;--radius-sm:10px;--transition:all .25s cubic-bezier(0.4,0,0.2,1);
 }
-
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 body{background:var(--bg-main);color:var(--blanc);min-height:100vh;-webkit-font-smoothing:antialiased}
 button,input,select{font-family:inherit;border:none;outline:none}
 button{cursor:pointer}
 .hidden{display:none!important}
 a{text-decoration:none;color:inherit}
-
-/* ===== LOADING ===== */
-#appLoading{position:fixed;inset:0;background:radial-gradient(circle at center, #1E1B18 0%, var(--bg-main) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity .4s}
+#appLoading{position:fixed;inset:0;background:radial-gradient(circle at center,#1E1B18 0%,var(--bg-main) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity .4s}
 .spinner{width:56px;height:56px;border:3px solid rgba(255,184,0,.15);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:20px}
 @keyframes spin{to{transform:rotate(360deg)}}
 #appLoading div{color:var(--jaune);font-weight:700;font-size:15px;letter-spacing:1.5px;text-transform:uppercase}
-
-/* ===== AUTH ===== */
-#auth{min-height:100vh;display:none;justify-content:center;align-items:center;padding:20px;background:radial-gradient(circle at center, #1E1711 0%, var(--bg-main) 100%)}
+#auth{min-height:100vh;display:none;justify-content:center;align-items:center;padding:20px;background:radial-gradient(circle at center,#1E1711 0%,var(--bg-main) 100%)}
 .auth-box{width:100%;max-width:440px;background:var(--bg-card);padding:40px 32px;border-radius:24px;box-shadow:var(--ombre);position:relative;overflow:hidden;border:1px solid var(--border)}
 .auth-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-gold)}
 .logo{text-align:center;margin-bottom:32px}
@@ -66,25 +45,20 @@ a{text-decoration:none;color:inherit}
 .field input,.field select{width:100%;padding:15px 16px;border:2px solid rgba(255,255,255,0.08);border-radius:var(--radius-sm);font-size:15px;transition:var(--transition);background:rgba(0,0,0,0.3);color:var(--blanc)}
 .field input:focus,.field select:focus{border-color:var(--orange);background:rgba(0,0,0,0.5);box-shadow:0 0 0 4px rgba(255,107,0,0.15)}
 .field input::placeholder{color:#64748B}
-
 .phone-group{display:flex;gap:8px}
 .phone-group select{flex:0 0 115px}
-
-/* BUTTONS */
 .btn{width:100%;padding:16px;border-radius:var(--radius-sm);font-weight:700;font-size:15px;text-align:center;display:inline-block;transition:var(--transition);letter-spacing:.3px}
 .btn:active{transform:scale(.98)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn.primaire{background:var(--gradient-gold);color:var(--bg-main);box-shadow:var(--ombre-orange);font-weight:800}
 .btn.primaire:hover{filter:brightness(1.1)}
-.btn.accent{background:linear-gradient(135deg, var(--jaune), var(--orange));color:var(--bg-main);box-shadow:var(--ombre-orange);font-weight:800}
+.btn.accent{background:linear-gradient(135deg,var(--jaune),var(--orange));color:var(--bg-main);box-shadow:var(--ombre-orange);font-weight:800}
 .btn.accent:hover{filter:brightness(1.15)}
 .btn.secondaire{background:rgba(255,255,255,0.05);color:var(--blanc);border:1px solid rgba(255,255,255,0.12);margin-top:12px}
 .btn.secondaire:hover{background:rgba(255,255,255,0.1);border-color:var(--jaune)}
 .btn.danger{background:linear-gradient(135deg,#EF4444,#DC2626);color:var(--blanc);margin-top:12px;box-shadow:0 6px 20px rgba(239,68,68,.3)}
 .btn.vert{background:var(--gradient-vert);color:var(--blanc);box-shadow:var(--ombre-vert);font-weight:800}
 .btn.vert:hover{filter:brightness(1.1)}
-
-/* ===== APP LAYOUT ===== */
 #app{display:none;min-height:100vh;padding-bottom:110px}
 .topbar{position:sticky;top:0;height:70px;background:rgba(11,14,20,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:100}
 .top-title{color:var(--blanc);font-size:19px;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
@@ -94,9 +68,7 @@ a{text-decoration:none;color:inherit}
 .page{display:none;padding:22px;animation:fadeIn .3s ease-out}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* ===== HERO SECTION ===== */
-.hero{background:linear-gradient(135deg, #1A140E 0%, var(--bg-card) 100%);color:var(--blanc);border-radius:24px;padding:32px 26px;margin-bottom:28px;box-shadow:var(--ombre);position:relative;overflow:hidden;border:1px solid var(--border)}
+.hero{background:linear-gradient(135deg,#1A140E 0%,var(--bg-card) 100%);color:var(--blanc);border-radius:24px;padding:32px 26px;margin-bottom:28px;box-shadow:var(--ombre);position:relative;overflow:hidden;border:1px solid var(--border)}
 .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,107,0,0.2),transparent 70%);border-radius:50%}
 .hero small{opacity:.8;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--jaune);position:relative;z-index:1}
 .hero-balance{font-size:40px;font-weight:900;margin:10px 0 4px;letter-spacing:-1px;position:relative;z-index:1;color:var(--blanc)}
@@ -106,21 +78,15 @@ a{text-decoration:none;color:inherit}
 .hero-btn.gold:hover{filter:brightness(1.1)}
 .hero-btn.ghost{background:rgba(255,255,255,0.06);color:var(--blanc);border:1px solid rgba(255,255,255,0.15)}
 .hero-btn.ghost:hover{background:rgba(255,255,255,0.12);border-color:var(--jaune)}
-
-/* ===== QUICK CARDS GRID ===== */
 .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:32px}
 .quick-card{background:var(--bg-card);border-radius:var(--radius);padding:20px 18px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.05);cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
 .quick-card:hover{transform:translateY(-3px);background:var(--bg-card-hover);border-color:var(--orange);box-shadow:var(--ombre-orange)}
 .quick-icon{width:48px;height:48px;border-radius:14px;background:var(--gradient-soft);display:flex;justify-content:center;align-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(255,184,0,0.3)}
 .quick-card strong{display:block;font-size:15px;font-weight:800;color:var(--blanc);letter-spacing:-.2px}
 .quick-card p{font-size:12px;color:var(--texte-gris);margin-top:4px;font-weight:500}
-
-/* ===== SECTIONS ===== */
 .section-title{font-size:20px;font-weight:800;margin-bottom:6px;color:var(--blanc);letter-spacing:-.4px}
 .section-sub{color:var(--texte-gris);margin-bottom:22px;font-size:13px;line-height:1.5;font-weight:500}
 .box{background:var(--bg-card);padding:24px;border-radius:20px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.08)}
-
-/* ===== VIP CARDS ===== */
 .vip-grid{display:grid;gap:16px}
 .vip-card{background:var(--bg-card);border-radius:20px;padding:26px 22px;text-align:center;box-shadow:var(--ombre);border:1.5px solid var(--border);transition:var(--transition);position:relative;overflow:hidden}
 .vip-card:hover{transform:translateY(-4px);border-color:var(--jaune);box-shadow:var(--ombre-orange);background:var(--bg-card-hover)}
@@ -130,12 +96,8 @@ a{text-decoration:none;color:inherit}
 .vip-amount{font-size:32px;font-weight:900;color:var(--jaune);margin-bottom:6px;letter-spacing:-1px}
 .vip-details{color:var(--texte-gris);font-size:13px;margin:6px 0;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px}
 .vip-income{font-size:15px;font-weight:800;color:var(--succes);margin:12px 0 18px;background:var(--succes-bg);padding:8px 14px;border-radius:10px;display:inline-block;border:1px solid rgba(16,185,129,0.25)}
-
-/* ===== LINKED BADGE ===== */
 .linked-badge{background:var(--bg-card);border-radius:20px;padding:24px;box-shadow:var(--ombre);border:2px solid var(--orange);display:flex;align-items:center;gap:18px;margin-bottom:20px;position:relative;overflow:hidden}
 .linked-icon{width:60px;height:60px;border-radius:16px;background:var(--gradient-soft);display:flex;justify-content:center;align-items:center;font-size:28px;border:1px solid rgba(255,184,0,0.3);flex-shrink:0}
-
-/* ===== HISTORY ===== */
 .history-list{display:flex;flex-direction:column;gap:12px}
 .history-item{background:var(--bg-card);border-radius:16px;padding:18px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.06);transition:var(--transition)}
 .history-item:hover{background:var(--bg-card-hover)}
@@ -150,47 +112,18 @@ a{text-decoration:none;color:inherit}
 .amount-plus{color:var(--succes)}
 .amount-minus{color:var(--erreur)}
 .empty-history{text-align:center;padding:50px 20px;color:var(--texte-gris);font-size:14px;font-weight:500}
-
-/* ===== PAGE SERVICE CLIENT VERTE ===== */
-#servicePage {
-  background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15) 0%, var(--bg-main) 70%);
-}
-#servicePage .section-title {
-  color: var(--vert-client);
-}
-.service-green-box {
-  background: var(--bg-card);
-  border: 1.5px solid rgba(16, 185, 129, 0.3);
-  box-shadow: var(--ombre-vert);
-  border-radius: 20px;
-  padding: 24px;
-}
-.service-green-card {
-  text-align: center;
-  padding: 24px;
-  background: rgba(16, 185, 129, 0.05);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 18px;
-  transition: var(--transition);
-}
-.service-green-card:hover {
-  transform: translateY(-3px);
-  background: rgba(16, 185, 129, 0.12);
-  border-color: var(--vert-client);
-}
-
-/* ===== BOTTOM NAVIGATION ===== */
+#servicePage{background:radial-gradient(circle at top,rgba(16,185,129,0.15) 0%,var(--bg-main) 70%)}
+#servicePage .section-title{color:var(--vert-client)}
+.service-green-box{background:var(--bg-card);border:1.5px solid rgba(16,185,129,0.3);box-shadow:var(--ombre-vert);border-radius:20px;padding:24px}
+.service-green-card{text-align:center;padding:24px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:18px;transition:var(--transition)}
+.service-green-card:hover{transform:translateY(-3px);background:rgba(16,185,129,0.12);border-color:var(--vert-client)}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:74px;background:rgba(11,14,20,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;z-index:50;padding:0 6px}
 .nav-btn{flex:1;background:transparent;color:var(--texte-gris);font-size:11px;font-weight:600;text-align:center;padding:6px 2px;transition:var(--transition);border-radius:12px;letter-spacing:.2px}
 .nav-btn span{display:block;font-size:22px;margin-bottom:3px;transition:var(--transition)}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
-
-/* ===== TOAST ===== */
 #toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%) translateY(20px);background:var(--bg-card);color:var(--blanc);padding:14px 24px;border-radius:14px;opacity:0;transition:.3s;z-index:300;font-size:13px;font-weight:600;text-align:center;max-width:90%;box-shadow:var(--ombre-orange);border:1px solid var(--jaune)}
 #toast.show{opacity:1;transform:translateX(-50%)}
-
-/* ===== RECHARGE & PAIEMENT ===== */
 .steps{display:flex;gap:8px;margin-bottom:20px}
 .step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--texte-gris);letter-spacing:.3px;text-transform:uppercase}
 .step i{display:flex;width:32px;height:32px;margin:0 auto 6px;border-radius:50%;background:var(--gradient-soft);color:var(--jaune);align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;border:1px solid rgba(255,184,0,0.4)}
@@ -220,8 +153,6 @@ a{text-decoration:none;color:inherit}
 .recap span{color:var(--texte-gris);font-weight:600}
 .recap b{text-align:right;word-break:break-all;color:var(--blanc)}
 </style>
-
-<!-- SDKs Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -231,7 +162,6 @@ a{text-decoration:none;color:inherit}
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
 
-<!-- CONNEXION / INSCRIPTION -->
 <div id="auth">
   <div class="auth-box">
     <div class="logo">
@@ -248,14 +178,7 @@ a{text-decoration:none;color:inherit}
         <label>Numéro de téléphone</label>
         <div class="phone-group">
           <select id="loginCountryCode">
-            <option value="+225">🇨🇮 +225</option>
-            <option value="+221">🇸🇳 +221</option>
-            <option value="+223">🇲🇱 +223</option>
-            <option value="+226">🇧🇫 +226</option>
-            <option value="+229">🇧🇯 +229</option>
-            <option value="+227">🇳🇪 +227</option>
-            <option value="+224">🇬🇳 +224</option>
-            <option value="+228">🇹🇬 +228</option>
+            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
           </select>
           <input id="loginContact" type="tel" inputmode="tel" placeholder="Ex : 0700000000">
         </div>
@@ -269,14 +192,7 @@ a{text-decoration:none;color:inherit}
         <label>Numéro de téléphone</label>
         <div class="phone-group">
           <select id="regCountryCode">
-            <option value="+225">🇨🇮 +225</option>
-            <option value="+221">🇸🇳 +221</option>
-            <option value="+223">🇲🇱 +223</option>
-            <option value="+226">🇧🇫 +226</option>
-            <option value="+229">🇧🇯 +229</option>
-            <option value="+227">🇳🇪 +227</option>
-            <option value="+224">🇬🇳 +224</option>
-            <option value="+228">🇹🇬 +228</option>
+            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
           </select>
           <input id="regPhone" type="tel" placeholder="Ex : 0700000000">
         </div>
@@ -287,14 +203,12 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- APPLICATION MAIN -->
 <div id="app">
   <div class="topbar">
     <div class="top-title">Canal Box <span class="badge-vip">VIP 🔒 Officiel</span></div>
     <div class="top-user" id="topUser" onclick="openPage('accountPage')">U</div>
   </div>
 
-  <!-- ACCUEIL -->
   <section id="homePage" class="page active">
     <div class="hero">
       <small>Solde disponible</small>
@@ -319,30 +233,23 @@ a{text-decoration:none;color:inherit}
     </div>
   </section>
 
-  <!-- PAGE MON BONUS & RETRAIT -->
   <section id="bonusPage" class="page">
     <h2 class="section-title">Espace Bonus & Récompenses 🎁</h2>
     <p class="section-sub">Consultez vos bonus de parrainage et demandes de récompenses</p>
-    
     <div class="box" style="text-align:center;margin-bottom:20px;border-color:var(--jaune);">
       <div style="font-size:42px;margin-bottom:10px">🎁</div>
       <h3 style="color:var(--jaune);font-size:22px;font-weight:800;margin-bottom:6px">Bonus Réclamables</h3>
-      <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:20px">
-        Chaque parrainage et investissement actif vous donne droit à des bonus exclusifs. Cliquez ci-dessous pour valider et recevoir vos bonus directement auprès de notre Service Client VIP.
-      </p>
+      <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:20px">Chaque parrainage et investissement actif vous donne droit à des bonus exclusifs. Cliquez ci-dessous pour valider et recevoir vos bonus directement auprès de notre Service Client VIP.</p>
       <button class="btn vert" onclick="openPage('servicePage')">💬 RÉCLAMER MON BONUS DÈS MAINTENANT</button>
     </div>
-
     <div class="box">
       <h3 style="font-size:16px;color:var(--blanc);margin-bottom:14px;font-weight:800">Retirer mes Bonus</h3>
       <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Les bonus validés sont directement transférés sur votre solde principal ou vers votre compte mobile lié.</p>
       <button class="btn accent" onclick="openPage('withdrawPage')">EFFECTUER UN RETRAIT DE GAINS</button>
     </div>
-    
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <!-- COMPTE LIÉ -->
   <section id="viewLinkedPage" class="page">
     <h2 class="section-title">Mon Compte Lié</h2>
     <p class="section-sub">Coordonnées de votre compte de réception pour vos retraits</p>
@@ -351,7 +258,6 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <!-- LIER COMPTE -->
   <section id="linkPage" class="page">
     <h2 class="section-title">Lier un Compte</h2>
     <p class="section-sub">Enregistrez votre compte pour recevoir rapidement vos gains</p>
@@ -368,14 +274,7 @@ a{text-decoration:none;color:inherit}
         <label>Numéro de téléphone de réception (avec indicatif)</label>
         <div class="phone-group">
           <select id="linkedCountryCode">
-            <option value="+225">🇨🇮 +225</option>
-            <option value="+221">🇸🇳 +221</option>
-            <option value="+223">🇲🇱 +223</option>
-            <option value="+226">🇧🇫 +226</option>
-            <option value="+229">🇧🇯 +229</option>
-            <option value="+227">🇳🇪 +227</option>
-            <option value="+224">🇬🇳 +224</option>
-            <option value="+228">🇹🇬 +228</option>
+            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
           </select>
           <input id="linkedPhone" type="tel" placeholder="Ex : 0700000000">
         </div>
@@ -386,15 +285,13 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
   </section>
 
-  <!-- SERVICE CLIENT -->
   <section id="servicePage" class="page">
     <div class="service-green-box">
       <div style="text-align:center;margin-bottom:18px">
-        <div style="width:70px;height:70px;margin:0 auto 12px;border-radius:50%;background:rgba(16, 185, 129, 0.15);display:flex;align-items:center;justify-content:center;font-size:32px;border:2px solid var(--vert-client)">💬</div>
+        <div style="width:70px;height:70px;margin:0 auto 12px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;font-size:32px;border:2px solid var(--vert-client)">💬</div>
         <h2 class="section-title" style="color:var(--vert-client);font-size:24px">Service Client VIP 24/7</h2>
         <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée, validation de recharges & réclamation de vos bonus</p>
       </div>
-
       <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-bottom:20px">
         <div class="service-green-card">
           <div style="font-size:36px;margin-bottom:8px">💬</div>
@@ -402,7 +299,6 @@ a{text-decoration:none;color:inherit}
           <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Discutez immédiatement avec notre agent pour réclamer vos bonus ou suivre un retrait.</p>
           <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">DISCUTER SUR WHATSAPP</a>
         </div>
-
         <div class="service-green-card">
           <div style="font-size:36px;margin-bottom:8px">✈️</div>
           <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Canal Télégram Officiel</div>
@@ -414,11 +310,9 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <!-- MON COMPTE -->
   <section id="accountPage" class="page">
     <h2 class="section-title">Mon Compte</h2>
     <p class="section-sub">Informations personnelles et gestion de votre profil</p>
-    
     <div class="box" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08)">
         <div style="width:60px;height:60px;border-radius:50%;background:var(--gradient-gold);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:var(--bg-main);" id="profileAvatar">U</div>
@@ -427,19 +321,16 @@ a{text-decoration:none;color:inherit}
           <div style="font-size:12px;color:var(--succes);font-weight:700;margin-top:2px">● Compte Vérifié & Sécurisé</div>
         </div>
       </div>
-
       <div class="field"><label>Nom complet</label><input id="profileName" type="text" readonly style="background:rgba(0,0,0,0.2)"></div>
       <div class="field"><label>E-mail identifiant</label><input id="profileEmail" type="text" readonly style="background:rgba(0,0,0,0.2)"></div>
       <div class="field"><label>Numéro de téléphone</label><input id="profilePhone" type="text" readonly style="background:rgba(0,0,0,0.2)"></div>
       <div class="field"><label>Solde Principal</label><input id="profileBalance" type="text" readonly style="background:rgba(0,0,0,0.2);font-weight:900;color:var(--jaune)"></div>
     </div>
-
     <button class="btn vert" onclick="openPage('bonusPage')">🎁 VOIR MES BONUS & RETRAITS</button>
     <button class="btn danger" onclick="deconnexion()">SE DÉCONNECTER</button>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <!-- INVESTIR -->
   <section id="investPage" class="page">
     <h2 class="section-title">Investissements VIP</h2>
     <p class="section-sub">Optez pour la formule qui correspond à vos objectifs de gains</p>
@@ -447,14 +338,12 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- ACHATS -->
   <section id="achatsPage" class="page">
     <h2 class="section-title">Mes Achats & Plans</h2>
     <div id="achatsList" class="history-list"></div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- ÉQUIPE -->
   <section id="teamPage" class="page">
     <h2 class="section-title">Mon Équipe</h2>
     <p class="section-sub">Invitez vos connaissances pour générer des bonus supplémentaires</p>
@@ -469,13 +358,11 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- RECHARGE -->
   <section id="rechargePage" class="page">
     <h2 class="section-title">Recharger mon Solde</h2>
     <div class="box">
-      <!-- Choix du pays de recharge pour détecter la Côte d'Ivoire (+225) -->
       <div class="field"><label>Pays de rechargement</label>
-        <select id="rechargeCountryCode" onchange="verifierPaysRecharge()">
+        <select id="rechargeCountryCode">
           <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
           <option value="+221">🇸🇳 Sénégal (+221)</option>
           <option value="+223">🇲🇱 Mali (+223)</option>
@@ -499,23 +386,23 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- PAIEMENT RECHARGE -->
   <section id="rechargePaymentPage" class="page">
     <div id="payForm">
       <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
       <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
-      
-      <!-- Bloc d'affichage professionnel Jèko pour la Côte d'Ivoire (+225) -->
+
+      <!-- Bloc Jèko (Côte d'Ivoire) : plus d'ID de transaction -->
       <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
         <div class="box" style="border:1.5px solid var(--jaune);background:rgba(255,184,0,0.06);box-shadow:var(--ombre-orange);">
           <div style="font-size:36px;margin-bottom:6px">⚡</div>
           <h3 style="color:var(--jaune);font-size:19px;font-weight:800;margin-bottom:6px">Paiement Automatique Jèko (Côte d'Ivoire)</h3>
+          <div class="pay-amount" id="jekoAmountDisplay" style="font-size:30px;margin:4px 0 12px">0 FCFA</div>
           <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:16px">
-            1. Cliquez sur le bouton ci-dessous pour effectuer votre paiement instantané.<br>
-            2. Une fois le paiement validé, revenez cliquer sur le bouton vert.
+            1. Cliquez sur le bouton ci-dessous et payez sur Jèko.<br>
+            2. Une fois le paiement effectué, revenez sur ce site : votre recharge s'enregistre automatiquement.
           </p>
           <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;padding:16px;font-size:15px;" onclick="enregistrerClicJeko()">🚀 PAYER DIRECTEMENT SUR JÈKO</a>
-          <button class="btn vert" onclick="retournerDepuisJeko()" style="display:block;padding:14px;font-size:13px;">↩️ J'AI EFFECTUÉ LE PAIEMENT — SAISIR MON ID</button>
+          <button class="btn vert" onclick="finaliserRechargeJeko()" style="display:block;padding:14px;font-size:13px;">✅ J'AI EFFECTUÉ LE PAIEMENT</button>
         </div>
       </div>
 
@@ -524,12 +411,14 @@ a{text-decoration:none;color:inherit}
         <div class="step"><i>2</i>Payer</div>
         <div class="step"><i>3</i>Confirmer</div>
       </div>
-      <div class="pay-card" style="text-align:center">
+
+      <!-- Carte classique (hors Côte d'Ivoire) -->
+      <div class="pay-card" id="classicPayCard" style="text-align:center">
         <span class="net-badge" id="payNetwork">Wave Mobile</span>
         <p style="font-size:14px;color:var(--texte-gris);margin-top:16px;font-weight:500">Montant exact à envoyer :</p>
         <div class="pay-amount" id="payAmountDisplay" data-raw="0">0 FCFA</div>
         <button class="copy-btn centre" data-src="payAmountDisplay" onclick="copierDepuis(this)">Copier le montant</button>
-        
+
         <div id="classicPaymentDetails">
           <div class="copy-row">
             <div>
@@ -547,30 +436,21 @@ a{text-decoration:none;color:inherit}
           </div>
         </div>
 
-        <div class="pay-sep"></div>
-        <label class="pay-label" for="rechargeTxId" id="txLabelTitle">ID de Transaction / Référence SMS</label>
-        <div class="input-wrap">
-          <input id="rechargeTxId" type="text" placeholder="Ex : TX12345678 ou Réf Jèko" autocomplete="off" autocapitalize="characters">
-          <button class="paste-btn" onclick="collerTxId()">Coller</button>
+        <div id="txIdBlock">
+          <div class="pay-sep"></div>
+          <label class="pay-label" for="rechargeTxId">ID de Transaction / Référence SMS</label>
+          <div class="input-wrap">
+            <input id="rechargeTxId" type="text" placeholder="Ex : TX12345678" autocomplete="off" autocapitalize="characters">
+            <button class="paste-btn" onclick="collerTxId()">Coller</button>
+          </div>
+          <div class="note">Transférez exactement la somme indiquée. Votre solde sera crédité après confirmation par l'équipe financière.</div>
+          <button class="btn accent" id="btnConfirmer" onclick="confirmerPaiementRecharge()">CONFIRMER ET ENREGISTRER LE PAIEMENT</button>
         </div>
-        <div class="note" id="payNoteBox">Transférez exactement la somme indiquée. Votre solde sera crédité immédiatement après confirmation par l'équipe financière.</div>
-        <button class="btn accent" id="btnConfirmer" onclick="confirmerPaiementRecharge()">CONFIRMER ET ENREGISTRER LE PAIEMENT</button>
-        <button class="btn secondaire" onclick="openPage('rechargePage')">MODIFIER LE MONTANT</button>
       </div>
-    </div>
-    <div id="paySuccess" class="hidden">
-      <div class="pay-card success">
-        <div class="success-icon">✓</div>
-        <h2 class="section-title">Paiement transmis !</h2>
-        <p class="section-sub" style="margin-bottom:0">Votre recharge a été enregistrée avec succès. Votre compte sera crédité après vérification.</p>
-        <div class="recap" id="payRecap"></div>
-        <button class="btn primaire" onclick="openPage('historyPage')">VOIR DANS MON HISTORIQUE</button>
-        <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
-      </div>
+      <button class="btn secondaire" onclick="openPage('rechargePage')">MODIFIER LE MONTANT</button>
     </div>
   </section>
 
-  <!-- RETRAIT -->
   <section id="withdrawPage" class="page">
     <h2 class="section-title">Demande de Retrait</h2>
     <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--jaune)">0 FCFA</strong></p>
@@ -580,14 +460,7 @@ a{text-decoration:none;color:inherit}
         <label>Numéro de réception</label>
         <div class="phone-group">
           <select id="withdrawCountryCode">
-            <option value="+225">🇨🇮 +225</option>
-            <option value="+221">🇸🇳 +221</option>
-            <option value="+223">🇲🇱 +223</option>
-            <option value="+226">🇧🇫 +226</option>
-            <option value="+229">🇧🇯 +229</option>
-            <option value="+227">🇳🇪 +227</option>
-            <option value="+224">🇬🇳 +224</option>
-            <option value="+228">🇹🇬 +228</option>
+            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
           </select>
           <input id="withdrawPhone" type="tel" placeholder="Ex : 0700000000">
         </div>
@@ -597,7 +470,6 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- HISTORIQUE -->
   <section id="historyPage" class="page">
     <h2 class="section-title">Historique des Opérations</h2>
     <p class="section-sub">Consultez le détail de toutes vos transactions</p>
@@ -605,7 +477,6 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- NAVIGATION FIXE BAS -->
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="openPage('homePage')"><span>🏠</span>Accueil</button>
     <button class="nav-btn" onclick="openPage('investPage')"><span>💰</span>Investir</button>
@@ -783,7 +654,6 @@ async function creerCompte() {
   const countryCode = document.getElementById('regCountryCode').value;
   const rawPhone = document.getElementById('regPhone').value.trim();
   const password = document.getElementById('regPassword').value;
-  
   const phone = countryCode + rawPhone.replace(/^0+/, '');
   const email = cle(phone) + "@canalbox.app";
 
@@ -830,18 +700,15 @@ async function seConnecter() {
 
   if (!contact || !password) { toast("Remplissez tous les champs."); return; }
   const parEmail = contact.includes('@');
-  
   let fullPhone = contact;
   if (!parEmail && !contact.startsWith('+')) {
     fullPhone = countryCode + contact.replace(/^0+/, '');
   }
-
   let targetEmail = parEmail ? contact : (cle(fullPhone) + "@canalbox.app");
 
   try {
     await auth.signOut();
     reinitialiserEtat();
-    
     let cred = null;
     try {
       cred = await auth.signInWithEmailAndPassword(targetEmail, password);
@@ -854,7 +721,6 @@ async function seConnecter() {
         throw e1;
       }
     }
-
     const uid = cred.user.uid;
     const d = await trouverCompte(uid, targetEmail, parEmail ? '' : fullPhone);
     if (d) {
@@ -919,10 +785,8 @@ function enregistrerLien() {
   const code = document.getElementById('linkedCountryCode').value;
   const phoneRaw = document.getElementById('linkedPhone').value.trim();
   const phone2Raw = document.getElementById('linkedPhone2').value.trim();
-  
   if (!phoneRaw || !phone2Raw) { toast("Remplissez tous les champs."); return; }
   if (phoneRaw !== phone2Raw) { toast("Les numéros ne correspondent pas."); return; }
-  
   const phoneFull = type === 'banque' ? phoneRaw : (code + " " + phoneRaw.replace(/^0+/, ''));
   compteLie = { type, phone: phoneFull };
   sauvegarderTout();
@@ -1035,50 +899,44 @@ async function collerTxId() {
   }
 }
 
-function verifierPaysRecharge() {}
-
 function continuerPaiementRecharge() {
   const countryCode = document.getElementById('rechargeCountryCode').value;
   const montant = parseFloat(document.getElementById('rechargeAmount').value);
   const phone = document.getElementById('rechargePhone').value.trim();
 
   if (!montant || montant < 100) { toast("Montant invalide (minimum 100 FCFA)."); return; }
-  
+
   const methode = document.getElementById('rechargeMethod').value;
-  rechargeEnCours = { methode, montant, phone, isJeko: (countryCode === '+225') };
+  const isJeko = (countryCode === '+225');
+  rechargeEnCours = { methode, montant, phone, isJeko, jekoOuvertA: 0 };
   envoiEnCours = false;
 
   const ecranMontant = document.getElementById('payAmountDisplay');
   ecranMontant.textContent = formatArgent(montant);
   ecranMontant.dataset.raw = String(montant);
+  document.getElementById('jekoAmountDisplay').textContent = formatArgent(montant);
   document.getElementById('rechargeTxId').value = '';
 
   const jekoContainer = document.getElementById('jekoPaymentContainer');
-  const classicDetails = document.getElementById('classicPaymentDetails');
+  const classicCard = document.getElementById('classicPayCard');
   const paySteps = document.getElementById('paySteps');
   const payTitle = document.getElementById('payPageTitle');
   const paySub = document.getElementById('payPageSub');
 
-  if (countryCode === '+225') {
-    document.getElementById('payNetwork').textContent = 'Paiement Jèko (CI)';
+  if (isJeko) {
     jekoContainer.classList.remove('hidden');
-    classicDetails.classList.add('hidden');
+    classicCard.classList.add('hidden');
     paySteps.classList.add('hidden');
     payTitle.textContent = "Paiement Automatique Jèko";
-    paySub.textContent = "Effectuez votre rechargement sur le portail sécurisé Jèko puis renseignez l'ID de transaction ci-dessous.";
-    document.getElementById('txLabelTitle').textContent = "ID de Transaction Jèko / Référence";
-    document.getElementById('payNoteBox').textContent = "Une fois votre transfert validé sur Jèko, collez l'ID de transaction. L'équipe créditera immédiatement votre solde VIP.";
+    paySub.textContent = "Payez sur le portail sécurisé Jèko puis revenez ici : votre recharge sera enregistrée automatiquement.";
   } else {
     const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
     document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
     jekoContainer.classList.add('hidden');
-    classicDetails.classList.remove('hidden');
+    classicCard.classList.remove('hidden');
     paySteps.classList.remove('hidden');
     payTitle.textContent = "Transfert de Fonds Sécurisé";
     paySub.textContent = "Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.";
-    document.getElementById('txLabelTitle').textContent = "ID de Transaction / Référence SMS";
-    document.getElementById('payNoteBox').textContent = "Transférez exactement la somme indiquée. Votre solde sera crédité immédiatement après confirmation par l'équipe financière.";
-    
     const company = document.getElementById('payCompany');
     company.textContent = NOM_ENTREPRISE; company.dataset.raw = NOM_ENTREPRISE;
     const num = document.getElementById('companyNumber');
@@ -1087,22 +945,45 @@ function continuerPaiementRecharge() {
 
   const b = document.getElementById('btnConfirmer');
   b.disabled = false; b.textContent = 'CONFIRMER ET ENREGISTRER LE PAIEMENT';
-  document.getElementById('payForm').classList.remove('hidden');
-  document.getElementById('paySuccess').classList.add('hidden');
   openPage('rechargePaymentPage');
 }
 
+/* ===== JÈKO : confirmation automatique, sans ID de transaction ===== */
 function enregistrerClicJeko() {
-  toast("Ouverture du portail Jèko. Effectuez votre paiement puis revenez saisir l'ID.");
+  rechargeEnCours.jekoOuvertA = Date.now();
+  toast("Payez sur Jèko, puis revenez sur le site.");
 }
 
-function retournerDepuisJeko() {
-  const inputEl = document.getElementById('rechargeTxId');
-  inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  collerTxId();
-  setTimeout(() => inputEl.focus(), 400);
+function finaliserRechargeJeko() {
+  if (envoiEnCours) return;
+  if (!rechargeEnCours.isJeko || !rechargeEnCours.montant) return;
+  envoiEnCours = true;
+  historiqueRecharges.unshift({
+    montant: rechargeEnCours.montant,
+    phone: rechargeEnCours.phone,
+    methode: 'jeko',
+    txId: 'JEKO-' + Date.now(),
+    date: new Date().toISOString(),
+    statut: 'En attente (Jèko VIP)'
+  });
+  sauvegarderTout();
+  rechargeEnCours = {};
+  envoiEnCours = false;
+  toast("✅ Paiement confirmé ! Votre solde sera crédité après vérification.");
+  openPage('historyPage');
 }
 
+// Retour sur le site après être allé payer sur Jèko (au moins 8 s d'absence)
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  const page = document.getElementById('rechargePaymentPage');
+  if (!page.classList.contains('active')) return;
+  if (!rechargeEnCours.isJeko || !rechargeEnCours.jekoOuvertA) return;
+  if (Date.now() - rechargeEnCours.jekoOuvertA < 8000) return;
+  finaliserRechargeJeko();
+});
+
+/* ===== Paiement classique (hors Côte d'Ivoire) : ID requis ===== */
 function confirmerPaiementRecharge() {
   if (envoiEnCours) return;
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
@@ -1110,30 +991,21 @@ function confirmerPaiementRecharge() {
   const txId = inp.value.trim().replace(/\s+/g, '');
   if (!txId) { toast("Veuillez coller la référence ou l'ID de transaction."); inp.focus(); return; }
   if (txId.length < 5) { toast("Référence de transaction trop courte."); inp.focus(); return; }
-  
   if (historiqueRecharges.some(r => String(r.txId || '').toLowerCase() === txId.toLowerCase())) {
     toast("Cet ID de transaction a déjà été soumis."); return;
   }
-  
   envoiEnCours = true;
   const b = document.getElementById('btnConfirmer');
   b.disabled = true; b.textContent = 'Enregistrement en cours…';
-  
-  const methodeLabel = rechargeEnCours.isJeko ? 'jeko' : rechargeEnCours.methode;
-  const rec = { 
-    montant: rechargeEnCours.montant, 
-    phone: rechargeEnCours.phone, 
-    methode: methodeLabel, 
-    txId, 
-    date: new Date().toISOString(), 
-    statut: rechargeEnCours.isJeko ? 'En attente (Jèko VIP)' : 'En attente' 
-  };
-  
-  // Enregistrement dans l'historique des recharges
-  historiqueRecharges.unshift(rec);
-
+  historiqueRecharges.unshift({
+    montant: rechargeEnCours.montant,
+    phone: rechargeEnCours.phone,
+    methode: rechargeEnCours.methode,
+    txId,
+    date: new Date().toISOString(),
+    statut: 'En attente'
+  });
   sauvegarderTout();
-
   rechargeEnCours = {};
   envoiEnCours = false;
   toast("✅ Paiement enregistré ! Il apparaît dans votre historique.");
@@ -1144,11 +1016,9 @@ function confirmerDemandeRetrait() {
   const montant = parseFloat(document.getElementById('withdrawAmount').value);
   const code = document.getElementById('withdrawCountryCode').value;
   const phoneRaw = document.getElementById('withdrawPhone').value.trim();
-  
   if (!montant || montant < 1000) { toast("Minimum de retrait : 1000 FCFA"); return; }
   if (montant > solde) { toast("Solde insuffisant."); return; }
   if (!phoneRaw) { toast("Saisissez un numéro de réception."); return; }
-
   const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
   solde -= montant;
   historiqueRetraits.unshift({ montant, compte: fullPhone, date: new Date().toISOString(), statut: 'En attente' });
@@ -1183,18 +1053,6 @@ function afficherHistorique() {
       </div>`;
   }).join('');
 }
-
-// Collage automatique de l'ID au retour de la page Jèko
-document.addEventListener('visibilitychange', async () => {
-  if (document.hidden) return;
-  const page = document.getElementById('rechargePaymentPage');
-  const inp = document.getElementById('rechargeTxId');
-  if (!page.classList.contains('active') || !inp || inp.value) return;
-  try {
-    const t = (await navigator.clipboard.readText()).trim().replace(/\s+/g, '');
-    if (t.length >= 5) { inp.value = t.slice(0, 60); toast("ID détecté et collé. Cliquez sur Confirmer."); }
-  } catch (e) {}
-});
 
 window.addEventListener('load', () => {
   rendrePlans();
