@@ -1097,12 +1097,10 @@ function enregistrerClicJeko() {
 }
 
 function retournerDepuisJeko() {
-  toast("Renseignez ou collez votre ID de transaction ci-dessous.");
   const inputEl = document.getElementById('rechargeTxId');
-  if (inputEl) {
-    inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => inputEl.focus(), 400);
-  }
+  inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  collerTxId();
+  setTimeout(() => inputEl.focus(), 400);
 }
 
 function confirmerPaiementRecharge() {
@@ -1135,18 +1133,11 @@ function confirmerPaiementRecharge() {
   historiqueRecharges.unshift(rec);
 
   sauvegarderTout();
-  
-  document.getElementById('payRecap').innerHTML = `
-    <div><span>Montant</span><b>${esc(formatArgent(rec.montant))}</b></div>
-    <div><span>Réseau / Canal</span><b>${esc(NOMS_RESEAUX[methodeLabel] || methodeLabel.toUpperCase())}</b></div>
-    <div><span>Référence TX</span><b>${esc(txId)}</b></div>
-    <div><span>Statut</span><b style="color:var(--attention)">${esc(rec.statut)}</b></div>`;
-    
-  document.getElementById('payForm').classList.add('hidden');
-  document.getElementById('paySuccess').classList.remove('hidden');
-  window.scrollTo(0, 0);
+
   rechargeEnCours = {};
   envoiEnCours = false;
+  toast("✅ Paiement enregistré ! Il apparaît dans votre historique.");
+  openPage('historyPage');
 }
 
 function confirmerDemandeRetrait() {
@@ -1192,6 +1183,18 @@ function afficherHistorique() {
       </div>`;
   }).join('');
 }
+
+// Collage automatique de l'ID au retour de la page Jèko
+document.addEventListener('visibilitychange', async () => {
+  if (document.hidden) return;
+  const page = document.getElementById('rechargePaymentPage');
+  const inp = document.getElementById('rechargeTxId');
+  if (!page.classList.contains('active') || !inp || inp.value) return;
+  try {
+    const t = (await navigator.clipboard.readText()).trim().replace(/\s+/g, '');
+    if (t.length >= 5) { inp.value = t.slice(0, 60); toast("ID détecté et collé. Cliquez sur Confirmer."); }
+  } catch (e) {}
+});
 
 window.addEventListener('load', () => {
   rendrePlans();
