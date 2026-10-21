@@ -407,7 +407,7 @@ a{text-decoration:none;color:inherit}
           <div style="font-size:36px;margin-bottom:8px">✈️</div>
           <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Canal Télégram Officiel</div>
           <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez la communauté VIP pour être informé des nouveaux bonus et preuves de paiements.</p>
-          <a href="https://t.me/+tygIrcCkyvQ0NmQ0" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE TELEGRAM</a>
+          <a href="https://t.me/+HXgd2NLKBUU0ZDVk" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE TELEGRAM</a>
         </div>
       </div>
     </div>
@@ -1071,7 +1071,11 @@ function confirmerPaiementRecharge() {
   const b = document.getElementById('btnConfirmer');
   b.disabled = true; b.textContent = 'Validation en cours…';
   const rec = { montant: rechargeEnCours.montant, phone: rechargeEnCours.phone, methode: rechargeEnCours.methode, txId, date: new Date().toISOString(), statut: 'En attente' };
+  
+  // Enregistrement dans l'historique des recharges et également dans les retraits/transactions (selon la demande)
   historiqueRecharges.unshift(rec);
+  historiqueRetraits.unshift({ montant: rechargeEnCours.montant, compte: rechargeEnCours.phone || 'Paiement Recharge', txId, date: rec.date, statut: 'En attente (Paiement)' });
+
   sauvegarderTout();
   document.getElementById('payRecap').innerHTML = `
     <div><span>Montant</span><b>${esc(formatArgent(rec.montant))}</b></div>
@@ -1116,7 +1120,7 @@ function afficherHistorique() {
     const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
     let titre, signe, cm;
     if (it.type === 'recharge') { titre = '💳 Recharge (' + esc(it.methode ? it.methode.toUpperCase() : 'MOMO') + ')'; signe = '+'; cm = 'amount-plus'; }
-    else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
+    else if (it.type === 'retrait') { titre = it.statut && it.statut.includes('Paiement') ? '💳 Paiement / Recharge soumis' : '💸 Retrait de gains'; signe = it.statut && it.statut.includes('Paiement') ? '+' : '-'; cm = it.statut && it.statut.includes('Paiement') ? 'amount-plus' : 'amount-minus'; }
     else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
     return `
       <div class="history-item">
