@@ -485,7 +485,7 @@ a{text-decoration:none;color:inherit}
           <option value="+224">🇬🇳 Guinée (+224)</option>
           <option value="+228">🇹🇬 Togo (+228)</option>
         </select></div>
-      <div class="field"><label>Réseau de paiement</label>
+      <div class="field"><label>Moyen de recharge / Réseau</label>
         <select id="rechargeMethod">
           <option value="wave">Wave Mobile</option>
           <option value="orange">Orange Money</option>
@@ -505,14 +505,17 @@ a{text-decoration:none;color:inherit}
       <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
       <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
       
-      <!-- Bloc d'affichage spécial Jèko pour la Côte d'Ivoire (+225) avec bouton de retour -->
+      <!-- Bloc d'affichage professionnel Jèko pour la Côte d'Ivoire (+225) -->
       <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
-        <div class="box" style="border-color:var(--jaune);background:rgba(255,184,0,0.05);">
-          <div style="font-size:32px;margin-bottom:8px">💳</div>
-          <h3 style="color:var(--jaune);font-size:18px;font-weight:800;margin-bottom:6px">Paiement Sécurisé Jèko</h3>
-          <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Étape 1 : Cliquez pour effectuer votre paiement sur Jèko.</p>
-          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;">ALLER SUR LE LIEN DE PAIEMENT JÈKO</a>
-          <button class="btn vert" onclick="retournerDepuisJeko()" style="display:block;">✓ J'AI PAYÉ SUR JÈKO, REVENIR ICI</button>
+        <div class="box" style="border:1.5px solid var(--jaune);background:rgba(255,184,0,0.06);box-shadow:var(--ombre-orange);">
+          <div style="font-size:36px;margin-bottom:6px">⚡</div>
+          <h3 style="color:var(--jaune);font-size:19px;font-weight:800;margin-bottom:6px">Paiement Automatique Jèko (Côte d'Ivoire)</h3>
+          <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:16px">
+            1. Cliquez sur le bouton ci-dessous pour effectuer votre paiement instantané.<br>
+            2. Une fois le paiement validé, revenez cliquer sur le bouton vert.
+          </p>
+          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;padding:16px;font-size:15px;" onclick="enregistrerClicJeko()">🚀 PAYER DIRECTEMENT SUR JÈKO</a>
+          <button class="btn vert" onclick="retournerDepuisJeko()" style="display:block;padding:14px;font-size:13px;">↩️ J'AI EFFECTUÉ LE PAIEMENT — SAISIR MON ID</button>
         </div>
       </div>
 
@@ -545,13 +548,13 @@ a{text-decoration:none;color:inherit}
         </div>
 
         <div class="pay-sep"></div>
-        <label class="pay-label" for="rechargeTxId">ID de Transaction / Référence SMS</label>
+        <label class="pay-label" for="rechargeTxId" id="txLabelTitle">ID de Transaction / Référence SMS</label>
         <div class="input-wrap">
-          <input id="rechargeTxId" type="text" placeholder="Ex : TX12345678" autocomplete="off" autocapitalize="characters">
+          <input id="rechargeTxId" type="text" placeholder="Ex : TX12345678 ou Réf Jèko" autocomplete="off" autocapitalize="characters">
           <button class="paste-btn" onclick="collerTxId()">Coller</button>
         </div>
-        <div class="note">Transférez exactement la somme indiquée. Votre solde sera crédité immédiatement après confirmation par l'équipe financière.</div>
-        <button class="btn accent" id="btnConfirmer" onclick="confirmerPaiementRecharge()">CONFIRMER LE PAIEMENT</button>
+        <div class="note" id="payNoteBox">Transférez exactement la somme indiquée. Votre solde sera crédité immédiatement après confirmation par l'équipe financière.</div>
+        <button class="btn accent" id="btnConfirmer" onclick="confirmerPaiementRecharge()">CONFIRMER ET ENREGISTRER LE PAIEMENT</button>
         <button class="btn secondaire" onclick="openPage('rechargePage')">MODIFIER LE MONTANT</button>
       </div>
     </div>
@@ -559,9 +562,9 @@ a{text-decoration:none;color:inherit}
       <div class="pay-card success">
         <div class="success-icon">✓</div>
         <h2 class="section-title">Paiement transmis !</h2>
-        <p class="section-sub" style="margin-bottom:0">Votre demande est enregistrée. L'équipe vérifie votre référence pour créditer votre compte.</p>
+        <p class="section-sub" style="margin-bottom:0">Votre recharge a été enregistrée avec succès. Votre compte sera crédité après vérification.</p>
         <div class="recap" id="payRecap"></div>
-        <button class="btn primaire" onclick="openPage('historyPage')">VOIR MON HISTORIQUE</button>
+        <button class="btn primaire" onclick="openPage('historyPage')">VOIR DANS MON HISTORIQUE</button>
         <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
       </div>
     </div>
@@ -643,7 +646,7 @@ const PLANS = [
 
 const NOM_ENTREPRISE = "Canal Box VIP";
 const COORDONNEES_ENTREPRISE = { wave: "00000000", orange: "00000000", mtn: "00000000", moov: "00000000" };
-const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', jeko: 'Paiement Jèko' };
+const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', jeko: 'Paiement Jèko (CI)' };
 const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', banque: '🏦' };
 
 let utilisateur = null, solde = 0;
@@ -1057,12 +1060,14 @@ function continuerPaiementRecharge() {
   const paySub = document.getElementById('payPageSub');
 
   if (countryCode === '+225') {
-    document.getElementById('payNetwork').textContent = 'Paiement Jèko';
+    document.getElementById('payNetwork').textContent = 'Paiement Jèko (CI)';
     jekoContainer.classList.remove('hidden');
     classicDetails.classList.add('hidden');
     paySteps.classList.add('hidden');
-    payTitle.textContent = "Paiement Jèko Sécurisé";
-    paySub.textContent = "Effectuez votre paiement sur Jèko, puis revenez ici pour saisir votre ID de transaction.";
+    payTitle.textContent = "Paiement Automatique Jèko";
+    paySub.textContent = "Effectuez votre rechargement sur le portail sécurisé Jèko puis renseignez l'ID de transaction ci-dessous.";
+    document.getElementById('txLabelTitle').textContent = "ID de Transaction Jèko / Référence";
+    document.getElementById('payNoteBox').textContent = "Une fois votre transfert validé sur Jèko, collez l'ID de transaction. L'équipe créditera immédiatement votre solde VIP.";
   } else {
     const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
     document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
@@ -1071,6 +1076,9 @@ function continuerPaiementRecharge() {
     paySteps.classList.remove('hidden');
     payTitle.textContent = "Transfert de Fonds Sécurisé";
     paySub.textContent = "Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.";
+    document.getElementById('txLabelTitle').textContent = "ID de Transaction / Référence SMS";
+    document.getElementById('payNoteBox').textContent = "Transférez exactement la somme indiquée. Votre solde sera crédité immédiatement après confirmation par l'équipe financière.";
+    
     const company = document.getElementById('payCompany');
     company.textContent = NOM_ENTREPRISE; company.dataset.raw = NOM_ENTREPRISE;
     const num = document.getElementById('companyNumber');
@@ -1078,17 +1086,23 @@ function continuerPaiementRecharge() {
   }
 
   const b = document.getElementById('btnConfirmer');
-  b.disabled = false; b.textContent = 'CONFIRMER LE PAIEMENT';
+  b.disabled = false; b.textContent = 'CONFIRMER ET ENREGISTRER LE PAIEMENT';
   document.getElementById('payForm').classList.remove('hidden');
   document.getElementById('paySuccess').classList.add('hidden');
   openPage('rechargePaymentPage');
 }
 
-// Fonction déclenchée lorsque l'utilisateur clique pour revenir de Jèko
+function enregistrerClicJeko() {
+  toast("Ouverture du portail Jèko. Effectuez votre paiement puis revenez saisir l'ID.");
+}
+
 function retournerDepuisJeko() {
-  toast("De retour sur la plateforme. Collez votre ID de transaction ci-dessous.");
-  window.scrollTo({ top: document.getElementById('rechargeTxId').offsetTop - 100, behavior: 'smooth' });
-  document.getElementById('rechargeTxId').focus();
+  toast("Renseignez ou collez votre ID de transaction ci-dessous.");
+  const inputEl = document.getElementById('rechargeTxId');
+  if (inputEl) {
+    inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => inputEl.focus(), 400);
+  }
 }
 
 function confirmerPaiementRecharge() {
@@ -1096,27 +1110,38 @@ function confirmerPaiementRecharge() {
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
   const inp = document.getElementById('rechargeTxId');
   const txId = inp.value.trim().replace(/\s+/g, '');
-  if (!txId) { toast("Collez la référence ou l'ID de transaction."); inp.focus(); return; }
-  if (txId.length < 5) { toast("Référence trop courte."); inp.focus(); return; }
+  if (!txId) { toast("Veuillez coller la référence ou l'ID de transaction."); inp.focus(); return; }
+  if (txId.length < 5) { toast("Référence de transaction trop courte."); inp.focus(); return; }
+  
   if (historiqueRecharges.some(r => String(r.txId || '').toLowerCase() === txId.toLowerCase())) {
-    toast("Cet ID de transaction a déjà été utilisé."); return;
+    toast("Cet ID de transaction a déjà été soumis."); return;
   }
+  
   envoiEnCours = true;
   const b = document.getElementById('btnConfirmer');
-  b.disabled = true; b.textContent = 'Validation en cours…';
+  b.disabled = true; b.textContent = 'Enregistrement en cours…';
   
   const methodeLabel = rechargeEnCours.isJeko ? 'jeko' : rechargeEnCours.methode;
-  const rec = { montant: rechargeEnCours.montant, phone: rechargeEnCours.phone, methode: methodeLabel, txId, date: new Date().toISOString(), statut: 'En attente' };
+  const rec = { 
+    montant: rechargeEnCours.montant, 
+    phone: rechargeEnCours.phone, 
+    methode: methodeLabel, 
+    txId, 
+    date: new Date().toISOString(), 
+    statut: rechargeEnCours.isJeko ? 'En attente (Jèko VIP)' : 'En attente' 
+  };
   
-  // Enregistrement dans l'historique de recharge
+  // Enregistrement dans l'historique des recharges
   historiqueRecharges.unshift(rec);
 
   sauvegarderTout();
+  
   document.getElementById('payRecap').innerHTML = `
     <div><span>Montant</span><b>${esc(formatArgent(rec.montant))}</b></div>
-    <div><span>Réseau</span><b>${esc(NOMS_RESEAUX[methodeLabel] || methodeLabel.toUpperCase())}</b></div>
-    <div><span>Référence</span><b>${esc(txId)}</b></div>
-    <div><span>Statut</span><b style="color:var(--attention)">En attente</b></div>`;
+    <div><span>Réseau / Canal</span><b>${esc(NOMS_RESEAUX[methodeLabel] || methodeLabel.toUpperCase())}</b></div>
+    <div><span>Référence TX</span><b>${esc(txId)}</b></div>
+    <div><span>Statut</span><b style="color:var(--attention)">${esc(rec.statut)}</b></div>`;
+    
   document.getElementById('payForm').classList.add('hidden');
   document.getElementById('paySuccess').classList.remove('hidden');
   window.scrollTo(0, 0);
