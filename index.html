@@ -391,17 +391,17 @@ a{text-decoration:none;color:inherit}
       <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
       <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
 
-      <!-- Bloc Jèko (Côte d'Ivoire) : paiement puis retour sur l'ID de transaction -->
+      <!-- Bloc paiement sécurisé (Côte d'Ivoire) : paiement puis retour sur l'ID de transaction -->
       <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
         <div class="box" style="border:1.5px solid var(--jaune);background:rgba(255,184,0,0.06);box-shadow:var(--ombre-orange);">
           <div style="font-size:36px;margin-bottom:6px">⚡</div>
-          <h3 style="color:var(--jaune);font-size:19px;font-weight:800;margin-bottom:6px">Paiement Jèko (Côte d'Ivoire)</h3>
+          <h3 style="color:var(--jaune);font-size:19px;font-weight:800;margin-bottom:6px">Paiement Sécurisé Mobile Money</h3>
           <div class="pay-amount" id="jekoAmountDisplay" style="font-size:30px;margin:4px 0 12px">0 FCFA</div>
           <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:16px">
-            1. Cliquez sur le bouton ci-dessous et payez sur Jèko.<br>
+            1. Cliquez sur le bouton ci-dessous et effectuez votre paiement.<br>
             2. Une fois le paiement effectué, revenez ici et appuyez sur le bouton vert pour saisir l'ID de votre reçu.
           </p>
-          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;padding:16px;font-size:15px;" onclick="enregistrerClicJeko()">🚀 PAYER DIRECTEMENT SUR JÈKO</a>
+          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;padding:16px;font-size:15px;" onclick="enregistrerClicJeko()">🚀 PAYER MAINTENANT</a>
           <button class="btn vert" onclick="afficherSaisieIdJeko()" style="display:block;padding:14px;font-size:13px;">✅ J'AI PAYÉ : SAISIR MON ID DE TRANSACTION</button>
         </div>
       </div>
@@ -517,7 +517,7 @@ const PLANS = [
 
 const NOM_ENTREPRISE = "Canal Box VIP";
 const COORDONNEES_ENTREPRISE = { wave: "00000000", orange: "00000000", mtn: "00000000", moov: "00000000" };
-const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', jeko: 'Paiement Jèko (CI)' };
+const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', jeko: 'Paiement Sécurisé' };
 const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', banque: '🏦' };
 
 let utilisateur = null, solde = 0;
@@ -929,8 +929,8 @@ function continuerPaiementRecharge() {
     classicCard.classList.add('hidden');
     classicDetails.classList.add('hidden');
     paySteps.classList.add('hidden');
-    payTitle.textContent = "Paiement Jèko";
-    paySub.textContent = "Payez sur le portail sécurisé Jèko, revenez ici, puis saisissez l'ID de transaction pour enregistrer votre recharge.";
+    payTitle.textContent = "Paiement Sécurisé";
+    paySub.textContent = "Payez sur le portail sécurisé, revenez ici, puis saisissez l'ID de transaction pour enregistrer votre recharge.";
   } else {
     const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
     document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
@@ -951,10 +951,10 @@ function continuerPaiementRecharge() {
   openPage('rechargePaymentPage');
 }
 
-/* ===== JÈKO : après paiement, retour sur l'ID de transaction + confirmation ===== */
+/* ===== Paiement sécurisé CI : après paiement, retour sur l'ID de transaction + confirmation ===== */
 function enregistrerClicJeko() {
   rechargeEnCours.jekoOuvertA = Date.now();
-  toast("Payez sur Jèko, puis revenez sur le site.");
+  toast("Effectuez le paiement, puis revenez sur le site.");
 }
 
 function afficherSaisieIdJeko() {
@@ -964,13 +964,13 @@ function afficherSaisieIdJeko() {
   document.getElementById('classicPaymentDetails').classList.add('hidden');
   document.getElementById('payNetwork').textContent = NOMS_RESEAUX.jeko;
   document.getElementById('payPageTitle').textContent = "Confirmer ma recharge";
-  document.getElementById('payPageSub').textContent = "Saisissez l'ID de transaction de votre reçu Jèko puis confirmez.";
+  document.getElementById('payPageSub').textContent = "Saisissez l'ID de transaction de votre reçu de paiement puis confirmez.";
   const inp = document.getElementById('rechargeTxId');
   inp.focus();
   window.scrollTo(0, 0);
 }
 
-/* ===== Confirmation (Jèko et paiement classique) : ID requis ===== */
+/* ===== Confirmation : ID requis ===== */
 function confirmerPaiementRecharge() {
   if (envoiEnCours) return;
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
@@ -1024,10 +1024,10 @@ function afficherHistorique() {
   ].sort((a, b) => new Date(b.date) - new Date(a.date));
   if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée.</div>`; return; }
   l.innerHTML = items.map(it => {
-    const st = it.statut || 'En attente';
+    const st = String(it.statut || 'En attente').replace(/\s*\([^)]*j[eè]ko[^)]*\)/i, '');
     const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
     let titre, signe, cm;
-    if (it.type === 'recharge') { titre = '💳 Recharge (' + esc(it.methode ? it.methode.toUpperCase() : 'MOMO') + ')'; signe = '+'; cm = 'amount-plus'; }
+    if (it.type === 'recharge') { titre = '💳 Recharge (' + esc(it.methode === 'jeko' ? 'MOBILE MONEY' : (it.methode ? it.methode.toUpperCase() : 'MOMO')) + ')'; signe = '+'; cm = 'amount-plus'; }
     else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
     else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
     return `
