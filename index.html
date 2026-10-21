@@ -505,13 +505,14 @@ a{text-decoration:none;color:inherit}
       <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
       <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
       
-      <!-- Bloc d'affichage spécial Jèko pour la Côte d'Ivoire (+225) -->
+      <!-- Bloc d'affichage spécial Jèko pour la Côte d'Ivoire (+225) avec bouton de retour -->
       <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
         <div class="box" style="border-color:var(--jaune);background:rgba(255,184,0,0.05);">
           <div style="font-size:32px;margin-bottom:8px">💳</div>
           <h3 style="color:var(--jaune);font-size:18px;font-weight:800;margin-bottom:6px">Paiement Sécurisé Jèko</h3>
-          <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Cliquez sur le bouton ci-dessous pour effectuer votre paiement, puis récupérez votre ID de transaction.</p>
-          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:10px;">ALLER SUR LE LIEN DE PAIEMENT JÈKO</a>
+          <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Étape 1 : Cliquez pour effectuer votre paiement sur Jèko.</p>
+          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;">ALLER SUR LE LIEN DE PAIEMENT JÈKO</a>
+          <button class="btn vert" onclick="retournerDepuisJeko()" style="display:block;">✓ J'AI PAYÉ SUR JÈKO, REVENIR ICI</button>
         </div>
       </div>
 
@@ -1031,9 +1032,7 @@ async function collerTxId() {
   }
 }
 
-function verifierPaysRecharge() {
-  // Fonction de rappel lors du changement de pays si besoin
-}
+function verifierPaysRecharge() {}
 
 function continuerPaiementRecharge() {
   const countryCode = document.getElementById('rechargeCountryCode').value;
@@ -1058,15 +1057,13 @@ function continuerPaiementRecharge() {
   const paySub = document.getElementById('payPageSub');
 
   if (countryCode === '+225') {
-    // Mode Jèko pour la Côte d'Ivoire
     document.getElementById('payNetwork').textContent = 'Paiement Jèko';
     jekoContainer.classList.remove('hidden');
     classicDetails.classList.add('hidden');
     paySteps.classList.add('hidden');
     payTitle.textContent = "Paiement Jèko Sécurisé";
-    paySub.textContent = "Effectuez votre paiement sur le lien Jèko, puis copiez et collez l'ID de transaction ci-dessous pour valider.";
+    paySub.textContent = "Effectuez votre paiement sur Jèko, puis revenez ici pour saisir votre ID de transaction.";
   } else {
-    // Mode classique pour les autres pays
     const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
     document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
     jekoContainer.classList.add('hidden');
@@ -1087,6 +1084,13 @@ function continuerPaiementRecharge() {
   openPage('rechargePaymentPage');
 }
 
+// Fonction déclenchée lorsque l'utilisateur clique pour revenir de Jèko
+function retournerDepuisJeko() {
+  toast("De retour sur la plateforme. Collez votre ID de transaction ci-dessous.");
+  window.scrollTo({ top: document.getElementById('rechargeTxId').offsetTop - 100, behavior: 'smooth' });
+  document.getElementById('rechargeTxId').focus();
+}
+
 function confirmerPaiementRecharge() {
   if (envoiEnCours) return;
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
@@ -1104,7 +1108,7 @@ function confirmerPaiementRecharge() {
   const methodeLabel = rechargeEnCours.isJeko ? 'jeko' : rechargeEnCours.methode;
   const rec = { montant: rechargeEnCours.montant, phone: rechargeEnCours.phone, methode: methodeLabel, txId, date: new Date().toISOString(), statut: 'En attente' };
   
-  // Enregistrement dans l'historique des recharges
+  // Enregistrement dans l'historique de recharge
   historiqueRecharges.unshift(rec);
 
   sauvegarderTout();
