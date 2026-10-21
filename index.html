@@ -502,9 +502,20 @@ a{text-decoration:none;color:inherit}
   <!-- PAIEMENT RECHARGE -->
   <section id="rechargePaymentPage" class="page">
     <div id="payForm">
-      <h2 class="section-title">Transfert de Fonds Sécurisé</h2>
-      <p class="section-sub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
-      <div class="steps">
+      <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
+      <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
+      
+      <!-- Bloc d'affichage spécial Jèko pour la Côte d'Ivoire (+225) -->
+      <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
+        <div class="box" style="border-color:var(--jaune);background:rgba(255,184,0,0.05);">
+          <div style="font-size:32px;margin-bottom:8px">💳</div>
+          <h3 style="color:var(--jaune);font-size:18px;font-weight:800;margin-bottom:6px">Paiement Sécurisé Jèko</h3>
+          <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Cliquez sur le bouton ci-dessous pour effectuer votre paiement, puis récupérez votre ID de transaction.</p>
+          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:10px;">ALLER SUR LE LIEN DE PAIEMENT JÈKO</a>
+        </div>
+      </div>
+
+      <div class="steps" id="paySteps">
         <div class="step"><i>1</i>Copier</div>
         <div class="step"><i>2</i>Payer</div>
         <div class="step"><i>3</i>Confirmer</div>
@@ -514,20 +525,24 @@ a{text-decoration:none;color:inherit}
         <p style="font-size:14px;color:var(--texte-gris);margin-top:16px;font-weight:500">Montant exact à envoyer :</p>
         <div class="pay-amount" id="payAmountDisplay" data-raw="0">0 FCFA</div>
         <button class="copy-btn centre" data-src="payAmountDisplay" onclick="copierDepuis(this)">Copier le montant</button>
-        <div class="copy-row">
-          <div>
-            <div class="lbl">Entreprise / Bénéficiaire</div>
-            <div class="val" id="payCompany" data-raw="Canal Box VIP">Canal Box VIP</div>
+        
+        <div id="classicPaymentDetails">
+          <div class="copy-row">
+            <div>
+              <div class="lbl">Entreprise / Bénéficiaire</div>
+              <div class="val" id="payCompany" data-raw="Canal Box VIP">Canal Box VIP</div>
+            </div>
+            <button class="copy-btn" data-src="payCompany" onclick="copierDepuis(this)">Copier</button>
           </div>
-          <button class="copy-btn" data-src="payCompany" onclick="copierDepuis(this)">Copier</button>
-        </div>
-        <div class="copy-row">
-          <div>
-            <div class="lbl">Numéro du compte officiel</div>
-            <div class="val" id="companyNumber" data-raw="00000000">00000000</div>
+          <div class="copy-row">
+            <div>
+              <div class="lbl">Numéro du compte officiel</div>
+              <div class="val" id="companyNumber" data-raw="00000000">00000000</div>
+            </div>
+            <button class="copy-btn" data-src="companyNumber" onclick="copierDepuis(this)">Copier</button>
           </div>
-          <button class="copy-btn" data-src="companyNumber" onclick="copierDepuis(this)">Copier</button>
         </div>
+
         <div class="pay-sep"></div>
         <label class="pay-label" for="rechargeTxId">ID de Transaction / Référence SMS</label>
         <div class="input-wrap">
@@ -627,7 +642,7 @@ const PLANS = [
 
 const NOM_ENTREPRISE = "Canal Box VIP";
 const COORDONNEES_ENTREPRISE = { wave: "00000000", orange: "00000000", mtn: "00000000", moov: "00000000" };
-const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money' };
+const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', jeko: 'Paiement Jèko' };
 const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', banque: '🏦' };
 
 let utilisateur = null, solde = 0;
@@ -1027,29 +1042,44 @@ function continuerPaiementRecharge() {
 
   if (!montant || montant < 100) { toast("Montant invalide (minimum 100 FCFA)."); return; }
   
-  // REDIRECTION AUTOMATIQUE SI CÔTE D'IVOIRE (+225) VERS LE LIEN DE PAIEMENT JEKO
-  if (countryCode === '+225') {
-    toast("Redirection vers le paiement sécurisé...");
-    setTimeout(() => {
-      window.location.href = "https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16";
-    }, 1000);
-    return;
-  }
-
-  // Pour les autres pays, procédure classique
   const methode = document.getElementById('rechargeMethod').value;
-  rechargeEnCours = { methode, montant, phone };
+  rechargeEnCours = { methode, montant, phone, isJeko: (countryCode === '+225') };
   envoiEnCours = false;
-  const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
+
   const ecranMontant = document.getElementById('payAmountDisplay');
   ecranMontant.textContent = formatArgent(montant);
   ecranMontant.dataset.raw = String(montant);
-  document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
-  const company = document.getElementById('payCompany');
-  company.textContent = NOM_ENTREPRISE; company.dataset.raw = NOM_ENTREPRISE;
-  const num = document.getElementById('companyNumber');
-  num.textContent = numero; num.dataset.raw = numero.replace(/\s+/g, '');
   document.getElementById('rechargeTxId').value = '';
+
+  const jekoContainer = document.getElementById('jekoPaymentContainer');
+  const classicDetails = document.getElementById('classicPaymentDetails');
+  const paySteps = document.getElementById('paySteps');
+  const payTitle = document.getElementById('payPageTitle');
+  const paySub = document.getElementById('payPageSub');
+
+  if (countryCode === '+225') {
+    // Mode Jèko pour la Côte d'Ivoire
+    document.getElementById('payNetwork').textContent = 'Paiement Jèko';
+    jekoContainer.classList.remove('hidden');
+    classicDetails.classList.add('hidden');
+    paySteps.classList.add('hidden');
+    payTitle.textContent = "Paiement Jèko Sécurisé";
+    paySub.textContent = "Effectuez votre paiement sur le lien Jèko, puis copiez et collez l'ID de transaction ci-dessous pour valider.";
+  } else {
+    // Mode classique pour les autres pays
+    const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
+    document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
+    jekoContainer.classList.add('hidden');
+    classicDetails.classList.remove('hidden');
+    paySteps.classList.remove('hidden');
+    payTitle.textContent = "Transfert de Fonds Sécurisé";
+    paySub.textContent = "Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.";
+    const company = document.getElementById('payCompany');
+    company.textContent = NOM_ENTREPRISE; company.dataset.raw = NOM_ENTREPRISE;
+    const num = document.getElementById('companyNumber');
+    num.textContent = numero; num.dataset.raw = numero.replace(/\s+/g, '');
+  }
+
   const b = document.getElementById('btnConfirmer');
   b.disabled = false; b.textContent = 'CONFIRMER LE PAIEMENT';
   document.getElementById('payForm').classList.remove('hidden');
@@ -1062,24 +1092,25 @@ function confirmerPaiementRecharge() {
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
   const inp = document.getElementById('rechargeTxId');
   const txId = inp.value.trim().replace(/\s+/g, '');
-  if (!txId) { toast("Collez la référence de transaction SMS."); inp.focus(); return; }
-  if (txId.length < 6) { toast("Référence trop courte."); inp.focus(); return; }
+  if (!txId) { toast("Collez la référence ou l'ID de transaction."); inp.focus(); return; }
+  if (txId.length < 5) { toast("Référence trop courte."); inp.focus(); return; }
   if (historiqueRecharges.some(r => String(r.txId || '').toLowerCase() === txId.toLowerCase())) {
     toast("Cet ID de transaction a déjà été utilisé."); return;
   }
   envoiEnCours = true;
   const b = document.getElementById('btnConfirmer');
   b.disabled = true; b.textContent = 'Validation en cours…';
-  const rec = { montant: rechargeEnCours.montant, phone: rechargeEnCours.phone, methode: rechargeEnCours.methode, txId, date: new Date().toISOString(), statut: 'En attente' };
   
-  // Enregistrement dans l'historique des recharges et également dans les retraits/transactions (selon la demande)
+  const methodeLabel = rechargeEnCours.isJeko ? 'jeko' : rechargeEnCours.methode;
+  const rec = { montant: rechargeEnCours.montant, phone: rechargeEnCours.phone, methode: methodeLabel, txId, date: new Date().toISOString(), statut: 'En attente' };
+  
+  // Enregistrement dans l'historique des recharges
   historiqueRecharges.unshift(rec);
-  historiqueRetraits.unshift({ montant: rechargeEnCours.montant, compte: rechargeEnCours.phone || 'Paiement Recharge', txId, date: rec.date, statut: 'En attente (Paiement)' });
 
   sauvegarderTout();
   document.getElementById('payRecap').innerHTML = `
     <div><span>Montant</span><b>${esc(formatArgent(rec.montant))}</b></div>
-    <div><span>Réseau</span><b>${esc(NOMS_RESEAUX[rec.methode] || rec.methode)}</b></div>
+    <div><span>Réseau</span><b>${esc(NOMS_RESEAUX[methodeLabel] || methodeLabel.toUpperCase())}</b></div>
     <div><span>Référence</span><b>${esc(txId)}</b></div>
     <div><span>Statut</span><b style="color:var(--attention)">En attente</b></div>`;
   document.getElementById('payForm').classList.add('hidden');
@@ -1120,7 +1151,7 @@ function afficherHistorique() {
     const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
     let titre, signe, cm;
     if (it.type === 'recharge') { titre = '💳 Recharge (' + esc(it.methode ? it.methode.toUpperCase() : 'MOMO') + ')'; signe = '+'; cm = 'amount-plus'; }
-    else if (it.type === 'retrait') { titre = it.statut && it.statut.includes('Paiement') ? '💳 Paiement / Recharge soumis' : '💸 Retrait de gains'; signe = it.statut && it.statut.includes('Paiement') ? '+' : '-'; cm = it.statut && it.statut.includes('Paiement') ? 'amount-plus' : 'amount-minus'; }
+    else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
     else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
     return `
       <div class="history-item">
