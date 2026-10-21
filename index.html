@@ -67,6 +67,9 @@ a{text-decoration:none;color:inherit}
 .field input:focus,.field select:focus{border-color:var(--orange);background:rgba(0,0,0,0.5);box-shadow:0 0 0 4px rgba(255,107,0,0.15)}
 .field input::placeholder{color:#64748B}
 
+.phone-group{display:flex;gap:8px}
+.phone-group select{flex:0 0 115px}
+
 /* BUTTONS */
 .btn{width:100%;padding:16px;border-radius:var(--radius-sm);font-weight:700;font-size:15px;text-align:center;display:inline-block;transition:var(--transition);letter-spacing:.3px}
 .btn:active{transform:scale(.98)}
@@ -241,13 +244,43 @@ a{text-decoration:none;color:inherit}
       <button id="registerTab" onclick="showAuth('register')">Inscription</button>
     </div>
     <div id="loginForm">
-      <div class="field"><label>Numéro de téléphone</label><input id="loginContact" type="text" inputmode="tel" placeholder="Ex : 07 00 00 00 00"></div>
+      <div class="field">
+        <label>Numéro de téléphone</label>
+        <div class="phone-group">
+          <select id="loginCountryCode">
+            <option value="+225">🇨🇮 +225</option>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+226">🇧🇫 +226</option>
+            <option value="+229">🇧🇯 +229</option>
+            <option value="+227">🇳🇪 +227</option>
+            <option value="+224">🇬🇳 +224</option>
+            <option value="+228">🇹🇬 +228</option>
+          </select>
+          <input id="loginContact" type="tel" inputmode="tel" placeholder="Ex : 0700000000">
+        </div>
+      </div>
       <div class="field"><label>Mot de passe</label><input id="loginPassword" type="password" placeholder="••••••••"></div>
       <button class="btn accent" onclick="seConnecter()">SE CONNECTER</button>
     </div>
     <div id="registerForm" class="hidden">
       <div class="field"><label>Nom complet</label><input id="regName" type="text" placeholder="Prénom et nom"></div>
-      <div class="field"><label>Numéro de téléphone</label><input id="regPhone" type="tel" placeholder="+225 07 00 00 00 00"></div>
+      <div class="field">
+        <label>Numéro de téléphone</label>
+        <div class="phone-group">
+          <select id="regCountryCode">
+            <option value="+225">🇨🇮 +225</option>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+226">🇧🇫 +226</option>
+            <option value="+229">🇧🇯 +229</option>
+            <option value="+227">🇳🇪 +227</option>
+            <option value="+224">🇬🇳 +224</option>
+            <option value="+228">🇹🇬 +228</option>
+          </select>
+          <input id="regPhone" type="tel" placeholder="Ex : 0700000000">
+        </div>
+      </div>
       <div class="field"><label>Mot de passe (6 caractères min.)</label><input id="regPassword" type="password" placeholder="••••••"></div>
       <button class="btn accent" onclick="creerCompte()">CRÉER MON COMPTE</button>
     </div>
@@ -323,7 +356,7 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Lier un Compte</h2>
     <p class="section-sub">Enregistrez votre compte pour recevoir rapidement vos gains</p>
     <div class="box">
-      <div class="field"><label>Service / Réseau</label>
+      <div class="field"><label>Service / Réseau de réception</label>
         <select id="linkedType">
           <option value="wave">Wave Mobile</option>
           <option value="orange">Orange Money</option>
@@ -331,14 +364,29 @@ a{text-decoration:none;color:inherit}
           <option value="moov">Moov Money</option>
           <option value="banque">Compte Bancaire / RIB</option>
         </select></div>
-      <div class="field"><label>Numéro de téléphone ou IBAN</label><input id="linkedPhone" type="text" placeholder="Ex : 07 00 00 00 00"></div>
-      <div class="field"><label>Confirmer le numéro</label><input id="linkedPhone2" type="text" placeholder="Confirmation"></div>
+      <div class="field">
+        <label>Numéro de téléphone de réception (avec indicatif)</label>
+        <div class="phone-group">
+          <select id="linkedCountryCode">
+            <option value="+225">🇨🇮 +225</option>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+226">🇧🇫 +226</option>
+            <option value="+229">🇧🇯 +229</option>
+            <option value="+227">🇳🇪 +227</option>
+            <option value="+224">🇬🇳 +224</option>
+            <option value="+228">🇹🇬 +228</option>
+          </select>
+          <input id="linkedPhone" type="tel" placeholder="Ex : 0700000000">
+        </div>
+      </div>
+      <div class="field"><label>Confirmer le numéro</label><input id="linkedPhone2" type="tel" placeholder="Confirmation du numéro"></div>
       <button class="btn accent" onclick="enregistrerLien()">LIER CE COMPTE</button>
     </div>
     <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
   </section>
 
-  <!-- SERVICE CLIENT (PAGE VERTE JOLIE) -->
+  <!-- SERVICE CLIENT -->
   <section id="servicePage" class="page">
     <div class="service-green-box">
       <div style="text-align:center;margin-bottom:18px">
@@ -366,7 +414,7 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <!-- MON COMPTE (PROFIL PROFESSIONNEL) -->
+  <!-- MON COMPTE -->
   <section id="accountPage" class="page">
     <h2 class="section-title">Mon Compte</h2>
     <p class="section-sub">Informations personnelles et gestion de votre profil</p>
@@ -425,6 +473,18 @@ a{text-decoration:none;color:inherit}
   <section id="rechargePage" class="page">
     <h2 class="section-title">Recharger mon Solde</h2>
     <div class="box">
+      <!-- Choix du pays de recharge pour détecter la Côte d'Ivoire (+225) -->
+      <div class="field"><label>Pays de rechargement</label>
+        <select id="rechargeCountryCode" onchange="verifierPaysRecharge()">
+          <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
+          <option value="+221">🇸🇳 Sénégal (+221)</option>
+          <option value="+223">🇲🇱 Mali (+223)</option>
+          <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+          <option value="+229">🇧🇯 Bénin (+229)</option>
+          <option value="+227">🇳🇪 Niger (+227)</option>
+          <option value="+224">🇬🇳 Guinée (+224)</option>
+          <option value="+228">🇹🇬 Togo (+228)</option>
+        </select></div>
       <div class="field"><label>Réseau de paiement</label>
         <select id="rechargeMethod">
           <option value="wave">Wave Mobile</option>
@@ -433,7 +493,7 @@ a{text-decoration:none;color:inherit}
           <option value="moov">Moov Money</option>
         </select></div>
       <div class="field"><label>Montant (FCFA)</label><input id="rechargeAmount" type="number" placeholder="Ex : 5000"></div>
-      <div class="field"><label>Numéro de paiement</label><input id="rechargePhone" type="text" placeholder="Ex : 07 00 00 00 00"></div>
+      <div class="field"><label>Numéro de paiement</label><input id="rechargePhone" type="text" placeholder="Ex : 0700000000"></div>
       <button class="btn accent" onclick="continuerPaiementRecharge()">CONTINUER</button>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
@@ -482,7 +542,7 @@ a{text-decoration:none;color:inherit}
     <div id="paySuccess" class="hidden">
       <div class="pay-card success">
         <div class="success-icon">✓</div>
-        <h2 class="section-title">Paiement transmitted !</h2>
+        <h2 class="section-title">Paiement transmis !</h2>
         <p class="section-sub" style="margin-bottom:0">Votre demande est enregistrée. L'équipe vérifie votre référence pour créditer votre compte.</p>
         <div class="recap" id="payRecap"></div>
         <button class="btn primaire" onclick="openPage('historyPage')">VOIR MON HISTORIQUE</button>
@@ -497,7 +557,22 @@ a{text-decoration:none;color:inherit}
     <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--jaune)">0 FCFA</strong></p>
     <div class="box">
       <div class="field"><label>Montant à retirer (FCFA)</label><input id="withdrawAmount" type="number" placeholder="Min : 1000 FCFA"></div>
-      <div class="field"><label>Numéro de réception</label><input id="withdrawPhone" type="text" placeholder="Ex : 07 00 00 00 00"></div>
+      <div class="field">
+        <label>Numéro de réception</label>
+        <div class="phone-group">
+          <select id="withdrawCountryCode">
+            <option value="+225">🇨🇮 +225</option>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+226">🇧🇫 +226</option>
+            <option value="+229">🇧🇯 +229</option>
+            <option value="+227">🇳🇪 +227</option>
+            <option value="+224">🇬🇳 +224</option>
+            <option value="+228">🇹🇬 +228</option>
+          </select>
+          <input id="withdrawPhone" type="tel" placeholder="Ex : 0700000000">
+        </div>
+      </div>
       <button class="btn accent" onclick="confirmerDemandeRetrait()">RETIRER LES FONDS</button>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
@@ -539,9 +614,15 @@ const db = firebase.firestore();
 const rtdb = firebase.database();
 
 const PLANS = [
-  ['VIP Bronze', 5000, 500], ['VIP Argent', 10000, 1000], ['VIP Or', 20000, 2000],
-  ['VIP Platine', 50000, 5500], ['VIP Diamant', 100000, 12000], ['VIP Master', 250000, 32000],
-  ['VIP Élite', 500000, 70000], ['VIP Ultime', 1000000, 150000]
+  ['VIP0 - Leghorn Chicken', 2500, 168],
+  ['VIP0+ - Muscovy Duck', 5500, 276],
+  ['VIP1 - Pekin Duck', 12500, 624],
+  ['VIP2 - Uda Sheep', 25000, 1272],
+  ['VIP3 - Suffolk Sheep', 50000, 2616],
+  ['VIP4 - Autruche', 100000, 5400],
+  ['VIP5 - Vache laitière', 200000, 11400],
+  ['VIP6 - Chameau', 500000, 30000],
+  ['VIP7 - Plan Ultime', 1000000, 65016]
 ];
 
 const NOM_ENTREPRISE = "Canal Box VIP";
@@ -554,7 +635,7 @@ let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equ
 let compteLie = null, rechargeEnCours = {}, unsubscribeListener = null;
 let envoiEnCours = false;
 
-const cle = t => { const d = String(t || '').replace(/[^0-9]/g, ''); return (d.length === 13 && d.startsWith('225')) ? d.slice(3) : d; };
+const cle = t => String(t || '').replace(/[^0-9]/g, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
 function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
@@ -575,7 +656,7 @@ function rendrePlans() {
     <div class="vip-card" onclick="investirPlan(${i})">
       <div class="vip-name">${p[0]}</div>
       <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
-      <div class="vip-details">⏳ 31 jours</div>
+      <div class="vip-details">⏳ 365 jours</div>
       <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
       <button class="btn accent">${lib}</button>
     </div>`).join('');
@@ -664,7 +745,9 @@ function openPage(pageId) {
   if (pageId === 'accountPage') chargerProfil();
   if (pageId === 'withdrawPage') {
     document.getElementById('wBalance').textContent = formatArgent(solde);
-    if (compteLie) document.getElementById('withdrawPhone').value = compteLie.phone;
+    if (compteLie) {
+      document.getElementById('withdrawPhone').value = compteLie.phone.replace(/^\+\d{3,4}/, '');
+    }
   }
 }
 
@@ -678,12 +761,15 @@ function showAuth(type) {
 
 async function creerCompte() {
   const name = document.getElementById('regName').value.trim();
-  const phone = document.getElementById('regPhone').value.trim();
+  const countryCode = document.getElementById('regCountryCode').value;
+  const rawPhone = document.getElementById('regPhone').value.trim();
   const password = document.getElementById('regPassword').value;
+  
+  const phone = countryCode + rawPhone.replace(/^0+/, '');
   const email = cle(phone) + "@canalbox.app";
 
-  if (!name || !phone || !password) { toast("Remplissez tous les champs."); return; }
-  if (cle(phone).length < 8) { toast("Numéro de téléphone invalide."); return; }
+  if (!name || !rawPhone || !password) { toast("Remplissez tous les champs."); return; }
+  if (cle(rawPhone).length < 7) { toast("Numéro de téléphone invalide."); return; }
   if (password.length < 6) { toast("Mot de passe : 6 caractères minimum."); return; }
 
   try {
@@ -720,40 +806,46 @@ async function creerCompte() {
 
 async function seConnecter() {
   const contact = document.getElementById('loginContact').value.trim();
+  const countryCode = document.getElementById('loginCountryCode').value;
   const password = document.getElementById('loginPassword').value;
+
   if (!contact || !password) { toast("Remplissez tous les champs."); return; }
   const parEmail = contact.includes('@');
-  let targetEmail = contact;
+  
+  let fullPhone = contact;
+  if (!parEmail && !contact.startsWith('+')) {
+    fullPhone = countryCode + contact.replace(/^0+/, '');
+  }
+
+  let targetEmail = parEmail ? contact : (cle(fullPhone) + "@canalbox.app");
 
   try {
     await auth.signOut();
     reinitialiserEtat();
-    if (!parEmail) {
-      try {
-        const s = await db.collection("comptes_tel").doc(cle(contact)).get();
-        const em = (s.exists && s.data().user) ? s.data().user.email : '';
-        targetEmail = (em && String(em).includes('@')) ? em : cle(contact) + "@canalbox.app";
-      } catch (_) { targetEmail = cle(contact) + "@canalbox.app"; }
-    }
-    let cred;
+    
+    let cred = null;
     try {
       cred = await auth.signInWithEmailAndPassword(targetEmail, password);
     } catch (e1) {
-      const interne = cle(contact) + "@canalbox.app";
-      if (parEmail || targetEmail === interne) throw e1;
-      targetEmail = interne;
-      cred = await auth.signInWithEmailAndPassword(targetEmail, password);
+      if (!parEmail) {
+        const altEmail = cle(contact) + "@canalbox.app";
+        cred = await auth.signInWithEmailAndPassword(altEmail, password);
+        targetEmail = altEmail;
+      } else {
+        throw e1;
+      }
     }
+
     const uid = cred.user.uid;
-    const d = await trouverCompte(uid, targetEmail, parEmail ? '' : contact);
+    const d = await trouverCompte(uid, targetEmail, parEmail ? '' : fullPhone);
     if (d) {
       utilisateur = { ...(d.user || {}), uid, email: targetEmail };
-      utilisateur.phone = utilisateur.phone || d.telephone || (parEmail ? '' : contact);
+      utilisateur.phone = utilisateur.phone || d.telephone || (parEmail ? '' : fullPhone);
       utilisateur.name = utilisateur.name || d.nom || "Membre";
       delete utilisateur.password;
       appliquerDonnees(d);
     } else if (!parEmail) {
-      utilisateur = { uid, name: "Membre", email: targetEmail, phone: contact, solde: 0 };
+      utilisateur = { uid, name: "Membre", email: targetEmail, phone: fullPhone, solde: 0 };
     } else {
       await auth.signOut(); reinitialiserEtat();
       toast("Profil introuvable.");
@@ -805,11 +897,15 @@ function mettreAJourAccueil() {
 
 function enregistrerLien() {
   const type = document.getElementById('linkedType').value;
-  const phone = document.getElementById('linkedPhone').value.trim();
-  const phone2 = document.getElementById('linkedPhone2').value.trim();
-  if (!phone || !phone2) { toast("Remplissez tous les champs."); return; }
-  if (phone !== phone2) { toast("Les numéros ne correspondent pas."); return; }
-  compteLie = { type, phone };
+  const code = document.getElementById('linkedCountryCode').value;
+  const phoneRaw = document.getElementById('linkedPhone').value.trim();
+  const phone2Raw = document.getElementById('linkedPhone2').value.trim();
+  
+  if (!phoneRaw || !phone2Raw) { toast("Remplissez tous les champs."); return; }
+  if (phoneRaw !== phone2Raw) { toast("Les numéros ne correspondent pas."); return; }
+  
+  const phoneFull = type === 'banque' ? phoneRaw : (code + " " + phoneRaw.replace(/^0+/, ''));
+  compteLie = { type, phone: phoneFull };
   sauvegarderTout();
   toast("Compte lié avec succès.");
   openPage('viewLinkedPage');
@@ -920,11 +1016,28 @@ async function collerTxId() {
   }
 }
 
+function verifierPaysRecharge() {
+  // Fonction de rappel lors du changement de pays si besoin
+}
+
 function continuerPaiementRecharge() {
-  const methode = document.getElementById('rechargeMethod').value;
+  const countryCode = document.getElementById('rechargeCountryCode').value;
   const montant = parseFloat(document.getElementById('rechargeAmount').value);
   const phone = document.getElementById('rechargePhone').value.trim();
+
   if (!montant || montant < 100) { toast("Montant invalide (minimum 100 FCFA)."); return; }
+  
+  // REDIRECTION AUTOMATIQUE SI CÔTE D'IVOIRE (+225) VERS LE LIEN DE PAIEMENT JEKO
+  if (countryCode === '+225') {
+    toast("Redirection vers le paiement sécurisé...");
+    setTimeout(() => {
+      window.location.href = "https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16";
+    }, 1000);
+    return;
+  }
+
+  // Pour les autres pays, procédure classique
+  const methode = document.getElementById('rechargeMethod').value;
   rechargeEnCours = { methode, montant, phone };
   envoiEnCours = false;
   const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
@@ -974,11 +1087,16 @@ function confirmerPaiementRecharge() {
 
 function confirmerDemandeRetrait() {
   const montant = parseFloat(document.getElementById('withdrawAmount').value);
-  const phone = document.getElementById('withdrawPhone').value.trim();
+  const code = document.getElementById('withdrawCountryCode').value;
+  const phoneRaw = document.getElementById('withdrawPhone').value.trim();
+  
   if (!montant || montant < 1000) { toast("Minimum de retrait : 1000 FCFA"); return; }
   if (montant > solde) { toast("Solde insuffisant."); return; }
+  if (!phoneRaw) { toast("Saisissez un numéro de réception."); return; }
+
+  const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
   solde -= montant;
-  historiqueRetraits.unshift({ montant, compte: phone, date: new Date().toISOString(), statut: 'En attente' });
+  historiqueRetraits.unshift({ montant, compte: fullPhone, date: new Date().toISOString(), statut: 'En attente' });
   sauvegarderTout();
   mettreAJourAccueil();
   toast("Demande de retrait transmise.");
