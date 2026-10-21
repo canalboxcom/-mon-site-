@@ -391,7 +391,6 @@ a{text-decoration:none;color:inherit}
       <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
       <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
 
-      <!-- Bloc paiement sécurisé (Côte d'Ivoire) : paiement puis retour sur l'ID de transaction -->
       <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
         <div class="box" style="border:1.5px solid var(--jaune);background:rgba(255,184,0,0.06);box-shadow:var(--ombre-orange);">
           <div style="font-size:36px;margin-bottom:6px">⚡</div>
@@ -412,7 +411,6 @@ a{text-decoration:none;color:inherit}
         <div class="step"><i>3</i>Confirmer</div>
       </div>
 
-      <!-- Carte classique (hors Côte d'Ivoire) + saisie de l'ID pour Jèko -->
       <div class="pay-card" id="classicPayCard" style="text-align:center">
         <span class="net-badge" id="payNetwork">Wave Mobile</span>
         <p style="font-size:14px;color:var(--texte-gris);margin-top:16px;font-weight:500">Montant exact à envoyer :</p>
@@ -455,7 +453,7 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Demande de Retrait</h2>
     <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--jaune)">0 FCFA</strong></p>
     <div class="box">
-      <div class="field"><label>Montant à retirer (FCFA)</label><input id="withdrawAmount" type="number" placeholder="Min : 1000 FCFA"></div>
+      <div class="field"><label>Montant à retirer (FCFA)</label><input id="withdrawAmount" type="number" placeholder="Min : 500 FCFA"></div>
       <div class="field">
         <label>Numéro de réception</label>
         <div class="phone-group">
@@ -569,6 +567,35 @@ function appliquerDonnees(d) {
   investissements = d.investissements || [];
   compteLie = d.compteLie || null;
   equipe = d.equipe || [];
+  verifierEtCrediterGainsJournaliers();
+}
+
+function verifierEtCrediterGainsJournaliers() {
+  if (!investissements || !investissements.length) return;
+  const maintenant = new Date();
+  let gainsCreditesTotal = 0;
+  let modifie = false;
+
+  investissements.forEach(inv => {
+    if (inv.statut !== 'Actif') return;
+    const derniereVerif = new Date(inv.derniereDateGain || inv.date);
+    const diffTemps = maintenant - derniereVerif;
+    const diffJours = Math.floor(diffTemps / (1000 * 60 * 60 * 24));
+
+    if (diffJours > 0) {
+      const gainTotalPeriode = diffJours * inv.gain;
+      solde += gainTotalPeriode;
+      gainsCreditesTotal += gainTotalPeriode;
+      inv.derniereDateGain = maintenant.toISOString();
+      modifie = true;
+    }
+  });
+
+  if (modifie) {
+    sauvegarderTout();
+    mettreAJourAccueil();
+    toast(`🎉 Gains journaliers crédités : +${formatArgent(gainsCreditesTotal)}`);
+  }
 }
 
 async function trouverCompte(uid, email, tel) {
@@ -823,7 +850,7 @@ function investirPlan(i) {
   const [nom, montant, gain] = PLANS[i];
   if (solde < montant) { toast("Solde insuffisant. Veuillez recharger."); openPage('rechargePage'); return; }
   solde -= montant;
-  investissements.unshift({ nom, montant, gain, date: new Date().toISOString(), statut: 'Actif' });
+  investissements.unshift({ nom, montant, gain, date: new Date().toISOString(), derniereDateGain: new Date().toISOString(), statut: 'Actif' });
   sauvegarderTout();
   mettreAJourAccueil();
   toast(`Plan ${nom} souscrit avec succès !`);
@@ -951,7 +978,6 @@ function continuerPaiementRecharge() {
   openPage('rechargePaymentPage');
 }
 
-/* ===== Paiement sécurisé CI : après paiement, retour sur l'ID de transaction + confirmation ===== */
 function enregistrerClicJeko() {
   rechargeEnCours.jekoOuvertA = Date.now();
   toast("Effectuez le paiement, puis revenez sur le site.");
@@ -970,7 +996,6 @@ function afficherSaisieIdJeko() {
   window.scrollTo(0, 0);
 }
 
-/* ===== Confirmation : ID requis ===== */
 function confirmerPaiementRecharge() {
   if (envoiEnCours) return;
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
@@ -1003,7 +1028,7 @@ function confirmerDemandeRetrait() {
   const montant = parseFloat(document.getElementById('withdrawAmount').value);
   const code = document.getElementById('withdrawCountryCode').value;
   const phoneRaw = document.getElementById('withdrawPhone').value.trim();
-  if (!montant || montant < 1000) { toast("Minimum de retrait : 1000 FCFA"); return; }
+  if (!montant || montant < 500) { toast("Minimum de retrait : 500 FCFA"); return; }
   if (montant > solde) { toast("Solde insuffisant."); return; }
   if (!phoneRaw) { toast("Saisissez un numéro de réception."); return; }
   const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
