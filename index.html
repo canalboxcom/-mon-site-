@@ -293,18 +293,28 @@ a{text-decoration:none;color:inherit}
         <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée, validation de recharges & réclamation de vos bonus</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-bottom:20px">
+        
         <div class="service-green-card">
           <div style="font-size:36px;margin-bottom:8px">💬</div>
           <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Assistance WhatsApp Directe</div>
           <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Discutez immédiatement avec notre agent pour réclamer vos bonus ou suivre un retrait.</p>
-          <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">DISCUTER SUR WHATSAPP</a>
+          <a href="https://wa.me/qr/JZYGKM3FM3XTL1" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">DISCUTER SUR WHATSAPP</a>
         </div>
+
+        <div class="service-green-card">
+          <div style="font-size:36px;margin-bottom:8px">👥</div>
+          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Groupe WhatsApp Officiel</div>
+          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez le groupe d'entraide et d'échanges entre membres VIP Canal Box.</p>
+          <a href="https://chat.whatsapp.com/CBlYZXLe9um2txk9baGpdh?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE GROUPE WHATSAPP</a>
+        </div>
+
         <div class="service-green-card">
           <div style="font-size:36px;margin-bottom:8px">✈️</div>
           <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Canal Télégram Officiel</div>
           <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez la communauté VIP pour être informé des nouveaux bonus et preuves de paiements.</p>
           <a href="https://t.me/+HXgd2NLKBUU0ZDVk" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE TELEGRAM</a>
         </div>
+
       </div>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
@@ -452,6 +462,14 @@ a{text-decoration:none;color:inherit}
   <section id="withdrawPage" class="page">
     <h2 class="section-title">Demande de Retrait</h2>
     <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--jaune)">0 FCFA</strong></p>
+    
+    <div style="background:rgba(255,184,0,0.1);border:1px solid var(--jaune);padding:12px;border-radius:12px;margin-bottom:18px;font-size:12px;color:var(--jaune-clair);text-align:center;font-weight:600;">
+      📅 Horaires des retraits : Du Lundi au Vendredi, de 16h00 à 00h00.
+    </div>
+
+    <!-- BOUTON POUR REJOUER L'AUDIO MANUELLEMENT -->
+    <button class="btn vert" onclick="jouerAudioRetrait()" style="margin-bottom:16px;padding:12px;font-size:13px;">🔊 ÉCOUTER LE MESSAGE DE RETRAIT</button>
+
     <div class="box">
       <div class="field">
         <label>Montant à retirer (FCFA)</label>
@@ -511,7 +529,6 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const rtdb = firebase.database();
 
-// Base URL exacte demandée
 const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
 
 const PLANS = [
@@ -542,7 +559,18 @@ const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
 function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
 
-// Récupère et stocke le parrain depuis l'URL
+// FONCTION AUDIO VOX/MUSIQUE DE RETRAIT
+function jouerAudioRetrait() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel(); // Stoppe toute lecture en cours
+    const msg = new SpeechSynthesisUtterance("Retirez votre argent pour ce weekend");
+    msg.lang = 'fr-FR';
+    msg.rate = 0.95;
+    msg.pitch = 1.0;
+    window.speechSynthesis.speak(msg);
+  }
+}
+
 function verifierEtSauvegarderParrain() {
   const urlParams = new URLSearchParams(window.location.search);
   const p = urlParams.get('parrain');
@@ -687,6 +715,8 @@ function openPage(pageId) {
     if (compteLie) {
       document.getElementById('withdrawPhone').value = compteLie.phone.replace(/^\+\d{3,4}/, '');
     }
+    // Lancement de l'audio lors de l'arrivée sur la page de retrait
+    jouerAudioRetrait();
   }
 }
 
@@ -732,7 +762,6 @@ async function creerCompte() {
       }
     }
 
-    // Ajout automatique du filleul dans l'équipe du parrain
     const parrainCode = localStorage.getItem('cb_parrain_code');
     if (parrainCode && parrainCode !== cle(phone)) {
       try {
@@ -834,7 +863,6 @@ function verifierConnexion() {
     mettreAJourAccueil();
     ecouterChangementsFirebase();
     if (utilisateur && utilisateur.phone) {
-      // Format exact demandé : https://canalboxcom.github.io/-mon-site-/?parrain= + numéro brut du téléphone
       const linkFinal = SITE_BASE_URL + "?parrain=" + cle(utilisateur.phone);
       const elLien = document.getElementById('lienParrainage');
       if (elLien) {
@@ -1055,11 +1083,10 @@ function afficherSaisieIdJeko() {
   window.scrollTo(0, 0);
 }
 
-// Calcule 10% de bonus et crédite directement le solde du parrain
 async function verifierEtCrediterParrain(montantRecharge) {
   const parrainCode = localStorage.getItem('cb_parrain_code');
   if (!parrainCode) return;
-  const bonus = Math.round(montantRecharge * 0.10); // 10% de commission de parrainage
+  const bonus = Math.round(montantRecharge * 0.10);
   if (bonus <= 0) return;
 
   try {
@@ -1108,7 +1135,6 @@ function confirmerPaiementRecharge() {
     statut: rechargeEnCours.isJeko ? 'En attente (Jèko VIP)' : 'En attente'
   });
 
-  // Crédite automatiquement les 10% au parrain
   verifierEtCrediterParrain(m);
 
   sauvegarderTout();
@@ -1134,6 +1160,22 @@ function calculerFraisRetrait() {
 }
 
 function confirmerDemandeRetrait() {
+  const maintenant = new Date();
+  const jourActuel = maintenant.getDay(); // 0 = Dimanche, 6 = Samedi
+  const heureActuelle = maintenant.getHours(); // 0 à 23
+
+  // Vérification du jour (Du Lundi au Vendredi)
+  if (jourActuel === 0 || jourActuel === 6) {
+    toast("Les retraits sont uniquement disponibles du lundi au vendredi !");
+    return;
+  }
+
+  // Vérification de l'heure (De 16h00 à 00h00 / minuit)
+  if (heureActuelle < 16) {
+    toast("Les retraits ouvrent à partir de 16h00 jusqu'à 00h00 !");
+    return;
+  }
+
   const montantDemande = parseFloat(document.getElementById('withdrawAmount').value);
   const code = document.getElementById('withdrawCountryCode').value;
   const phoneRaw = document.getElementById('withdrawPhone').value.trim();
