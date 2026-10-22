@@ -225,7 +225,7 @@ a{text-decoration:none;color:inherit}
       <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
       <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Compte Lié</strong><p>Mode de réception</p></div>
       <div class="quick-card" onclick="openPage('linkPage')"><div class="quick-icon">🔗</div><strong>Lier un Compte</strong><p>Nouveau compte</p></div>
-      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains</p></div>
+      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains (10% frais)</p></div>
       <div class="quick-card" onclick="openPage('teamPage')"><div class="quick-icon">👥</div><strong>Mon Équipe</strong><p>Parrainage & filleuls</p></div>
       <div class="quick-card" onclick="openPage('historyPage')"><div class="quick-icon">📋</div><strong>Historique</strong><p>Toutes mes opérations</p></div>
       <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support VIP 24/7</p></div>
@@ -238,13 +238,13 @@ a{text-decoration:none;color:inherit}
     <p class="section-sub">Consultez vos bonus de parrainage et demandes de récompenses</p>
     <div class="box" style="text-align:center;margin-bottom:20px;border-color:var(--jaune);">
       <div style="font-size:42px;margin-bottom:10px">🎁</div>
-      <h3 style="color:var(--jaune);font-size:22px;font-weight:800;margin-bottom:6px">Bonus Réclamables</h3>
-      <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:20px">Chaque parrainage et investissement actif vous donne droit à des bonus exclusifs. Cliquez ci-dessous pour valider et recevoir vos bonus directement auprès de notre Service Client VIP.</p>
-      <button class="btn vert" onclick="openPage('servicePage')">💬 RÉCLAMER MON BONUS DÈS MAINTENANT</button>
+      <h3 style="color:var(--jaune);font-size:22px;font-weight:800;margin-bottom:6px">Bonus de Parrainage (10%)</h3>
+      <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:20px">Chaque filleul parrainé qui s'inscrit et effectue une recharge vous génère automatiquement <strong>10% du montant rechargé</strong> directement crédité sur votre solde !</p>
+      <button class="btn vert" onclick="openPage('teamPage')">👥 VOIR MON ÉQUIPE & MON LIEN</button>
     </div>
     <div class="box">
       <h3 style="font-size:16px;color:var(--blanc);margin-bottom:14px;font-weight:800">Retirer mes Bonus</h3>
-      <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Les bonus validés sont directement transférés sur votre solde principal ou vers votre compte mobile lié.</p>
+      <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Les bonus sont crédités directement sur votre solde principal et peuvent être retirés à tout moment.</p>
       <button class="btn accent" onclick="openPage('withdrawPage')">EFFECTUER UN RETRAIT DE GAINS</button>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
@@ -346,11 +346,11 @@ a{text-decoration:none;color:inherit}
 
   <section id="teamPage" class="page">
     <h2 class="section-title">Mon Équipe</h2>
-    <p class="section-sub">Invitez vos connaissances pour générer des bonus supplémentaires</p>
+    <p class="section-sub">Invitez vos amies/proches avec votre lien ci-dessous pour gagner 10% sur leurs recharges !</p>
     <div class="copy-row" style="margin-bottom:22px">
       <div style="min-width:0">
-        <div class="lbl">Lien de parrainage</div>
-        <div class="val" id="lienParrainage" data-raw="https://canalboxcom.github.io/-mon-site-/" style="font-size:13px">https://canalboxcom.github.io/-mon-site-/</div>
+        <div class="lbl">Lien de parrainage VIP</div>
+        <div class="val" id="lienParrainage" data-raw="" style="font-size:12px;color:var(--jaune)">Génération automatique du lien...</div>
       </div>
       <button class="copy-btn" data-src="lienParrainage" onclick="copierDepuis(this)">Copier</button>
     </div>
@@ -453,7 +453,17 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Demande de Retrait</h2>
     <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--jaune)">0 FCFA</strong></p>
     <div class="box">
-      <div class="field"><label>Montant à retirer (FCFA)</label><input id="withdrawAmount" type="number" placeholder="Min : 500 FCFA"></div>
+      <div class="field">
+        <label>Montant à retirer (FCFA)</label>
+        <input id="withdrawAmount" type="number" placeholder="Min : 500 FCFA" oninput="calculerFraisRetrait()">
+      </div>
+      
+      <div id="recapRetrait" style="background:rgba(0,0,0,0.3);padding:14px;border-radius:12px;margin-bottom:18px;font-size:13px;display:none;border:1px solid rgba(255,255,255,0.08)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Montant demandé :</span> <b id="reqMontant">0 F</b></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Frais de retrait (10%) :</span> <b id="reqFrais" style="color:var(--erreur)">-0 F</b></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;margin-top:6px;font-weight:800"><span>Montant net perçu :</span> <b id="reqNet" style="color:var(--succes)">0 F</b></div>
+      </div>
+
       <div class="field">
         <label>Numéro de réception</label>
         <div class="phone-group">
@@ -501,6 +511,9 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const rtdb = firebase.database();
 
+// Base URL exacte demandée
+const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
+
 const PLANS = [
   ['VIP0 - Leghorn Chicken', 2500, 168],
   ['VIP0+ - Muscovy Duck', 5500, 276],
@@ -528,6 +541,15 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp
 const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
 function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
+
+// Récupère et stocke le parrain depuis l'URL
+function verifierEtSauvegarderParrain() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const p = urlParams.get('parrain');
+  if (p && cle(p)) {
+    localStorage.setItem('cb_parrain_code', cle(p));
+  }
+}
 
 function erreurAuth(e) {
   const m = {
@@ -709,6 +731,27 @@ async function creerCompte() {
         return;
       }
     }
+
+    // Ajout automatique du filleul dans l'équipe du parrain
+    const parrainCode = localStorage.getItem('cb_parrain_code');
+    if (parrainCode && parrainCode !== cle(phone)) {
+      try {
+        const parrainRef = db.collection("comptes_tel").doc(parrainCode);
+        const pDoc = await parrainRef.get();
+        if (pDoc.exists) {
+          const pData = pDoc.data();
+          let listEq = pData.equipe || [];
+          if (!listEq.some(f => cle(f.phone) === cle(phone))) {
+            listEq.push({ nom: name, phone, date: new Date().toISOString() });
+            await parrainRef.update({ equipe: listEq });
+            rtdb.ref("comptes_tel/" + parrainCode + "/equipe").set(listEq);
+          }
+        }
+      } catch (errParrain) {
+        console.error("Erreur parrain :", errParrain);
+      }
+    }
+
     utilisateur = { uid, name, email, phone, solde: 0 };
     sauvegarderTout();
     verifierConnexion();
@@ -787,7 +830,19 @@ function verifierConnexion() {
   const connecte = !!utilisateur;
   document.getElementById('auth').style.display = connecte ? 'none' : 'flex';
   document.getElementById('app').style.display = connecte ? 'block' : 'none';
-  if (connecte) { mettreAJourAccueil(); ecouterChangementsFirebase(); }
+  if (connecte) {
+    mettreAJourAccueil();
+    ecouterChangementsFirebase();
+    if (utilisateur && utilisateur.phone) {
+      // Format exact demandé : https://canalboxcom.github.io/-mon-site-/?parrain= + numéro brut du téléphone
+      const linkFinal = SITE_BASE_URL + "?parrain=" + cle(utilisateur.phone);
+      const elLien = document.getElementById('lienParrainage');
+      if (elLien) {
+        elLien.textContent = linkFinal;
+        elLien.dataset.raw = linkFinal;
+      }
+    }
+  }
 }
 
 function chargerProfil() {
@@ -871,8 +926,12 @@ function afficherAchats() {
 
 function afficherEquipe() {
   const l = document.getElementById('teamList');
-  if (!equipe.length) { l.innerHTML = `<div class="empty-history">Aucun filleul dans votre équipe.</div>`; return; }
-  l.innerHTML = equipe.map(m => `<div class="history-item"><div class="history-type">👤 ${esc(m.nom || m.name || 'Filleul')}</div></div>`).join('');
+  if (!equipe.length) { l.innerHTML = `<div class="empty-history">Aucun filleul enregistré. Copiez et partagez votre lien pour inviter des membres !</div>`; return; }
+  l.innerHTML = equipe.map(m => `
+    <div class="history-item">
+      <div class="history-top"><span class="history-type">👤 ${esc(m.nom || m.name || 'Filleul')}</span><span class="history-status status-success">Membre Actif</span></div>
+      <div class="history-date">${m.phone ? esc(m.phone) : ''}</div>
+    </div>`).join('');
 }
 
 function copieSecours(texte) {
@@ -898,7 +957,7 @@ function copierTexte(texte, btn) {
       btn.classList.add('ok');
       setTimeout(() => { btn.textContent = btn.dataset.t; btn.classList.remove('ok'); }, 1600);
     }
-    toast("Copié dans le presse-papier.");
+    toast("Lien copié dans le presse-papier !");
   };
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(texte).then(() => fini(true)).catch(() => fini(copieSecours(texte)));
@@ -996,6 +1055,35 @@ function afficherSaisieIdJeko() {
   window.scrollTo(0, 0);
 }
 
+// Calcule 10% de bonus et crédite directement le solde du parrain
+async function verifierEtCrediterParrain(montantRecharge) {
+  const parrainCode = localStorage.getItem('cb_parrain_code');
+  if (!parrainCode) return;
+  const bonus = Math.round(montantRecharge * 0.10); // 10% de commission de parrainage
+  if (bonus <= 0) return;
+
+  try {
+    const pRef = db.collection("comptes_tel").doc(parrainCode);
+    const pDoc = await pRef.get();
+    if (pDoc.exists) {
+      const pData = pDoc.data();
+      const nouveauSolde = (pData.solde || 0) + bonus;
+      let recs = pData.recharges || [];
+      recs.unshift({
+        montant: bonus,
+        methode: 'parrainage',
+        txId: 'BONUS-PARRAIN-10%',
+        date: new Date().toISOString(),
+        statut: 'Validé'
+      });
+      await pRef.update({ solde: nouveauSolde, recharges: recs });
+      rtdb.ref("comptes_tel/" + parrainCode).update({ solde: nouveauSolde, recharges: recs });
+    }
+  } catch (errCred) {
+    console.error("Erreur lors du crédit de la commission au parrain :", errCred);
+  }
+}
+
 function confirmerPaiementRecharge() {
   if (envoiEnCours) return;
   if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
@@ -1009,14 +1097,20 @@ function confirmerPaiementRecharge() {
   envoiEnCours = true;
   const b = document.getElementById('btnConfirmer');
   b.disabled = true; b.textContent = 'Enregistrement en cours…';
+  
+  const m = rechargeEnCours.montant;
   historiqueRecharges.unshift({
-    montant: rechargeEnCours.montant,
+    montant: m,
     phone: rechargeEnCours.phone,
     methode: rechargeEnCours.isJeko ? 'jeko' : rechargeEnCours.methode,
     txId,
     date: new Date().toISOString(),
     statut: rechargeEnCours.isJeko ? 'En attente (Jèko VIP)' : 'En attente'
   });
+
+  // Crédite automatiquement les 10% au parrain
+  verifierEtCrediterParrain(m);
+
   sauvegarderTout();
   rechargeEnCours = {};
   envoiEnCours = false;
@@ -1024,19 +1118,48 @@ function confirmerPaiementRecharge() {
   openPage('historyPage');
 }
 
+function calculerFraisRetrait() {
+  const m = parseFloat(document.getElementById('withdrawAmount').value) || 0;
+  const divRecap = document.getElementById('recapRetrait');
+  if (m > 0) {
+    const frais = Math.round(m * 0.10);
+    const net = Math.max(0, m - frais);
+    document.getElementById('reqMontant').textContent = formatArgent(m);
+    document.getElementById('reqFrais').textContent = '-' + formatArgent(frais);
+    document.getElementById('reqNet').textContent = formatArgent(net);
+    divRecap.style.display = 'block';
+  } else {
+    divRecap.style.display = 'none';
+  }
+}
+
 function confirmerDemandeRetrait() {
-  const montant = parseFloat(document.getElementById('withdrawAmount').value);
+  const montantDemande = parseFloat(document.getElementById('withdrawAmount').value);
   const code = document.getElementById('withdrawCountryCode').value;
   const phoneRaw = document.getElementById('withdrawPhone').value.trim();
-  if (!montant || montant < 500) { toast("Minimum de retrait : 500 FCFA"); return; }
-  if (montant > solde) { toast("Solde insuffisant."); return; }
+  if (!montantDemande || montantDemande < 500) { toast("Minimum de retrait : 500 FCFA"); return; }
+  if (montantDemande > solde) { toast("Solde insuffisant."); return; }
   if (!phoneRaw) { toast("Saisissez un numéro de réception."); return; }
+
+  const frais = Math.round(montantDemande * 0.10);
+  const montantNet = montantDemande - frais;
   const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
-  solde -= montant;
-  historiqueRetraits.unshift({ montant, compte: fullPhone, date: new Date().toISOString(), statut: 'En attente' });
+
+  solde -= montantDemande;
+  historiqueRetraits.unshift({
+    montant: montantNet,
+    montantBrut: montantDemande,
+    frais: frais,
+    compte: fullPhone,
+    date: new Date().toISOString(),
+    statut: 'En attente'
+  });
+
   sauvegarderTout();
   mettreAJourAccueil();
-  toast("Demande de retrait transmise.");
+  document.getElementById('recapRetrait').style.display = 'none';
+  document.getElementById('withdrawAmount').value = '';
+  toast("Demande de retrait transmise (-10% frais réduits).");
   openPage('historyPage');
 }
 
@@ -1052,7 +1175,10 @@ function afficherHistorique() {
     const st = String(it.statut || 'En attente').replace(/\s*\([^)]*j[eè]ko[^)]*\)/i, '');
     const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
     let titre, signe, cm;
-    if (it.type === 'recharge') { titre = '💳 Recharge (' + esc(it.methode === 'jeko' ? 'MOBILE MONEY' : (it.methode ? it.methode.toUpperCase() : 'MOMO')) + ')'; signe = '+'; cm = 'amount-plus'; }
+    if (it.type === 'recharge') {
+      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 Recharge (' + esc(it.methode === 'jeko' ? 'MOBILE MONEY' : (it.methode ? it.methode.toUpperCase() : 'MOMO')) + ')');
+      signe = '+'; cm = 'amount-plus';
+    }
     else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
     else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
     return `
@@ -1060,6 +1186,7 @@ function afficherHistorique() {
         <div class="history-top"><span class="history-type">${titre}</span><span class="history-status ${cls}">${esc(st)}</span></div>
         <div class="history-date">${formatDate(it.date)}</div>
         <div class="history-amount ${cm}">${signe}${formatArgent(it.montant)}</div>
+        ${it.frais ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Frais 10% déduits (-${formatArgent(it.frais)}) | Bruts : ${formatArgent(it.montantBrut)}</div>` : ''}
         ${it.txId ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Réf Tx : ${esc(it.txId)}</div>` : ''}
         ${it.compte ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Destinataire : ${esc(it.compte)}</div>` : ''}
       </div>`;
@@ -1067,6 +1194,7 @@ function afficherHistorique() {
 }
 
 window.addEventListener('load', () => {
+  verifierEtSauvegarderParrain();
   rendrePlans();
   const stop = auth.onAuthStateChanged(async fb => {
     stop();
