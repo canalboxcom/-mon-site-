@@ -59,6 +59,96 @@ a{text-decoration:none;color:inherit}
 .btn.danger{background:linear-gradient(135deg,#EF4444,#DC2626);color:var(--blanc);margin-top:12px;box-shadow:0 6px 20px rgba(239,68,68,.3)}
 .btn.vert{background:var(--gradient-vert);color:var(--blanc);box-shadow:var(--ombre-vert);font-weight:800}
 .btn.vert:hover{filter:brightness(1.1)}
+
+/* DESIGN DU CHATBOT D'INSCRIPTION */
+.assistant-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.assistant-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.assistant-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: var(--ombre-orange);
+}
+.assistant-info h4 {
+  font-size: 14px;
+  color: var(--jaune);
+  font-weight: 800;
+}
+.assistant-info p {
+  font-size: 11px;
+  color: var(--texte-gris);
+}
+.chat-logs {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+  margin-bottom: 14px;
+}
+.chat-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  animation: fadeIn 0.2s ease-out;
+}
+.chat-msg.bot {
+  background: rgba(255, 184, 0, 0.12);
+  color: var(--blanc);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+.chat-msg.user {
+  background: var(--gradient-gold);
+  color: var(--bg-main);
+  font-weight: 700;
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+.chat-input-area {
+  display: flex;
+  gap: 8px;
+}
+.chat-input-area input, .chat-input-area select {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  background: rgba(0,0,0,0.5);
+  color: var(--blanc);
+  font-size: 14px;
+}
+.chat-input-area button {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--gradient-gold);
+  color: var(--bg-main);
+  font-weight: 800;
+  font-size: 14px;
+}
+
 #app{display:none;min-height:100vh;padding-bottom:110px}
 .topbar{position:sticky;top:0;height:70px;background:rgba(11,14,20,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:100}
 .top-title{color:var(--blanc);font-size:19px;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
@@ -88,7 +178,6 @@ a{text-decoration:none;color:inherit}
 .section-sub{color:var(--texte-gris);margin-bottom:22px;font-size:13px;line-height:1.5;font-weight:500}
 .box{background:var(--bg-card);padding:24px;border-radius:20px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.08)}
 
-/* DESIGN DE LA BANNIÈRE & DES CARTES D'INVESTISSEMENT REVISION COMPLÈTE */
 .invest-banner {
   width: 100%;
   height: 140px;
@@ -127,7 +216,6 @@ a{text-decoration:none;color:inherit}
 .vip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-gold);opacity:0;transition:var(--transition)}
 .vip-card:hover::before{opacity:1}
 
-/* IMAGE VIP INTEGRÉE ET PROPREMENT CADRÉE */
 .vip-card-img-box {
   width: 100%;
   height: 130px;
@@ -186,7 +274,7 @@ a{text-decoration:none;color:inherit}
 .service-green-box{background:var(--bg-card);border:1.5px solid rgba(16,185,129,0.3);box-shadow:var(--ombre-vert);border-radius:20px;padding:24px}
 .service-green-card{text-align:center;padding:24px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:18px;transition:var(--transition)}
 .service-green-card:hover{transform:translateY(-3px);background:rgba(16,185,129,0.12);border-color:var(--vert-client)}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:74px;background:rgba(11,14,20,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;z-index:50;padding:0 6px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:74px;background:rgba(11,14,20,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-around:space-around;align-items:center;z-index:50;padding:0 6px}
 .nav-btn{flex:1;background:transparent;color:var(--texte-gris);font-size:11px;font-weight:600;text-align:center;padding:6px 2px;transition:var(--transition);border-radius:12px;letter-spacing:.2px}
 .nav-btn span{display:block;font-size:22px;margin-bottom:3px;transition:var(--transition)}
 .nav-btn.active{color:var(--jaune);font-weight:800}
@@ -242,6 +330,7 @@ a{text-decoration:none;color:inherit}
       <button id="loginTab" class="active" onclick="showAuth('login')">Connexion</button>
       <button id="registerTab" onclick="showAuth('register')">Inscription</button>
     </div>
+    
     <div id="loginForm">
       <div class="field">
         <label>Numéro de téléphone</label>
@@ -255,20 +344,60 @@ a{text-decoration:none;color:inherit}
       <div class="field"><label>Mot de passe</label><input id="loginPassword" type="password" placeholder="••••••••"></div>
       <button class="btn accent" onclick="seConnecter()">SE CONNECTER</button>
     </div>
+
+    <!-- INSCRIPTION ASSISTÉE AVEC INTERFACE ASSISTANT / CHATBOT -->
     <div id="registerForm" class="hidden">
-      <div class="field"><label>Nom complet</label><input id="regName" type="text" placeholder="Prénom et nom"></div>
-      <div class="field">
-        <label>Numéro de téléphone</label>
-        <div class="phone-group">
-          <select id="regCountryCode">
-            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
+      
+      <div class="assistant-box">
+        <div class="assistant-header">
+          <div class="assistant-avatar">🤖</div>
+          <div class="assistant-info">
+            <h4>Assistant Inscription VIP</h4>
+            <p>Guide interactif de création de compte</p>
+          </div>
+        </div>
+
+        <div id="chatLogs" class="chat-logs">
+          <!-- Les messages du chat s'afficheront ici -->
+        </div>
+
+        <div id="chatInputWrap" class="chat-input-area">
+          <input id="chatInput" type="text" placeholder="Répondez ici..." onkeypress="handleChatKeyPress(event)">
+          
+          <select id="chatSelectCountry" class="hidden">
+            <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
+            <option value="+221">🇸🇳 Sénégal (+221)</option>
+            <option value="+223">🇲🇱 Mali (+223)</option>
+            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+            <option value="+229">🇧🇯 Bénin (+229)</option>
+            <option value="+227">🇳🇪 Niger (+227)</option>
+            <option value="+224">🇬🇳 Guinée (+224)</option>
+            <option value="+228">🇹🇬 Togo (+228)</option>
           </select>
-          <input id="regPhone" type="tel" placeholder="Ex : 0700000000">
+
+          <button onclick="validerEtapeAssistant()">Envoyer</button>
         </div>
       </div>
-      <div class="field"><label>Mot de passe (6 caractères min.)</label><input id="regPassword" type="password" placeholder="••••••"></div>
-      <button class="btn accent" onclick="creerCompte()">CRÉER MON COMPTE</button>
+
+      <!-- FORMULAIRE CLASSIQUE MASQUÉ UTILISÉ PAR L'ASSISTANT -->
+      <div id="classicRegisterFields" class="hidden">
+        <div class="field"><label>Nom complet</label><input id="regName" type="text" placeholder="Prénom et nom"></div>
+        <div class="field">
+          <label>Numéro de téléphone</label>
+          <div class="phone-group">
+            <select id="regCountryCode">
+              <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
+            </select>
+            <input id="regPhone" type="tel" placeholder="Ex : 0700000000">
+          </div>
+        </div>
+        <div class="field"><label>Mot de passe (6 caractères min.)</label><input id="regPassword" type="password" placeholder="••••••"></div>
+      </div>
+
+      <button id="btnClassicToggle" class="btn secondaire" onclick="toggleFormulaireClassique()" style="margin-top:0">Basculer sur le formulaire classique</button>
+      <button id="btnClassicSubmit" class="btn accent hidden" onclick="creerCompte()" style="margin-top:12px">CRÉER MON COMPTE</button>
     </div>
+
   </div>
 </div>
 
@@ -414,7 +543,6 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Investissements VIP</h2>
     <p class="section-sub">Optez pour la formule qui correspond à vos objectifs de gains</p>
     
-    <!-- BANNIÈRE VISUELLE CANAL BOX STYLISÉE SANS ERREUR DU CHARGEMENT -->
     <div class="invest-banner">
       <h3>CANALBOX FIBRE</h3>
       <p>L'INTERNET TRÈS HAUT DÉBIT & FORMULES RENDEMENT VIP</p>
@@ -543,7 +671,6 @@ a{text-decoration:none;color:inherit}
       📅 Horaires des retraits : Du Lundi au Vendredi, de 16h00 à 00h00.
     </div>
 
-    <!-- BOUTON POUR REJOUER L'AUDIO MANUELLEMENT -->
     <button class="btn vert" onclick="jouerAudioRetrait()" style="margin-bottom:16px;padding:12px;font-size:13px;">🔊 ÉCOUTER LE MESSAGE DE RETRAIT</button>
 
     <div class="box">
@@ -607,7 +734,6 @@ const rtdb = firebase.database();
 
 const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
 
-// SVG/DATA DESIGN POUVANT S'AFFICHER TOUJOURS ET À 100% SANS LIEN CASSE
 const SVG_BOX = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'><rect width='200' height='120' fill='%231a2232'/><circle cx='100' cy='60' r='45' fill='%23FF6B00' opacity='0.2'/><path d='M70,50 L130,50 L130,75 L70,75 Z' fill='%23E00072'/><text x='100' y='67' font-family='Arial' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>CANALBOX</text><circle cx='85' cy='42' r='3' fill='%23FFB800'/><circle cx='100' cy='42' r='3' fill='%2310B981'/><circle cx='115' cy='42' r='3' fill='%23FFB800'/></svg>";
 
 const PLANS = [
@@ -632,13 +758,143 @@ let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equ
 let compteLie = null, rechargeEnCours = {}, unsubscribeListener = null;
 let envoiEnCours = false;
 
+// LOGIQUE D'ASSISTANT D'INSCRIPTION INTERACTIF
+let currentStepAssistant = 0;
+const assistantData = {
+  name: '',
+  countryCode: '+225',
+  phone: '',
+  password: ''
+};
+
+function initAssistantChat() {
+  currentStepAssistant = 0;
+  const logs = document.getElementById('chatLogs');
+  if (logs) {
+    logs.innerHTML = '';
+    addBotMessage("Bonjour ! 👋 Bienvenue sur Canal Box VIP.");
+    addBotMessage("Je suis votre assistant. Pour commencer la création de votre compte, quel est votre **Nom complet** ?");
+  }
+  showAssistantInput('text', 'Entrez votre nom complet...');
+}
+
+function addBotMessage(msg) {
+  const logs = document.getElementById('chatLogs');
+  if (!logs) return;
+  const m = document.createElement('div');
+  m.className = 'chat-msg bot';
+  m.innerHTML = msg;
+  logs.appendChild(m);
+  logs.scrollTop = logs.scrollHeight;
+}
+
+function addUserMessage(msg) {
+  const logs = document.getElementById('chatLogs');
+  if (!logs) return;
+  const m = document.createElement('div');
+  m.className = 'chat-msg user';
+  m.textContent = msg;
+  logs.appendChild(m);
+  logs.scrollTop = logs.scrollHeight;
+}
+
+function showAssistantInput(type, placeholder) {
+  const inp = document.getElementById('chatInput');
+  const sel = document.getElementById('chatSelectCountry');
+  if (type === 'select') {
+    inp.classList.add('hidden');
+    sel.classList.remove('hidden');
+  } else {
+    sel.classList.add('hidden');
+    inp.classList.remove('hidden');
+    inp.type = type;
+    inp.placeholder = placeholder;
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function handleChatKeyPress(e) {
+  if (e.key === 'Enter') {
+    validerEtapeAssistant();
+  }
+}
+
+function validerEtapeAssistant() {
+  const inp = document.getElementById('chatInput');
+  const sel = document.getElementById('chatSelectCountry');
+  
+  if (currentStepAssistant === 0) { // Saisie du NOM
+    const val = inp.value.trim();
+    if (!val) { addBotMessage("Veuillez entrer un nom valide pour continuer."); return; }
+    assistantData.name = val;
+    document.getElementById('regName').value = val;
+    addUserMessage(val);
+    
+    currentStepAssistant = 1;
+    addBotMessage(`Enchanté ${val} ! 🌍 Dans quel **pays** résidez-vous ?`);
+    showAssistantInput('select', '');
+    
+  } else if (currentStepAssistant === 1) { // Sélection du PAYS
+    const val = sel.value;
+    const txt = sel.options[sel.selectedIndex].text;
+    assistantData.countryCode = val;
+    document.getElementById('regCountryCode').value = val;
+    addUserMessage(txt);
+    
+    currentStepAssistant = 2;
+    addBotMessage("Merci ! Veuillez saisir votre **Numéro de téléphone** (sans l'indicatif) :");
+    showAssistantInput('tel', 'Ex : 0700000000');
+
+  } else if (currentStepAssistant === 2) { // Saisie du TELEPHONE
+    const val = inp.value.trim().replace(/\s+/g, '');
+    if (cle(val).length < 7) { addBotMessage("⚠️ Ce numéro semble invalide. Entrez un numéro valide."); return; }
+    assistantData.phone = val;
+    document.getElementById('regPhone').value = val;
+    addUserMessage(val);
+
+    currentStepAssistant = 3;
+    addBotMessage("Parfait. Enfin, choisissez un **Mot de passe** sécurisé (au moins 6 caractères) :");
+    showAssistantInput('password', '••••••');
+
+  } else if (currentStepAssistant === 3) { // Saisie du MOT DE PASSE
+    const val = inp.value;
+    if (val.length < 6) { addBotMessage("⚠️ Le mot de passe doit contenir au moins 6 caractères."); return; }
+    assistantData.password = val;
+    document.getElementById('regPassword').value = val;
+    addUserMessage("••••••••");
+
+    addBotMessage("⏳ Validation et création de votre compte en cours...");
+    creerCompte();
+  }
+}
+
+function toggleFormulaireClassique() {
+  const boxBot = document.querySelector('.assistant-box');
+  const fields = document.getElementById('classicRegisterFields');
+  const btnSubmit = document.getElementById('btnClassicSubmit');
+  const btnToggle = document.getElementById('btnClassicToggle');
+
+  if (fields.classList.contains('hidden')) {
+    fields.classList.remove('hidden');
+    btnSubmit.classList.remove('hidden');
+    boxBot.classList.add('hidden');
+    btnToggle.textContent = "Utiliser l'Assistant Interactif";
+  } else {
+    fields.classList.add('hidden');
+    btnSubmit.classList.add('hidden');
+    boxBot.classList.remove('hidden');
+    btnToggle.textContent = "Basculer sur le formulaire classique";
+    initAssistantChat();
+  }
+}
+
 const cle = t => String(t || '').replace(/[^0-9]/g, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
 function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
 
-// FONCTION AUDIO VOX/MUSIQUE DE RETRAIT
 function jouerAudioRetrait() {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -808,6 +1064,10 @@ function showAuth(type) {
   document.getElementById('registerTab').classList.toggle('active', !login);
   document.getElementById('loginForm').classList.toggle('hidden', !login);
   document.getElementById('registerForm').classList.toggle('hidden', login);
+  
+  if (!login) {
+    initAssistantChat();
+  }
 }
 
 async function creerCompte() {
@@ -818,9 +1078,21 @@ async function creerCompte() {
   const phone = countryCode + rawPhone.replace(/^0+/, '');
   const email = cle(phone) + "@canalbox.app";
 
-  if (!name || !rawPhone || !password) { toast("Remplissez tous les champs."); return; }
-  if (cle(rawPhone).length < 7) { toast("Numéro de téléphone invalide."); return; }
-  if (password.length < 6) { toast("Mot de passe : 6 caractères minimum."); return; }
+  if (!name || !rawPhone || !password) { 
+    toast("Remplissez tous les champs."); 
+    addBotMessage("❌ Des informations sont manquantes. Veuillez recommencer.");
+    return; 
+  }
+  if (cle(rawPhone).length < 7) { 
+    toast("Numéro de téléphone invalide."); 
+    addBotMessage("❌ Le numéro de téléphone saisi est invalide.");
+    return; 
+  }
+  if (password.length < 6) { 
+    toast("Mot de passe : 6 caractères minimum."); 
+    addBotMessage("❌ Le mot de passe doit contenir au moins 6 caractères.");
+    return; 
+  }
 
   try {
     await auth.signOut();
@@ -839,6 +1111,7 @@ async function creerCompte() {
         await userCred.user.delete();
         reinitialiserEtat();
         toast("Ce numéro est déjà utilisé. Connectez-vous.");
+        addBotMessage("❌ Ce numéro possède déjà un compte. Basculez sur l'onglet Connexion.");
         showAuth('login');
         return;
       }
@@ -870,7 +1143,9 @@ async function creerCompte() {
     toast("Compte créé avec succès !");
   } catch (e) {
     reinitialiserEtat();
-    toast(erreurAuth(e));
+    const msgErr = erreurAuth(e);
+    toast(msgErr);
+    addBotMessage("❌ " + msgErr);
   }
 }
 
