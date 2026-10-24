@@ -60,7 +60,7 @@ a{text-decoration:none;color:inherit}
 .btn.vert{background:var(--gradient-vert);color:var(--blanc);box-shadow:var(--ombre-vert);font-weight:800}
 .btn.vert:hover{filter:brightness(1.1)}
 
-/* DESIGN DU CHATBOT D'INSCRIPTION */
+/* CHATBOT INSCRIPTION */
 .assistant-box {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
@@ -147,6 +147,76 @@ a{text-decoration:none;color:inherit}
   color: var(--bg-main);
   font-weight: 800;
   font-size: 14px;
+}
+
+/* BOUTON ASSISTANT VOCAL FLOTTANT */
+#voiceAssistantBtn {
+  position: fixed;
+  bottom: 85px;
+  right: 18px;
+  z-index: 999;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+  border: 2px solid rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+#voiceAssistantBtn:hover {
+  transform: scale(1.1);
+}
+#voiceAssistantBtn.listening {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  animation: pulseVoice 1.2s infinite;
+  box-shadow: 0 0 35px rgba(239, 68, 68, 0.9);
+}
+@keyframes pulseVoice {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ENREGISTREUR VOCAL SERVICE CLIENT WHATSAPP */
+.service-voice-card {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1.5px dashed var(--vert-client);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 18px;
+  transition: var(--transition);
+}
+.service-voice-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gradient-vert);
+  color: #FFF;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px auto;
+  box-shadow: var(--ombre-vert);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.service-voice-btn.recording {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  animation: pulseVoice 1s infinite;
+}
+.voice-timer {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--jaune);
+  margin-top: 6px;
 }
 
 #app{display:none;min-height:100vh;padding-bottom:110px}
@@ -319,6 +389,9 @@ a{text-decoration:none;color:inherit}
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
 
+<!-- BOUTON D'ASSISTANT VOCAL FLOTTANT INTERACTIF -->
+<button id="voiceAssistantBtn" onclick="toggleVoiceAssistant()" title="Assistant Vocal - Appuyez et parlez">🎙️</button>
+
 <div id="auth">
   <div class="auth-box">
     <div class="logo">
@@ -357,9 +430,7 @@ a{text-decoration:none;color:inherit}
           </div>
         </div>
 
-        <div id="chatLogs" class="chat-logs">
-          <!-- Les messages du chat s'afficheront ici -->
-        </div>
+        <div id="chatLogs" class="chat-logs"></div>
 
         <div id="chatInputWrap" class="chat-input-area">
           <input id="chatInput" type="text" placeholder="Répondez ici..." onkeypress="handleChatKeyPress(event)">
@@ -379,7 +450,6 @@ a{text-decoration:none;color:inherit}
         </div>
       </div>
 
-      <!-- FORMULAIRE CLASSIQUE MASQUÉ UTILISÉ PAR L'ASSISTANT -->
       <div id="classicRegisterFields" class="hidden">
         <div class="field"><label>Nom complet</label><input id="regName" type="text" placeholder="Prénom et nom"></div>
         <div class="field">
@@ -490,6 +560,25 @@ a{text-decoration:none;color:inherit}
         <h2 class="section-title" style="color:var(--vert-client);font-size:24px">Service Client VIP 24/7</h2>
         <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée, validation de recharges & réclamation de vos bonus</p>
       </div>
+
+      <!-- ASSISTANT D'ENREGISTREMENT ET TRANSFERT VOCAL DIRECT SUR WHATSAPP -->
+      <div class="service-voice-card">
+        <div style="font-size:20px;font-weight:800;color:var(--vert-client);margin-bottom:4px">🎙️ Assistant Vocal WhatsApp Direct</div>
+        <p style="font-size:12px;color:var(--texte-gris)">Enregistrez votre message audio puis envoyez-le directement au support WhatsApp.</p>
+        
+        <div id="serviceVoiceBtn" class="service-voice-btn" onclick="toggleEnregistrementVocalService()">🎙️</div>
+        
+        <div id="serviceVoiceStatus" style="font-size:13px;font-weight:700;color:var(--blanc)">Cliquez sur le micro pour enregistrer</div>
+        <div id="serviceVoiceTimer" class="voice-timer hidden">00:00</div>
+
+        <audio id="serviceVoiceAudioPlayer" controls class="hidden" style="margin:14px auto 8px;width:100%;max-width:300px"></audio>
+
+        <div id="serviceVoiceActions" class="hidden" style="margin-top:14px">
+          <button class="btn vert" onclick="envoyerVocalWhatsAppDirect()" style="padding:14px;font-size:13px;margin-bottom:8px">🚀 ENVOYER DIRECTEMENT SUR WHATSAPP</button>
+          <a id="downloadVoiceLink" class="btn secondaire" style="display:block;padding:12px;font-size:12px">📥 Télécharger l'audio enregisté</a>
+        </div>
+      </div>
+
       <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-bottom:20px">
         
         <div class="service-green-card">
@@ -757,15 +846,235 @@ let utilisateur = null, solde = 0;
 let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equipe = [];
 let compteLie = null, rechargeEnCours = {}, unsubscribeListener = null;
 let envoiEnCours = false;
+let pagePrecedente = 'homePage';
+let pageActuelle = 'homePage';
 
-// LOGIQUE D'ASSISTANT D'INSCRIPTION INTERACTIF
+// ASSISTANT VOCAL DE NAVIGATION SUR LE SITE
+let isListening = false;
+let speechRecognition = null;
+
+if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  speechRecognition = new SpeechRec();
+  speechRecognition.continuous = false;
+  speechRecognition.interimResults = false;
+  speechRecognition.lang = 'fr-FR';
+
+  speechRecognition.onstart = () => {
+    isListening = true;
+    const btn = document.getElementById('voiceAssistantBtn');
+    if (btn) btn.classList.add('listening');
+    toast("🎙️ Dites votre commande (ex: Ouvre investir, Ouvre retrait, Retour)...");
+  };
+
+  speechRecognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+    toast(`🗣️ Ordre reçu : "${transcript}"`);
+    traiterCommandeVocale(transcript);
+  };
+
+  speechRecognition.onerror = (e) => {
+    console.error("Erreur vocale:", e);
+    arreterAssistantVocal();
+  };
+
+  speechRecognition.onend = () => {
+    arreterAssistantVocal();
+  };
+}
+
+function toggleVoiceAssistant() {
+  if (!speechRecognition) {
+    toast("⚠️ Reconnaissance vocale non supportée par votre navigateur.");
+    parlerReponse("La reconnaissance vocale n'est pas supportée sur votre appareil.");
+    return;
+  }
+  if (isListening) {
+    speechRecognition.stop();
+  } else {
+    try {
+      speechRecognition.start();
+    } catch(e) {
+      console.error(e);
+    }
+  }
+}
+
+function arreterAssistantVocal() {
+  isListening = false;
+  const btn = document.getElementById('voiceAssistantBtn');
+  if (btn) btn.classList.remove('listening');
+}
+
+function parlerReponse(texte) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const msg = new SpeechSynthesisUtterance(texte);
+    msg.lang = 'fr-FR';
+    msg.rate = 1.0;
+    window.speechSynthesis.speak(msg);
+  }
+}
+
+function traiterCommandeVocale(cmd) {
+  if (cmd.includes('retour') || cmd.includes('revenir') || cmd.includes('derrière') || cmd.includes('précédent')) {
+    if (pagePrecedente && pagePrecedente !== pageActuelle) {
+      parlerReponse("Retour à la page précédente.");
+      openPage(pagePrecedente);
+    } else {
+      parlerReponse("Retour à l'accueil.");
+      openPage('homePage');
+    }
+    return;
+  }
+
+  if (cmd.includes('accueil') || cmd.includes('maison') || cmd.includes('menu principal')) {
+    parlerReponse("Ouverture de l'accueil.");
+    openPage('homePage');
+    return;
+  }
+
+  if (cmd.includes('investir') || cmd.includes('investissement') || cmd.includes('plans') || cmd.includes('offres')) {
+    parlerReponse("Ouverture de la page d'investissement.");
+    openPage('investPage');
+    return;
+  }
+
+  if (cmd.includes('retrait') || cmd.includes('retirer') || cmd.includes('gains') || cmd.includes('argent')) {
+    parlerReponse("Ouverture de la page de retrait.");
+    openPage('withdrawPage');
+    return;
+  }
+
+  if (cmd.includes('recharger') || cmd.includes('recharge') || cmd.includes('déposer') || cmd.includes('dépôt')) {
+    parlerReponse("Ouverture de la page de recharge.");
+    openPage('rechargePage');
+    return;
+  }
+
+  if (cmd.includes('compte') || cmd.includes('profil') || cmd.includes('mon compte')) {
+    parlerReponse("Ouverture de votre profil.");
+    openPage('accountPage');
+    return;
+  }
+
+  if (cmd.includes('bonus') || cmd.includes('cadeau') || cmd.includes('récompense')) {
+    parlerReponse("Ouverture de vos bonus.");
+    openPage('bonusPage');
+    return;
+  }
+
+  if (cmd.includes('équipe') || cmd.includes('equipe') || cmd.includes('filleul') || cmd.includes('parrainage')) {
+    parlerReponse("Ouverture de votre équipe.");
+    openPage('teamPage');
+    return;
+  }
+
+  if (cmd.includes('historique') || cmd.includes('transactions') || cmd.includes('opération')) {
+    parlerReponse("Ouverture de votre historique.");
+    openPage('historyPage');
+    return;
+  }
+
+  if (cmd.includes('service') || cmd.includes('support') || cmd.includes('aide') || cmd.includes('whatsapp')) {
+    parlerReponse("Ouverture du service client.");
+    openPage('servicePage');
+    return;
+  }
+
+  if (cmd.includes('déconnecter') || cmd.includes('déconnexion') || cmd.includes('quitter')) {
+    parlerReponse("Déconnexion en cours.");
+    deconnexion();
+    return;
+  }
+
+  parlerReponse("Commande non reconnue. Essayez : ouvre investir, ouvre retrait, ou retour.");
+}
+
+// LOGIQUE ASSISTANT AUDIO SERVICE CLIENT WHATSAPP
+let mediaRecorderService = null;
+let audioChunksService = [];
+let voiceTimerInterval = null;
+let secondsEnregistres = 0;
+let audioBlobService = null;
+
+async function toggleEnregistrementVocalService() {
+  const btn = document.getElementById('serviceVoiceBtn');
+  const status = document.getElementById('serviceVoiceStatus');
+  const timer = document.getElementById('serviceVoiceTimer');
+  const actions = document.getElementById('serviceVoiceActions');
+  const player = document.getElementById('serviceVoiceAudioPlayer');
+
+  if (mediaRecorderService && mediaRecorderService.state === "recording") {
+    // STOPPER L'ENREGISTREMENT
+    mediaRecorderService.stop();
+    clearInterval(voiceTimerInterval);
+    btn.classList.remove('recording');
+    btn.textContent = "🎙️";
+    status.textContent = "Enregistrement terminé ! Écoutez ou envoyez.";
+  } else {
+    // DÉMARRER L'ENREGISTREMENT
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderService = new MediaRecorder(stream);
+      audioChunksService = [];
+
+      mediaRecorderService.ondataavailable = event => {
+        audioChunksService.push(event.data);
+      };
+
+      mediaRecorderService.onstop = () => {
+        audioBlobService = new Blob(audioChunksService, { type: 'audio/mp3' });
+        const audioUrl = URL.createObjectURL(audioBlobService);
+        player.src = audioUrl;
+        player.classList.remove('hidden');
+        actions.classList.remove('hidden');
+
+        const downloadLink = document.getElementById('downloadVoiceLink');
+        downloadLink.href = audioUrl;
+        downloadLink.download = `Vocal_Service_VIP_${Date.now()}.mp3`;
+      };
+
+      mediaRecorderService.start();
+      secondsEnregistres = 0;
+      timer.classList.remove('hidden');
+      timer.textContent = "00:00";
+      
+      voiceTimerInterval = setInterval(() => {
+        secondsEnregistres++;
+        const mins = String(Math.floor(secondsEnregistres / 60)).padStart(2, '0');
+        const secs = String(secondsEnregistres % 60).padStart(2, '0');
+        timer.textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      btn.classList.add('recording');
+      btn.textContent = "⏹️";
+      status.textContent = "Enregistrement en cours... Cliquez pour arrêter";
+      actions.classList.add('hidden');
+      player.classList.add('hidden');
+
+    } catch (err) {
+      console.error(err);
+      toast("⚠️ Accès au microphone refusé ou non supporté.");
+    }
+  }
+}
+
+function envoyerVocalWhatsAppDirect() {
+  const nomMembre = utilisateur ? (utilisateur.name || 'Membre') : 'Membre';
+  const telMembre = utilisateur ? (utilisateur.phone || '') : '';
+  const texteMessage = encodeURIComponent(`Bonjour Service Client VIP Canal Box,\n\nJe suis le membre : ${nomMembre} (${telMembre}).\n\nJ'ai enregistré un message vocal pour votre support. Merci de prendre en charge ma demande.`);
+  
+  // LIEN VERS LE WHATSAPP DIRECT AVEC MESSAGE PRÉDÉFINI DE RECEPTION AUDITIVE
+  const urlWhatsApp = `https://wa.me/qr/JZYGKM3FM3XTL1?text=${texteMessage}`;
+  
+  toast("Redirection vers WhatsApp pour l'envoi direct...");
+  window.open(urlWhatsApp, '_blank');
+}
+
+// LOGIQUE CHATBOT INSCRIPTION
 let currentStepAssistant = 0;
-const assistantData = {
-  name: '',
-  countryCode: '+225',
-  phone: '',
-  password: ''
-};
+const assistantData = { name: '', countryCode: '+225', phone: '', password: '' };
 
 function initAssistantChat() {
   currentStepAssistant = 0;
@@ -815,16 +1124,14 @@ function showAssistantInput(type, placeholder) {
 }
 
 function handleChatKeyPress(e) {
-  if (e.key === 'Enter') {
-    validerEtapeAssistant();
-  }
+  if (e.key === 'Enter') validerEtapeAssistant();
 }
 
 function validerEtapeAssistant() {
   const inp = document.getElementById('chatInput');
   const sel = document.getElementById('chatSelectCountry');
   
-  if (currentStepAssistant === 0) { // Saisie du NOM
+  if (currentStepAssistant === 0) {
     const val = inp.value.trim();
     if (!val) { addBotMessage("Veuillez entrer un nom valide pour continuer."); return; }
     assistantData.name = val;
@@ -835,7 +1142,7 @@ function validerEtapeAssistant() {
     addBotMessage(`Enchanté ${val} ! 🌍 Dans quel **pays** résidez-vous ?`);
     showAssistantInput('select', '');
     
-  } else if (currentStepAssistant === 1) { // Sélection du PAYS
+  } else if (currentStepAssistant === 1) {
     const val = sel.value;
     const txt = sel.options[sel.selectedIndex].text;
     assistantData.countryCode = val;
@@ -846,7 +1153,7 @@ function validerEtapeAssistant() {
     addBotMessage("Merci ! Veuillez saisir votre **Numéro de téléphone** (sans l'indicatif) :");
     showAssistantInput('tel', 'Ex : 0700000000');
 
-  } else if (currentStepAssistant === 2) { // Saisie du TELEPHONE
+  } else if (currentStepAssistant === 2) {
     const val = inp.value.trim().replace(/\s+/g, '');
     if (cle(val).length < 7) { addBotMessage("⚠️ Ce numéro semble invalide. Entrez un numéro valide."); return; }
     assistantData.phone = val;
@@ -857,7 +1164,7 @@ function validerEtapeAssistant() {
     addBotMessage("Parfait. Enfin, choisissez un **Mot de passe** sécurisé (au moins 6 caractères) :");
     showAssistantInput('password', '••••••');
 
-  } else if (currentStepAssistant === 3) { // Saisie du MOT DE PASSE
+  } else if (currentStepAssistant === 3) {
     const val = inp.value;
     if (val.length < 6) { addBotMessage("⚠️ Le mot de passe doit contenir au moins 6 caractères."); return; }
     assistantData.password = val;
@@ -1039,6 +1346,10 @@ function ecouterChangementsFirebase() {
 }
 
 function openPage(pageId) {
+  if (pageActuelle !== pageId) {
+    pagePrecedente = pageActuelle;
+    pageActuelle = pageId;
+  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = document.getElementById(pageId);
   if (t) t.classList.add('active');
