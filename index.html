@@ -60,7 +60,6 @@ a{text-decoration:none;color:inherit}
 .btn.vert{background:var(--gradient-vert);color:var(--blanc);box-shadow:var(--ombre-vert);font-weight:800}
 .btn.vert:hover{filter:brightness(1.1)}
 
-/* CHATBOT INSCRIPTION */
 .assistant-box {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
@@ -149,7 +148,6 @@ a{text-decoration:none;color:inherit}
   font-size: 14px;
 }
 
-/* BOUTON ASSISTANT VOCAL FLOTTANT */
 #voiceAssistantBtn {
   position: fixed;
   bottom: 85px;
@@ -183,7 +181,6 @@ a{text-decoration:none;color:inherit}
   100% { transform: scale(1); }
 }
 
-/* ENREGISTREUR VOCAL SERVICE CLIENT WHATSAPP */
 .service-voice-card {
   background: rgba(16, 185, 129, 0.08);
   border: 1.5px dashed var(--vert-client);
@@ -357,13 +354,6 @@ a{text-decoration:none;color:inherit}
 .pay-card{background:var(--bg-card);border-radius:24px;padding:26px;box-shadow:var(--ombre);border:1px solid var(--border)}
 .net-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gradient-soft);color:var(--jaune);padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;border:1px solid rgba(255,184,0,0.3);letter-spacing:.3px}
 .pay-amount{font-size:38px;font-weight:900;color:var(--jaune);margin:8px 0 12px;letter-spacing:-1px}
-.copy-row{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.3);border-radius:12px;padding:14px 16px;margin-top:14px;text-align:left;border:1px solid rgba(255,255,255,0.06)}
-.copy-row .lbl{font-size:11px;color:var(--texte-gris);font-weight:700;text-transform:uppercase;letter-spacing:.6px}
-.copy-row .val{font-size:17px;font-weight:800;margin-top:3px;word-break:break-all;color:var(--blanc)}
-.copy-btn{flex:none;margin-left:auto;background:var(--gradient-soft);color:var(--jaune);padding:10px 16px;border-radius:10px;font-weight:700;font-size:12px;border:1px solid rgba(255,184,0,0.3);transition:var(--transition)}
-.copy-btn:hover{background:var(--gradient-gold);color:var(--bg-main)}
-.copy-btn.ok{background:var(--succes)!important;color:var(--blanc)!important;border-color:var(--succes)!important}
-.copy-btn.centre{margin:0 auto;display:inline-block}
 .pay-sep{height:1px;background:rgba(255,255,255,0.08);margin:22px 0 18px}
 .pay-label{display:block;text-align:left;font-size:13px;font-weight:700;margin-bottom:8px;color:var(--blanc)}
 .input-wrap{display:flex;gap:8px}
@@ -372,13 +362,29 @@ a{text-decoration:none;color:inherit}
 .paste-btn{flex:none;padding:0 18px;border-radius:12px;background:var(--gradient-soft);color:var(--jaune);font-weight:700;font-size:13px;border:1px solid rgba(255,184,0,0.3);transition:var(--transition)}
 .paste-btn:hover{background:var(--gradient-gold);color:var(--bg-main)}
 .note{background:rgba(255,107,0,0.12);color:var(--jaune-clair);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.6;margin:16px 0;text-align:left;font-weight:500;border:1px solid rgba(255,107,0,0.3)}
-.success{text-align:center;padding:10px 0}
-.success-icon{width:86px;height:86px;margin:0 auto 18px;border-radius:50%;background:var(--succes-bg);color:var(--succes);font-size:42px;display:flex;align-items:center;justify-content:center;border:2px solid var(--succes);box-shadow:0 0 25px rgba(16,185,129,0.3)}
-.recap{background:rgba(0,0,0,0.3);border-radius:14px;padding:6px 16px;margin:18px 0 20px;text-align:left;border:1px solid rgba(255,255,255,0.06)}
-.recap div{display:flex;justify-content:space-between;gap:12px;padding:11px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05)}
-.recap div:last-child{border-bottom:none}
-.recap span{color:var(--texte-gris);font-weight:600}
-.recap b{text-align:right;word-break:break-all;color:var(--blanc)}
+
+.instruction-box {
+  background: rgba(255, 184, 0, 0.08);
+  border: 1px dashed var(--jaune);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.instruction-box h4 {
+  color: var(--jaune);
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.instruction-box p {
+  font-size: 13px;
+  color: var(--texte-gris);
+  line-height: 1.5;
+}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -389,7 +395,6 @@ a{text-decoration:none;color:inherit}
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
 
-<!-- BOUTON D'ASSISTANT VOCAL FLOTTANT INTERACTIF -->
 <button id="voiceAssistantBtn" onclick="toggleVoiceAssistant()" title="Assistant Vocal - Appuyez et parlez">🎙️</button>
 
 <div id="auth">
@@ -409,7 +414,11 @@ a{text-decoration:none;color:inherit}
         <label>Numéro de téléphone</label>
         <div class="phone-group">
           <select id="loginCountryCode">
-            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
+            <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
+            <option value="+229">🇧🇯 Bénin (+229)</option>
+            <option value="+228">🇹🇬 Togo (+228)</option>
+            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+            <option value="+221">🇸🇳 Sénégal (+221)</option>
           </select>
           <input id="loginContact" type="tel" inputmode="tel" placeholder="Ex : 0700000000">
         </div>
@@ -418,7 +427,6 @@ a{text-decoration:none;color:inherit}
       <button class="btn accent" onclick="seConnecter()">SE CONNECTER</button>
     </div>
 
-    <!-- INSCRIPTION ASSISTÉE AVEC INTERFACE ASSISTANT / CHATBOT -->
     <div id="registerForm" class="hidden">
       
       <div class="assistant-box">
@@ -436,14 +444,11 @@ a{text-decoration:none;color:inherit}
           <input id="chatInput" type="text" placeholder="Répondez ici..." onkeypress="handleChatKeyPress(event)">
           
           <select id="chatSelectCountry" class="hidden">
-            <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
-            <option value="+221">🇸🇳 Sénégal (+221)</option>
-            <option value="+223">🇲🇱 Mali (+223)</option>
-            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+            <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
             <option value="+229">🇧🇯 Bénin (+229)</option>
-            <option value="+227">🇳🇪 Niger (+227)</option>
-            <option value="+224">🇬🇳 Guinée (+224)</option>
             <option value="+228">🇹🇬 Togo (+228)</option>
+            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+            <option value="+221">🇸🇳 Sénégal (+221)</option>
           </select>
 
           <button onclick="validerEtapeAssistant()">Envoyer</button>
@@ -456,7 +461,11 @@ a{text-decoration:none;color:inherit}
           <label>Numéro de téléphone</label>
           <div class="phone-group">
             <select id="regCountryCode">
-              <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
+              <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
+              <option value="+229">🇧🇯 Bénin (+229)</option>
+              <option value="+228">🇹🇬 Togo (+228)</option>
+              <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+              <option value="+221">🇸🇳 Sénégal (+221)</option>
             </select>
             <input id="regPhone" type="tel" placeholder="Ex : 0700000000">
           </div>
@@ -493,7 +502,7 @@ a{text-decoration:none;color:inherit}
       <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
       <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Compte Lié</strong><p>Mode de réception</p></div>
       <div class="quick-card" onclick="openPage('linkPage')"><div class="quick-icon">🔗</div><strong>Lier un Compte</strong><p>Nouveau compte</p></div>
-      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains (10% frais)</p></div>
+      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains (15% frais)</p></div>
       <div class="quick-card" onclick="openPage('teamPage')"><div class="quick-icon">👥</div><strong>Mon Équipe</strong><p>Parrainage & filleuls</p></div>
       <div class="quick-card" onclick="openPage('historyPage')"><div class="quick-icon">📋</div><strong>Historique</strong><p>Toutes mes opérations</p></div>
       <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support VIP 24/7</p></div>
@@ -528,21 +537,30 @@ a{text-decoration:none;color:inherit}
 
   <section id="linkPage" class="page">
     <h2 class="section-title">Lier un Compte</h2>
-    <p class="section-sub">Enregistrez votre compte pour recevoir rapidement vos gains</p>
+    <p class="section-sub">Enregistrez votre nom et compte pour recevoir rapidement vos gains</p>
     <div class="box">
+      <div class="field"><label>Nom complet du titulaire</label><input id="linkedFullName" type="text" placeholder="Prénom et nom"></div>
+      <div class="field"><label>Pays de résidence</label>
+        <select id="linkedCountrySelect" onchange="mettreAJourMethodesLien()">
+          <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
+          <option value="+229">🇧🇯 Bénin (+229)</option>
+          <option value="+228">🇹🇬 Togo (+228)</option>
+          <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+          <option value="+221">🇸🇳 Sénégal (+221)</option>
+        </select></div>
       <div class="field"><label>Service / Réseau de réception</label>
         <select id="linkedType">
-          <option value="wave">Wave Mobile</option>
-          <option value="orange">Orange Money</option>
-          <option value="mtn">MTN MoMo</option>
-          <option value="moov">Moov Money</option>
-          <option value="banque">Compte Bancaire / RIB</option>
+          <!-- Dynamique -->
         </select></div>
       <div class="field">
         <label>Numéro de téléphone de réception (avec indicatif)</label>
         <div class="phone-group">
           <select id="linkedCountryCode">
-            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
+            <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
+            <option value="+229">🇧🇯 Bénin (+229)</option>
+            <option value="+228">🇹🇬 Togo (+228)</option>
+            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+            <option value="+221">🇸🇳 Sénégal (+221)</option>
           </select>
           <input id="linkedPhone" type="tel" placeholder="Ex : 0700000000">
         </div>
@@ -561,7 +579,6 @@ a{text-decoration:none;color:inherit}
         <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée, validation de recharges & réclamation de vos bonus</p>
       </div>
 
-      <!-- ASSISTANT D'ENREGISTREMENT ET TRANSFERT VOCAL DIRECT SUR WHATSAPP -->
       <div class="service-voice-card">
         <div style="font-size:20px;font-weight:800;color:var(--vert-client);margin-bottom:4px">🎙️ Assistant Vocal WhatsApp Direct</div>
         <p style="font-size:12px;color:var(--texte-gris)">Enregistrez votre message audio puis envoyez-le directement au support WhatsApp.</p>
@@ -575,7 +592,7 @@ a{text-decoration:none;color:inherit}
 
         <div id="serviceVoiceActions" class="hidden" style="margin-top:14px">
           <button class="btn vert" onclick="envoyerVocalWhatsAppDirect()" style="padding:14px;font-size:13px;margin-bottom:8px">🚀 ENVOYER DIRECTEMENT SUR WHATSAPP</button>
-          <a id="downloadVoiceLink" class="btn secondaire" style="display:block;padding:12px;font-size:12px">📥 Télécharger l'audio enregisté</a>
+          <a id="downloadVoiceLink" class="btn secondaire" style="display:block;padding:12px;font-size:12px">📥 Télécharger l'audio enregistré</a>
         </div>
       </div>
 
@@ -664,91 +681,52 @@ a{text-decoration:none;color:inherit}
   <section id="rechargePage" class="page">
     <h2 class="section-title">Recharger mon Solde</h2>
     <div class="box">
-      <div class="field"><label>Pays de rechargement</label>
-        <select id="rechargeCountryCode">
-          <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
-          <option value="+221">🇸🇳 Sénégal (+221)</option>
-          <option value="+223">🇲🇱 Mali (+223)</option>
-          <option value="+226">🇧🇫 Burkina Faso (+226)</option>
-          <option value="+229">🇧🇯 Bénin (+229)</option>
-          <option value="+227">🇳🇪 Niger (+227)</option>
-          <option value="+224">🇬🇳 Guinée (+224)</option>
-          <option value="+228">🇹🇬 Togo (+228)</option>
+      <div class="field"><label>Sélectionnez un plan d'investissement VIP</label>
+        <select id="rechargePlanSelect" onchange="selectionnerPlanRecharge()">
+          <option value="" disabled selected>-- Choisissez un montant / plan --</option>
+          <option value="2500">VIP0 - Leghorn Chicken (2 500 FCFA)</option>
+          <option value="5500">VIP0+ - Muscovy Duck (5 500 FCFA)</option>
+          <option value="12500">VIP1 - Pekin Duck (12 500 FCFA)</option>
+          <option value="25000">VIP2 - Uda Sheep (25 000 FCFA)</option>
+          <option value="50000">VIP3 - Suffolk Sheep (50 000 FCFA)</option>
+          <option value="100000">VIP4 - Autruche (100 000 FCFA)</option>
+          <option value="200000">VIP5 - Vache laitière (200 000 FCFA)</option>
+          <option value="500000">VIP6 - Chameau (500 000 FCFA)</option>
+          <option value="1000000">VIP7 - Plan Ultime (1 000 000 FCFA)</option>
         </select></div>
-      <div class="field"><label>Moyen de recharge / Réseau</label>
-        <select id="rechargeMethod">
-          <option value="wave">Wave Mobile</option>
-          <option value="orange">Orange Money</option>
-          <option value="mtn">MTN Money</option>
-          <option value="moov">Moov Money</option>
-        </select></div>
-      <div class="field"><label>Montant (FCFA)</label><input id="rechargeAmount" type="number" placeholder="Ex : 5000"></div>
-      <div class="field"><label>Numéro de paiement</label><input id="rechargePhone" type="text" placeholder="Ex : 0700000000"></div>
-      <button class="btn accent" onclick="continuerPaiementRecharge()">CONTINUER</button>
+      <div class="field"><label>Montant exact (FCFA)</label><input id="rechargeAmount" type="number" readonly style="background:rgba(0,0,0,0.2);color:var(--jaune);font-weight:800"></div>
+      <button class="btn accent" onclick="accederPaiementKkiapay()">CONTINUER VERS LE PAIEMENT</button>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
   <section id="rechargePaymentPage" class="page">
     <div id="payForm">
-      <h2 class="section-title" id="payPageTitle">Transfert de Fonds Sécurisé</h2>
-      <p class="section-sub" id="payPageSub">Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.</p>
+      <h2 class="section-title">Validation du Paiement Kkiapay</h2>
+      <p class="section-sub">Effectuez votre paiement sur la plateforme officielle, puis revenez ici coller votre référence.</p>
 
-      <div id="jekoPaymentContainer" class="hidden" style="margin-bottom:20px;text-align:center;">
-        <div class="box" style="border:1.5px solid var(--jaune);background:rgba(255,184,0,0.06);box-shadow:var(--ombre-orange);">
-          <div style="font-size:36px;margin-bottom:6px">⚡</div>
-          <h3 style="color:var(--jaune);font-size:19px;font-weight:800;margin-bottom:6px">Paiement Sécurisé Mobile Money</h3>
-          <div class="pay-amount" id="jekoAmountDisplay" style="font-size:30px;margin:4px 0 12px">0 FCFA</div>
-          <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:16px">
-            1. Cliquez sur le bouton ci-dessous et effectuez votre paiement.<br>
-            2. Une fois le paiement effectué, revenez ici et appuyez sur le bouton vert pour saisir l'ID de votre reçu.
-          </p>
-          <a id="jekoLinkBtn" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener" class="btn accent" style="display:block;margin-bottom:12px;padding:16px;font-size:15px;" onclick="enregistrerClicJeko()">🚀 PAYER MAINTENANT</a>
-          <button class="btn vert" onclick="afficherSaisieIdJeko()" style="display:block;padding:14px;font-size:13px;">✅ J'AI PAYÉ : SAISIR MON ID DE TRANSACTION</button>
-        </div>
-      </div>
+      <div class="pay-card" style="text-align:center">
+        <span class="net-badge">Paiement Kkiapay Sécurisé</span>
+        <p style="font-size:14px;color:var(--texte-gris);margin-top:16px;font-weight:500">Montant sélectionné :</p>
+        <div class="pay-amount" id="payAmountDisplay">0 FCFA</div>
 
-      <div class="steps" id="paySteps">
-        <div class="step"><i>1</i>Copier</div>
-        <div class="step"><i>2</i>Payer</div>
-        <div class="step"><i>3</i>Confirmer</div>
-      </div>
+        <!-- Bouton de paiement Kkiapay -->
+        <button class="btn vert" onclick="ouvrirLienKkiapayActuel()" style="margin-bottom:20px;padding:16px;font-size:15px">💳 1. CLIQUER ICI POUR PAYER SUR KKIAPAY</button>
 
-      <div class="pay-card" id="classicPayCard" style="text-align:center">
-        <span class="net-badge" id="payNetwork">Wave Mobile</span>
-        <p style="font-size:14px;color:var(--texte-gris);margin-top:16px;font-weight:500">Montant exact à envoyer :</p>
-        <div class="pay-amount" id="payAmountDisplay" data-raw="0">0 FCFA</div>
-        <button class="copy-btn centre" data-src="payAmountDisplay" onclick="copierDepuis(this)">Copier le montant</button>
-
-        <div id="classicPaymentDetails">
-          <div class="copy-row">
-            <div>
-              <div class="lbl">Entreprise / Bénéficiaire</div>
-              <div class="val" id="payCompany" data-raw="Canal Box VIP">Canal Box VIP</div>
-            </div>
-            <button class="copy-btn" data-src="payCompany" onclick="copierDepuis(this)">Copier</button>
-          </div>
-          <div class="copy-row">
-            <div>
-              <div class="lbl">Numéro du compte officiel</div>
-              <div class="val" id="companyNumber" data-raw="00000000">00000000</div>
-            </div>
-            <button class="copy-btn" data-src="companyNumber" onclick="copierDepuis(this)">Copier</button>
-          </div>
+        <div class="instruction-box">
+          <h4>🔄 Instructions importantes :</h4>
+          <p>Une fois votre paiement terminé sur Kkiapay, <b>revenez ici</b>, copiez et collez votre <b>ID de transaction</b> ou référence SMS ci-dessous pour valider.</p>
         </div>
 
-        <div id="txIdBlock">
-          <div class="pay-sep"></div>
-          <label class="pay-label" for="rechargeTxId">ID de Transaction / Référence SMS</label>
-          <div class="input-wrap">
-            <input id="rechargeTxId" type="text" placeholder="Ex : TX12345678" autocomplete="off" autocapitalize="characters">
-            <button class="paste-btn" onclick="collerTxId()">Coller</button>
-          </div>
-          <div class="note">Transférez exactement la somme indiquée. Votre solde sera crédité après confirmation par l'équipe financière.</div>
-          <button class="btn accent" id="btnConfirmer" onclick="confirmerPaiementRecharge()">CONFIRMER ET ENREGISTRER LE PAIEMENT</button>
+        <div class="pay-sep"></div>
+        <label class="pay-label" for="rechargeTxId">2. Collez l'ID de transaction ici :</label>
+        <div class="input-wrap" style="margin-bottom:16px">
+          <input id="rechargeTxId" type="text" placeholder="Ex : KK12345678" autocomplete="off" autocapitalize="characters">
         </div>
+        
+        <button class="btn accent" id="btnConfirmer" onclick="confirmerPaiementRecharge()">3. CONFIRMER ET ENREGISTRER DANS L'HISTORIQUE</button>
       </div>
-      <button class="btn secondaire" onclick="openPage('rechargePage')">MODIFIER LE MONTANT</button>
+      <button class="btn secondaire" onclick="openPage('rechargePage')">CHANGER DE PLAN</button>
     </div>
   </section>
 
@@ -770,17 +748,27 @@ a{text-decoration:none;color:inherit}
       
       <div id="recapRetrait" style="background:rgba(0,0,0,0.3);padding:14px;border-radius:12px;margin-bottom:18px;font-size:13px;display:none;border:1px solid rgba(255,255,255,0.08)">
         <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Montant demandé :</span> <b id="reqMontant">0 F</b></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Frais de retrait (10%) :</span> <b id="reqFrais" style="color:var(--erreur)">-0 F</b></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Frais de retrait (15%) :</span> <b id="reqFrais" style="color:var(--erreur)">-0 F</b></div>
         <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;margin-top:6px;font-weight:800"><span>Montant net perçu :</span> <b id="reqNet" style="color:var(--succes)">0 F</b></div>
       </div>
 
+      <div class="field"><label>Nom complet du bénéficiaire</label><input id="withdrawFullName" type="text" placeholder="Prénom et nom"></div>
+      <div class="field"><label>Pays de réception</label>
+        <select id="withdrawCountryCode" onchange="mettreAJourMethodesRetrait()">
+          <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
+          <option value="+229">🇧🇯 Bénin (+229)</option>
+          <option value="+228">🇹🇬 Togo (+228)</option>
+          <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+          <option value="+221">🇸🇳 Sénégal (+221)</option>
+        </select></div>
+      <div class="field"><label>Réseau de retrait</label>
+        <select id="withdrawMethod">
+          <!-- Dynamique -->
+        </select></div>
       <div class="field">
         <label>Numéro de réception</label>
         <div class="phone-group">
-          <select id="withdrawCountryCode">
-            <option value="+225">🇨🇮 +225</option><option value="+221">🇸🇳 +221</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option><option value="+224">🇬🇳 +224</option><option value="+228">🇹🇬 +228</option>
-          </select>
-          <input id="withdrawPhone" type="tel" placeholder="Ex : 0700000000">
+          <input id="withdrawPhone" type="tel" placeholder="Ex : 0700000000" style="flex:1">
         </div>
       </div>
       <button class="btn accent" onclick="confirmerDemandeRetrait()">RETIRER LES FONDS</button>
@@ -826,21 +814,28 @@ const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
 const SVG_BOX = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'><rect width='200' height='120' fill='%231a2232'/><circle cx='100' cy='60' r='45' fill='%23FF6B00' opacity='0.2'/><path d='M70,50 L130,50 L130,75 L70,75 Z' fill='%23E00072'/><text x='100' y='67' font-family='Arial' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>CANALBOX</text><circle cx='85' cy='42' r='3' fill='%23FFB800'/><circle cx='100' cy='42' r='3' fill='%2310B981'/><circle cx='115' cy='42' r='3' fill='%23FFB800'/></svg>";
 
 const PLANS = [
-  ['VIP0 - Leghorn Chicken', 2500, 168, SVG_BOX],
-  ['VIP0+ - Muscovy Duck', 5500, 276, SVG_BOX],
-  ['VIP1 - Pekin Duck', 12500, 624, SVG_BOX],
-  ['VIP2 - Uda Sheep', 25000, 1272, SVG_BOX],
-  ['VIP3 - Suffolk Sheep', 50000, 2616, SVG_BOX],
-  ['VIP4 - Autruche', 100000, 5400, SVG_BOX],
-  ['VIP5 - Vache laitière', 200000, 11400, SVG_BOX],
-  ['VIP6 - Chameau', 500000, 30000, SVG_BOX],
-  ['VIP7 - Plan Ultime', 1000000, 65016, SVG_BOX]
+  ['VIP0 - Leghorn Chicken', 2500, 100, SVG_BOX, 'https://direct.kkiapay.me/51965/Leghoron%20chiken-qZeIIageg'],
+  ['VIP0+ - Muscovy Duck', 5500, 175, SVG_BOX, 'https://direct.kkiapay.me/51965/Muscovy%20duck-AHNvISUOe'],
+  ['VIP1 - Pekin Duck', 12500, 400, SVG_BOX, 'https://direct.kkiapay.me/51965/Pekin%20duck-wslNc21Md'],
+  ['VIP2 - Uda Sheep', 25000, 800, SVG_BOX, 'https://direct.kkiapay.me/51965/Ida%20sheep-toMQc5RQ9'],
+  ['VIP3 - Suffolk Sheep', 50000, 1600, SVG_BOX, 'https://direct.kkiapay.me/51965/Suffolk%20sheep-I5KLmNhTs'],
+  ['VIP4 - Autruche', 100000, 3200, SVG_BOX, 'https://direct.kkiapay.me/51965/Autruche-rR2HZfmif'],
+  ['VIP5 - Vache laitière', 200000, 6400, SVG_BOX, 'https://direct.kkiapay.me/51965/Vache%20laitiere-f1k4kLaJo'],
+  ['VIP6 - Chameau', 500000, 16000, SVG_BOX, 'https://direct.kkiapay.me/51965/Chameau-BHdbOxD4Q'],
+  ['VIP7 - Plan Ultime', 1000000, 32000, SVG_BOX, 'https://direct.kkiapay.me/51965/Plan%20ultime-7b7wC9HoY']
 ];
 
 const NOM_ENTREPRISE = "Canal Box VIP";
-const COORDONNEES_ENTREPRISE = { wave: "00000000", orange: "00000000", mtn: "00000000", moov: "00000000" };
-const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', jeko: 'Paiement Sécurisé' };
-const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', banque: '🏦' };
+
+const RESEAUX_RETRAIT_PAYS = {
+  "+229": [{ id: "mtn", nom: "MTN Money" }, { id: "moov", nom: "Moov Money" }, { id: "celtiis", nom: "Celtiis" }],
+  "+225": [{ id: "mtn", nom: "MTN MoMo" }, { id: "moov", nom: "Moov Money" }, { id: "wave", nom: "Wave Mobile" }, { id: "orange", nom: "Orange Money" }],
+  "+221": [{ id: "orange", nom: "Orange Money" }],
+  "+228": [{ id: "togocell", nom: "Togocell (T-Money)" }, { id: "moov", nom: "Moov Money" }],
+  "+226": [{ id: "moov", nom: "Moov Money" }, { id: "orange", nom: "Orange Money" }, { id: "wave", nom: "Wave" }]
+};
+
+const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', togocell: '🟢', celtiis: '🟣', banque: '🏦' };
 
 let utilisateur = null, solde = 0;
 let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equipe = [];
@@ -849,7 +844,6 @@ let envoiEnCours = false;
 let pagePrecedente = 'homePage';
 let pageActuelle = 'homePage';
 
-// ASSISTANT VOCAL DE NAVIGATION SUR LE SITE
 let isListening = false;
 let speechRecognition = null;
 
@@ -991,7 +985,6 @@ function traiterCommandeVocale(cmd) {
   parlerReponse("Commande non reconnue. Essayez : ouvre investir, ouvre retrait, ou retour.");
 }
 
-// LOGIQUE ASSISTANT AUDIO SERVICE CLIENT WHATSAPP
 let mediaRecorderService = null;
 let audioChunksService = [];
 let voiceTimerInterval = null;
@@ -1006,14 +999,12 @@ async function toggleEnregistrementVocalService() {
   const player = document.getElementById('serviceVoiceAudioPlayer');
 
   if (mediaRecorderService && mediaRecorderService.state === "recording") {
-    // STOPPER L'ENREGISTREMENT
     mediaRecorderService.stop();
     clearInterval(voiceTimerInterval);
     btn.classList.remove('recording');
     btn.textContent = "🎙️";
     status.textContent = "Enregistrement terminé ! Écoutez ou envoyez.";
   } else {
-    // DÉMARRER L'ENREGISTREMENT
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorderService = new MediaRecorder(stream);
@@ -1064,15 +1055,11 @@ function envoyerVocalWhatsAppDirect() {
   const nomMembre = utilisateur ? (utilisateur.name || 'Membre') : 'Membre';
   const telMembre = utilisateur ? (utilisateur.phone || '') : '';
   const texteMessage = encodeURIComponent(`Bonjour Service Client VIP Canal Box,\n\nJe suis le membre : ${nomMembre} (${telMembre}).\n\nJ'ai enregistré un message vocal pour votre support. Merci de prendre en charge ma demande.`);
-  
-  // LIEN VERS LE WHATSAPP DIRECT AVEC MESSAGE PRÉDÉFINI DE RECEPTION AUDITIVE
   const urlWhatsApp = `https://wa.me/qr/JZYGKM3FM3XTL1?text=${texteMessage}`;
-  
   toast("Redirection vers WhatsApp pour l'envoi direct...");
   window.open(urlWhatsApp, '_blank');
 }
 
-// LOGIQUE CHATBOT INSCRIPTION
 let currentStepAssistant = 0;
 const assistantData = { name: '', countryCode: '+225', phone: '', password: '' };
 
@@ -1240,7 +1227,7 @@ function rendrePlans() {
       </div>
       <div class="vip-name">${p[0]}</div>
       <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
-      <div class="vip-details">⏳ 365 jours</div>
+      <div class="vip-details">⏳ 90 jours</div>
       <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
       <button class="btn accent">${lib}</button>
     </div>`).join('');
@@ -1345,6 +1332,123 @@ function ecouterChangementsFirebase() {
   }, err => console.error(err));
 }
 
+function mettreAJourMethodesLien() {
+  const pays = document.getElementById('linkedCountrySelect').value;
+  const selectType = document.getElementById('linkedType');
+  if (!selectType) return;
+  const reseaux = RESEAUX_RETRAIT_PAYS[pays] || RESEAUX_RETRAIT_PAYS["+225"];
+  selectType.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
+}
+
+function mettreAJourMethodesRetrait() {
+  const pays = document.getElementById('withdrawCountryCode').value;
+  const selectMethod = document.getElementById('withdrawMethod');
+  if (!selectMethod) return;
+  const reseaux = RESEAUX_RETRAIT_PAYS[pays] || RESEAUX_RETRAIT_PAYS["+225"];
+  selectMethod.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
+}
+
+function selectionnerPlanRecharge() {
+  const sel = document.getElementById('rechargePlanSelect');
+  const montantInput = document.getElementById('rechargeAmount');
+  if (sel && montantInput) {
+    montantInput.value = sel.value;
+  }
+}
+
+function accederPaiementKkiapay() {
+  const sel = document.getElementById('rechargePlanSelect');
+  const montant = sel ? parseInt(sel.value) : 0;
+  if (!montant) { toast("Veuillez sélectionner un plan d'investissement."); return; }
+
+  let lienKkiapay = "";
+  PLANS.forEach(p => {
+    if (p[1] === montant) {
+      lienKkiapay = p[4];
+    }
+  });
+
+  if (!lienKkiapay) { toast("Erreur de lien de paiement."); return; }
+
+  rechargeEnCours = { montant, lienKkiapay };
+  document.getElementById('payAmountDisplay').textContent = formatArgent(montant);
+  document.getElementById('rechargeTxId').value = '';
+  openPage('rechargePaymentPage');
+}
+
+function ouvrirLienKkiapayActuel() {
+  if (rechargeEnCours.lienKkiapay) {
+    window.open(rechargeEnCours.lienKkiapay, '_blank');
+    toast("Redirection vers Kkiapay... Payez puis revenez coller votre ID de transaction.");
+  } else {
+    toast("Erreur : Aucun plan sélectionné.");
+    openPage('rechargePage');
+  }
+}
+
+async function verifierEtCrediterParrain(montantRecharge) {
+  const parrainCode = localStorage.getItem('cb_parrain_code');
+  if (!parrainCode) return;
+  const bonus = Math.round(montantRecharge * 0.10);
+  if (bonus <= 0) return;
+
+  try {
+    const pRef = db.collection("comptes_tel").doc(parrainCode);
+    const pDoc = await pRef.get();
+    if (pDoc.exists) {
+      const pData = pDoc.data();
+      const nouveauSolde = (pData.solde || 0) + bonus;
+      let recs = pData.recharges || [];
+      recs.unshift({
+        montant: bonus,
+        methode: 'parrainage',
+        txId: 'BONUS-PARRAIN-10%',
+        date: new Date().toISOString(),
+        statut: 'Validé'
+      });
+      await pRef.update({ solde: nouveauSolde, recharges: recs });
+      rtdb.ref("comptes_tel/" + parrainCode).update({ solde: nouveauSolde, recharges: recs });
+    }
+  } catch (errCred) {
+    console.error("Erreur lors du crédit de la commission au parrain :", errCred);
+  }
+}
+
+function confirmerPaiementRecharge() {
+  if (envoiEnCours) return;
+  if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
+  const inp = document.getElementById('rechargeTxId');
+  const txId = inp.value.trim().replace(/\s+/g, '');
+  if (!txId) { toast("Veuillez coller l'ID de transaction ou référence SMS."); inp.focus(); return; }
+  if (txId.length < 4) { toast("Référence de transaction trop courte."); inp.focus(); return; }
+  if (historiqueRecharges.some(r => String(r.txId || '').toLowerCase() === txId.toLowerCase())) {
+    toast("Cet ID de transaction a déjà été soumis."); return;
+  }
+  envoiEnCours = true;
+  const b = document.getElementById('btnConfirmer');
+  b.disabled = true; b.textContent = 'Enregistrement en cours…';
+  
+  const m = rechargeEnCours.montant;
+  historiqueRecharges.unshift({
+    montant: m,
+    phone: utilisateur ? utilisateur.phone : '',
+    methode: 'kkiapay',
+    txId,
+    date: new Date().toISOString(),
+    statut: 'En attente'
+  });
+
+  verifierEtCrediterParrain(m);
+
+  sauvegarderTout();
+  rechargeEnCours = {};
+  envoiEnCours = false;
+  b.disabled = false;
+  b.textContent = '3. CONFIRMER ET ENREGISTRER DANS L\'HISTORIQUE';
+  toast("✅ Paiement enregistré avec succès dans votre historique !");
+  openPage('historyPage');
+}
+
 function openPage(pageId) {
   if (pageActuelle !== pageId) {
     pagePrecedente = pageActuelle;
@@ -1360,10 +1464,25 @@ function openPage(pageId) {
   if (pageId === 'teamPage') afficherEquipe();
   if (pageId === 'viewLinkedPage') afficherCompteLie();
   if (pageId === 'accountPage') chargerProfil();
+  if (pageId === 'rechargePage') {
+    const sel = document.getElementById('rechargePlanSelect');
+    if (sel) sel.selectedIndex = 0;
+    document.getElementById('rechargeAmount').value = '';
+  }
+  if (pageId === 'linkPage') {
+    mettreAJourMethodesLien();
+    if (utilisateur && utilisateur.name) {
+      document.getElementById('linkedFullName').value = utilisateur.name;
+    }
+  }
   if (pageId === 'withdrawPage') {
     document.getElementById('wBalance').textContent = formatArgent(solde);
-    if (compteLie) {
+    mettreAJourMethodesRetrait();
+    if (compteLie && compteLie.phone) {
       document.getElementById('withdrawPhone').value = compteLie.phone.replace(/^\+\d{3,4}/, '');
+    }
+    if (utilisateur && utilisateur.name) {
+      document.getElementById('withdrawFullName').value = utilisateur.name;
     }
     jouerAudioRetrait();
   }
@@ -1559,14 +1678,18 @@ function mettreAJourAccueil() {
 }
 
 function enregistrerLien() {
+  const nomBenef = document.getElementById('linkedFullName').value.trim();
   const type = document.getElementById('linkedType').value;
   const code = document.getElementById('linkedCountryCode').value;
   const phoneRaw = document.getElementById('linkedPhone').value.trim();
   const phone2Raw = document.getElementById('linkedPhone2').value.trim();
+  
+  if (!nomBenef) { toast("Veuillez entrer le nom complet du titulaire."); return; }
   if (!phoneRaw || !phone2Raw) { toast("Remplissez tous les champs."); return; }
   if (phoneRaw !== phone2Raw) { toast("Les numéros ne correspondent pas."); return; }
-  const phoneFull = type === 'banque' ? phoneRaw : (code + " " + phoneRaw.replace(/^0+/, ''));
-  compteLie = { type, phone: phoneFull };
+  
+  const phoneFull = (code + " " + phoneRaw.replace(/^0+/, ''));
+  compteLie = { nom: nomBenef, type, phone: phoneFull };
   sauvegarderTout();
   toast("Compte lié avec succès.");
   openPage('viewLinkedPage');
@@ -1580,7 +1703,8 @@ function afficherCompteLie() {
         <div class="linked-icon">${ICONES[compteLie.type] || '💳'}</div>
         <div>
           <div style="font-weight:800;font-size:18px;color:var(--blanc)">${esc(String(compteLie.type).toUpperCase())}</div>
-          <div style="font-size:15px;color:var(--jaune);font-weight:600;margin-top:2px">${esc(compteLie.phone)}</div>
+          <div style="font-size:14px;color:var(--jaune);font-weight:700;margin-top:2px">Titulaire : ${esc(compteLie.nom || 'Membre')}</div>
+          <div style="font-size:15px;color:var(--jaune-clair);font-weight:600;margin-top:2px">${esc(compteLie.phone)}</div>
           <div style="font-size:12px;color:var(--succes);font-weight:700;margin-top:6px">● Compte actif pour retraits</div>
         </div>
       </div>
@@ -1667,156 +1791,11 @@ function copierDepuis(btn) {
   copierTexte(el.dataset.raw || el.textContent.trim(), btn);
 }
 
-async function collerTxId() {
-  const inp = document.getElementById('rechargeTxId');
-  try {
-    if (!(navigator.clipboard && navigator.clipboard.readText)) throw new Error('indisponible');
-    const t = (await navigator.clipboard.readText()).trim();
-    if (!t) { toast("Rien à coller."); return; }
-    inp.value = t.replace(/\s+/g, '').slice(0, 60);
-    toast("ID collé avec succès.");
-  } catch (e) {
-    inp.focus();
-    toast("Faites un appui long puis « Coller » dans la case.");
-  }
-}
-
-function continuerPaiementRecharge() {
-  const countryCode = document.getElementById('rechargeCountryCode').value;
-  const montant = parseFloat(document.getElementById('rechargeAmount').value);
-  const phone = document.getElementById('rechargePhone').value.trim();
-
-  if (!montant || montant < 100) { toast("Montant invalide (minimum 100 FCFA)."); return; }
-
-  const methode = document.getElementById('rechargeMethod').value;
-  const isJeko = (countryCode === '+225');
-  rechargeEnCours = { methode, montant, phone, isJeko, jekoOuvertA: 0 };
-  envoiEnCours = false;
-
-  const ecranMontant = document.getElementById('payAmountDisplay');
-  ecranMontant.textContent = formatArgent(montant);
-  ecranMontant.dataset.raw = String(montant);
-  document.getElementById('jekoAmountDisplay').textContent = formatArgent(montant);
-  document.getElementById('rechargeTxId').value = '';
-
-  const jekoContainer = document.getElementById('jekoPaymentContainer');
-  const classicCard = document.getElementById('classicPayCard');
-  const classicDetails = document.getElementById('classicPaymentDetails');
-  const paySteps = document.getElementById('paySteps');
-  const payTitle = document.getElementById('payPageTitle');
-  const paySub = document.getElementById('payPageSub');
-
-  if (isJeko) {
-    jekoContainer.classList.remove('hidden');
-    classicCard.classList.add('hidden');
-    classicDetails.classList.add('hidden');
-    paySteps.classList.add('hidden');
-    payTitle.textContent = "Paiement Sécurisé";
-    paySub.textContent = "Payez sur le portail sécurisé, revenez ici, puis saisissez l'ID de transaction pour enregistrer votre recharge.";
-  } else {
-    const numero = COORDONNEES_ENTREPRISE[methode] || "00000000";
-    document.getElementById('payNetwork').textContent = NOMS_RESEAUX[methode] || methode;
-    jekoContainer.classList.add('hidden');
-    classicCard.classList.remove('hidden');
-    classicDetails.classList.remove('hidden');
-    paySteps.classList.remove('hidden');
-    payTitle.textContent = "Transfert de Fonds Sécurisé";
-    paySub.textContent = "Effectuez le transfert vers le compte de l'entreprise puis saisissez la référence SMS.";
-    const company = document.getElementById('payCompany');
-    company.textContent = NOM_ENTREPRISE; company.dataset.raw = NOM_ENTREPRISE;
-    const num = document.getElementById('companyNumber');
-    num.textContent = numero; num.dataset.raw = numero.replace(/\s+/g, '');
-  }
-
-  const b = document.getElementById('btnConfirmer');
-  b.disabled = false; b.textContent = 'CONFIRMER ET ENREGISTRER LE PAIEMENT';
-  openPage('rechargePaymentPage');
-}
-
-function enregistrerClicJeko() {
-  rechargeEnCours.jekoOuvertA = Date.now();
-  toast("Effectuez le paiement, puis revenez sur le site.");
-}
-
-function afficherSaisieIdJeko() {
-  if (!rechargeEnCours.isJeko || !rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
-  document.getElementById('jekoPaymentContainer').classList.add('hidden');
-  document.getElementById('classicPayCard').classList.remove('hidden');
-  document.getElementById('classicPaymentDetails').classList.add('hidden');
-  document.getElementById('payNetwork').textContent = NOMS_RESEAUX.jeko;
-  document.getElementById('payPageTitle').textContent = "Confirmer ma recharge";
-  document.getElementById('payPageSub').textContent = "Saisissez l'ID de transaction de votre reçu de paiement puis confirmez.";
-  const inp = document.getElementById('rechargeTxId');
-  inp.focus();
-  window.scrollTo(0, 0);
-}
-
-async function verifierEtCrediterParrain(montantRecharge) {
-  const parrainCode = localStorage.getItem('cb_parrain_code');
-  if (!parrainCode) return;
-  const bonus = Math.round(montantRecharge * 0.10);
-  if (bonus <= 0) return;
-
-  try {
-    const pRef = db.collection("comptes_tel").doc(parrainCode);
-    const pDoc = await pRef.get();
-    if (pDoc.exists) {
-      const pData = pDoc.data();
-      const nouveauSolde = (pData.solde || 0) + bonus;
-      let recs = pData.recharges || [];
-      recs.unshift({
-        montant: bonus,
-        methode: 'parrainage',
-        txId: 'BONUS-PARRAIN-10%',
-        date: new Date().toISOString(),
-        statut: 'Validé'
-      });
-      await pRef.update({ solde: nouveauSolde, recharges: recs });
-      rtdb.ref("comptes_tel/" + parrainCode).update({ solde: nouveauSolde, recharges: recs });
-    }
-  } catch (errCred) {
-    console.error("Erreur lors du crédit de la commission au parrain :", errCred);
-  }
-}
-
-function confirmerPaiementRecharge() {
-  if (envoiEnCours) return;
-  if (!rechargeEnCours.montant) { toast("Recommencez la recharge."); openPage('rechargePage'); return; }
-  const inp = document.getElementById('rechargeTxId');
-  const txId = inp.value.trim().replace(/\s+/g, '');
-  if (!txId) { toast("Veuillez coller la référence ou l'ID de transaction."); inp.focus(); return; }
-  if (txId.length < 5) { toast("Référence de transaction trop courte."); inp.focus(); return; }
-  if (historiqueRecharges.some(r => String(r.txId || '').toLowerCase() === txId.toLowerCase())) {
-    toast("Cet ID de transaction a déjà été soumis."); return;
-  }
-  envoiEnCours = true;
-  const b = document.getElementById('btnConfirmer');
-  b.disabled = true; b.textContent = 'Enregistrement en cours…';
-  
-  const m = rechargeEnCours.montant;
-  historiqueRecharges.unshift({
-    montant: m,
-    phone: rechargeEnCours.phone,
-    methode: rechargeEnCours.isJeko ? 'jeko' : rechargeEnCours.methode,
-    txId,
-    date: new Date().toISOString(),
-    statut: rechargeEnCours.isJeko ? 'En attente (Jèko VIP)' : 'En attente'
-  });
-
-  verifierEtCrediterParrain(m);
-
-  sauvegarderTout();
-  rechargeEnCours = {};
-  envoiEnCours = false;
-  toast("✅ Paiement enregistré ! Il apparaît dans votre historique.");
-  openPage('historyPage');
-}
-
 function calculerFraisRetrait() {
   const m = parseFloat(document.getElementById('withdrawAmount').value) || 0;
   const divRecap = document.getElementById('recapRetrait');
   if (m > 0) {
-    const frais = Math.round(m * 0.10);
+    const frais = Math.round(m * 0.15);
     const net = Math.max(0, m - frais);
     document.getElementById('reqMontant').textContent = formatArgent(m);
     document.getElementById('reqFrais').textContent = '-' + formatArgent(frais);
@@ -1842,14 +1821,18 @@ function confirmerDemandeRetrait() {
     return;
   }
 
+  const nomBenef = document.getElementById('withdrawFullName').value.trim();
   const montantDemande = parseFloat(document.getElementById('withdrawAmount').value);
   const code = document.getElementById('withdrawCountryCode').value;
+  const methode = document.getElementById('withdrawMethod').value;
   const phoneRaw = document.getElementById('withdrawPhone').value.trim();
+
+  if (!nomBenef) { toast("Entrez le nom complet du bénéficiaire."); return; }
   if (!montantDemande || montantDemande < 500) { toast("Minimum de retrait : 500 FCFA"); return; }
   if (montantDemande > solde) { toast("Solde insuffisant."); return; }
   if (!phoneRaw) { toast("Saisissez un numéro de réception."); return; }
 
-  const frais = Math.round(montantDemande * 0.10);
+  const frais = Math.round(montantDemande * 0.15);
   const montantNet = montantDemande - frais;
   const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
 
@@ -1858,6 +1841,8 @@ function confirmerDemandeRetrait() {
     montant: montantNet,
     montantBrut: montantDemande,
     frais: frais,
+    nom: nomBenef,
+    methode: methode,
     compte: fullPhone,
     date: new Date().toISOString(),
     statut: 'En attente'
@@ -1867,7 +1852,7 @@ function confirmerDemandeRetrait() {
   mettreAJourAccueil();
   document.getElementById('recapRetrait').style.display = 'none';
   document.getElementById('withdrawAmount').value = '';
-  toast("Demande de retrait transmise (-10% frais réduits).");
+  toast("Demande de retrait transmise (-15% frais réduits).");
   openPage('historyPage');
 }
 
@@ -1880,11 +1865,11 @@ function afficherHistorique() {
   ].sort((a, b) => new Date(b.date) - new Date(a.date));
   if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée.</div>`; return; }
   l.innerHTML = items.map(it => {
-    const st = String(it.statut || 'En attente').replace(/\s*\([^)]*j[eè]ko[^)]*\)/i, '');
+    const st = String(it.statut || 'En attente');
     const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
     let titre, signe, cm;
     if (it.type === 'recharge') {
-      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 Recharge (' + esc(it.methode === 'jeko' ? 'MOBILE MONEY' : (it.methode ? it.methode.toUpperCase() : 'MOMO')) + ')');
+      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 Recharge Kkiapay (' + esc(it.methode ? it.methode.toUpperCase() : 'KKIAPAY') + ')');
       signe = '+'; cm = 'amount-plus';
     }
     else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
@@ -1894,9 +1879,10 @@ function afficherHistorique() {
         <div class="history-top"><span class="history-type">${titre}</span><span class="history-status ${cls}">${esc(st)}</span></div>
         <div class="history-date">${formatDate(it.date)}</div>
         <div class="history-amount ${cm}">${signe}${formatArgent(it.montant)}</div>
-        ${it.frais ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Frais 10% déduits (-${formatArgent(it.frais)}) | Bruts : ${formatArgent(it.montantBrut)}</div>` : ''}
-        ${it.txId ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Réf Tx : ${esc(it.txId)}</div>` : ''}
-        ${it.compte ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Destinataire : ${esc(it.compte)}</div>` : ''}
+        ${it.frais ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Frais 15% déduits (-${formatArgent(it.frais)}) | Bruts : ${formatArgent(it.montantBrut)}</div>` : ''}
+        ${it.nom ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Bénéficiaire : ${esc(it.nom)}</div>` : ''}
+        ${it.txId ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Réf Tx / ID : ${esc(it.txId)}</div>` : ''}
+        ${it.compte ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Destinataire : ${esc(it.compte)} (${esc(it.methode || '')})</div>` : ''}
       </div>`;
   }).join('');
 }
