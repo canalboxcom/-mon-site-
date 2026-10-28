@@ -538,10 +538,27 @@ a{text-decoration:none;color:inherit}
           <button class="hero-btn gold" onclick="openPage('rechargePage')">＋ Recharger</button>
           <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
         </div>
-        <!-- BOUTON DE TÉLÉCHARGEMENT DIRECT DE L'APK -->
-        <a href="https://canalboxcom.github.io/-mon-site-/app-debug.apk" download class="hero-btn download-app">📲 Télécharger l'Application VIP (APK)</a>
+        <!-- BOUTON DE TÉLÉCHARGEMENT DIRECT DE L'APK CORRIGÉ -->
+        <a href="https://canalboxcom.github.io/-mon-site-/app-debug.apk" download="AvenirApp.apk" class="hero-btn download-app">📲 Télécharger l'Application VIP (APK)</a>
       </div>
     </div>
+    
+    <!-- CONTENEUR INFORMATIF D'INSTALLATION DE L'APPLICATION -->
+    <div class="download-container" style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 16px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: var(--ombre);">
+        <h3 style="color: var(--jaune); font-size: 16px; margin-bottom: 6px;">📱 Installation sur Mobile Android</h3>
+        <p style="font-size: 13px; color: var(--texte-gris); margin-bottom: 14px;">Profitez d'une expérience optimisée et fluide directement via notre application dédiée.</p>
+        
+        <div class="install-instructions" style="text-align: left; font-size: 13px; color: var(--texte-gris); background: rgba(0,0,0,0.3); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+            <p style="margin-bottom: 8px; color: var(--blanc);"><strong>🛠️ Comment l'installer ?</strong></p>
+            <ol style="padding-left: 20px; margin: 0; line-height: 1.6;">
+                <li>Cliquez sur le bouton vert <strong>Télécharger l'Application VIP</strong> ci-dessus.</li>
+                <li>Ouvrez le fichier <code>app-debug.apk</code> téléchargé depuis vos notifications.</li>
+                <li>Si un avertissement apparaît, allez dans <strong>Paramètres</strong> et autorisez <em>"Installer depuis cette source"</em>.</li>
+                <li>Appuyez sur <strong>Installer</strong> puis lancez l'application.</li>
+            </ol>
+        </div>
+    </div>
+
     <div class="cards-grid">
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
       <div class="quick-card" onclick="openPage('bonusPage')"><div class="quick-icon">🎁</div><strong>Mon Bonus</strong><p>Bonus & retrait</p></div>
