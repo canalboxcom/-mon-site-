@@ -5,17 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Canal Box VIP — Plateforme d'Investissement Premium</title>
 <style>
-/* --- MASQUAGE AUTO DES BANNIÈRES PUBLICITAIRES DU CONVERTISSEUR WEBTOAPP --- */
+/* --- MASQUAGE AUTO SUPRÊME DES BANNIÈRES PUBLICITAIRES DU CONVERTISSEUR WEBTOAPP --- */
 div[id*="freewebsite"], 
 a[href*="freewebsiteToApp"], 
+a[href*="FreeWebsiteToApp"],
 img[src*="freewebsite"], 
 .freewebsite-banner,
-iframe[src*="freewebsite"] {
+iframe[src*="freewebsite"],
+div:has(> a[href*="FreeWebsiteToApp"]),
+div:has(> a[href*="freewebsiteToApp"]),
+div[style*="background-color: red"],
+div[style*="background: red"],
+div[style*="bottom: 0"][style*="z-index"] {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;
+  width: 0 !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  z-index: -9999 !important;
 }
 
 :root{
