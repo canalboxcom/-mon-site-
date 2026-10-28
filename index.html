@@ -1392,6 +1392,7 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
+  // Enregistrement dans l'historique avec le statut "En attente" pour approbation admin
   historiqueRecharges.unshift({
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
