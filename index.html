@@ -5,33 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Canal Box VIP — Plateforme d'Investissement Premium</title>
 <style>
-/* --- BLOCAGE STRICT ET UNIVERSEL DES BANNIÈRES ET FILIGRANES DE CONVERTISSEUR --- */
-[id*="freewebsite"],
-[class*="freewebsite"],
-[src*="freewebsite"],
-[href*="freewebsite"],
-[href*="FreeWebsiteToApp"],
-div:has(a[href*="freewebsite"]),
-div:has(a[href*="FreeWebsiteToApp"]),
-div[style*="background-color: red"],
-div[style*="background: red"],
-div[style*="position: fixed"][style*="bottom: 0"],
-div[style*="position:fixed"][style*="bottom:0"],
-div[style*="z-index: 9999"],
-div[style*="z-index:9999"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  max-height: 0 !important;
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
-  z-index: -99999 !important;
-}
-
 :root{
   --bg-main:#0B0E14;--bg-card:#141923;--bg-card-hover:#1D2432;
   --orange:#FF6B00;--orange-fonce:#E05A00;--jaune:#FFB800;--jaune-clair:#FFE599;
@@ -48,7 +21,7 @@ div[style*="z-index:9999"] {
   --radius:16px;--radius-sm:10px;--transition:all .25s cubic-bezier(0.4,0,0.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-body{background:var(--bg-main);color:var(--blanc);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg-main);color:var(--blanc);min-height:100vh;-webkit-font-smoothing:antialiased}
 button,input,select{font-family:inherit;border:none;outline:none}
 button{cursor:pointer}
 .hidden{display:none!important}
@@ -256,15 +229,12 @@ a{text-decoration:none;color:inherit}
 .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,107,0,0.2),transparent 70%);border-radius:50%}
 .hero small{opacity:.8;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--jaune);position:relative;z-index:1}
 .hero-balance{font-size:40px;font-weight:900;margin:10px 0 4px;letter-spacing:-1px;position:relative;z-index:1;color:var(--blanc)}
-.hero-actions{display:flex;flex-direction:column;gap:12px;margin-top:24px;position:relative;z-index:1}
-.hero-buttons-row{display:flex;gap:12px;}
+.hero-actions{display:flex;gap:12px;margin-top:24px;position:relative;z-index:1}
 .hero-btn{padding:14px 20px;border-radius:12px;font-weight:800;flex:1;font-size:14px;transition:var(--transition);letter-spacing:.2px;text-align:center}
 .hero-btn.gold{background:var(--gradient-gold);color:var(--bg-main);box-shadow:var(--ombre-orange)}
 .hero-btn.gold:hover{filter:brightness(1.1)}
 .hero-btn.ghost{background:rgba(255,255,255,0.06);color:var(--blanc);border:1px solid rgba(255,255,255,0.15)}
 .hero-btn.ghost:hover{background:rgba(255,255,255,0.12);border-color:var(--jaune)}
-.hero-btn.download-app{background:var(--gradient-vert);color:#FFF;box-shadow:var(--ombre-vert);width:100%;text-align:center;display:block;}
-
 .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:32px}
 .quick-card{background:var(--bg-card);border-radius:var(--radius);padding:20px 18px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.05);cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
 .quick-card:hover{transform:translateY(-3px);background:var(--bg-card-hover);border-color:var(--orange);box-shadow:var(--ombre-orange)}
@@ -350,6 +320,7 @@ a{text-decoration:none;color:inherit}
 .vip-details{color:var(--texte-gris);font-size:13px;margin:4px 0;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px}
 .vip-income{font-size:14px;font-weight:800;color:var(--succes);margin:10px 0 14px;background:var(--succes-bg);padding:6px 12px;border-radius:10px;display:inline-block;border:1px solid rgba(16,185,129,0.25)}
 
+/* Grille des options de recharge élégantes */
 .recharge-options-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -442,33 +413,6 @@ a{text-decoration:none;color:inherit}
 #toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%) translateY(20px);background:var(--bg-card);color:var(--blanc);padding:14px 24px;border-radius:14px;opacity:0;transition:.3s;z-index:300;font-size:13px;font-weight:600;text-align:center;max-width:90%;box-shadow:var(--ombre-orange);border:1px solid var(--jaune)}
 #toast.show{opacity:1;transform:translateX(-50%)}
 </style>
-
-<!-- SCRIPT JS NETTOYEUR AUTOMATIQUE DE BANNIÈRE ET FILIGRANE -->
-<script>
-(function cleanWatermarks() {
-  function removeUnwantedElements() {
-    const allElements = document.querySelectorAll('div, a, iframe, img, span, p');
-    allElements.forEach(el => {
-      const text = (el.innerText || el.textContent || '').toLowerCase();
-      const href = (el.getAttribute('href') || '').toLowerCase();
-      const id = (el.id || '').toLowerCase();
-      const className = (el.className || '').toString().toLowerCase();
-
-      if (text.includes('freewebsitetoapp') || href.includes('freewebsitetoapp') || id.includes('freewebsite') || className.includes('freewebsite')) {
-        el.remove();
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    removeUnwantedElements();
-    setInterval(removeUnwantedElements, 500);
-    const observer = new MutationObserver(removeUnwantedElements);
-    observer.observe(document.body, { childList: true, subtree: true });
-  });
-})();
-</script>
-
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -511,6 +455,7 @@ a{text-decoration:none;color:inherit}
     </div>
 
     <div id="registerForm" class="hidden">
+      
       <div class="assistant-box">
         <div class="assistant-header">
           <div class="assistant-avatar">🤖</div>
@@ -574,29 +519,10 @@ a{text-decoration:none;color:inherit}
       <div class="hero-balance" id="homeBalance">0 FCFA</div>
       <small id="homeWelcome">Bienvenue, Membre</small>
       <div class="hero-actions">
-        <div class="hero-buttons-row">
-          <button class="hero-btn gold" onclick="openPage('rechargePage')">＋ Recharger</button>
-          <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
-        </div>
-        <a href="https://freewebsitetoapp.cloudserverbox.com/app-data/paid-apps-starter/123187131142/OPiyjrqF/app-debug.apk" target="_blank" download="CanalBoxVIP.apk" class="hero-btn download-app">📲 Télécharger l'Application VIP (APK)</a>
+        <button class="hero-btn gold" onclick="openPage('rechargePage')">＋ Recharger</button>
+        <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
       </div>
     </div>
-
-    <div class="download-container" style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 16px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: var(--ombre);">
-        <h3 style="color: var(--jaune); font-size: 16px; margin-bottom: 6px;">📱 Installation sur Mobile Android</h3>
-        <p style="font-size: 13px; color: var(--texte-gris); margin-bottom: 14px;">Profitez d'une expérience optimisée et fluide directement via notre application dédiée.</p>
-        
-        <div class="install-instructions" style="text-align: left; font-size: 13px; color: var(--texte-gris); background: rgba(0,0,0,0.3); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-            <p style="margin-bottom: 8px; color: var(--blanc);"><strong>🛠️ Comment l'installer ?</strong></p>
-            <ol style="padding-left: 20px; margin: 0; line-height: 1.6;">
-                <li>Cliquez sur le bouton vert <strong>Télécharger l'Application VIP</strong> ci-dessus.</li>
-                <li>Ouvrez le fichier <code>CanalBoxVIP.apk</code> téléchargé.</li>
-                <li>Autorisez <em>"Installer depuis cette source"</em> si nécessaire.</li>
-                <li>Appuyez sur <strong>Installer</strong>.</li>
-            </ol>
-        </div>
-    </div>
-
     <div class="cards-grid">
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
       <div class="quick-card" onclick="openPage('bonusPage')"><div class="quick-icon">🎁</div><strong>Mon Bonus</strong><p>Bonus & retrait</p></div>
@@ -649,7 +575,9 @@ a{text-decoration:none;color:inherit}
           <option value="+221">🇸🇳 Sénégal (+221)</option>
         </select></div>
       <div class="field"><label>Service / Réseau de réception</label>
-        <select id="linkedType"></select></div>
+        <select id="linkedType">
+          <!-- Dynamique par pays -->
+        </select></div>
       <div class="field"><label>Nom complet du titulaire du compte</label><input id="linkedHolderName" type="text" placeholder="Prénom et nom sur le compte"></div>
       <div class="field">
         <label>Numéro de téléphone de réception (avec indicatif)</label>
@@ -777,6 +705,7 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Recharger mon Solde</h2>
     <p class="section-sub">Sélectionnez le montant de votre recharge pour accéder au paiement instantané :</p>
     
+    <!-- Grille élégante des options de rechargement -->
     <div id="rechargeOptionsContainer" class="recharge-options-grid"></div>
 
     <div style="margin-top: 24px;">
@@ -818,7 +747,9 @@ a{text-decoration:none;color:inherit}
       </div>
 
       <div class="field"><label>Réseau de paiement</label>
-        <select id="withdrawMethod"></select>
+        <select id="withdrawMethod">
+          <!-- Dynamique -->
+        </select>
       </div>
 
       <div class="field"><label>Nom complet du titulaire</label><input id="withdrawHolder" type="text" placeholder="Prénom et nom sur le compte"></div>
@@ -886,6 +817,8 @@ const PLANS = [
   ['VIP7 - Plan Ultime', 1000000, 32000, SVG_BOX, "https://direct.kkiapay.me/51965/Plan%20ultime-7b7wC9HoY"]
 ];
 
+const NOM_ENTREPRISE = "Canal Box VIP";
+
 const RESEAUX_PAR_PAYS = {
   "+229": [
     { id: "mtn", nom: "MTN Money" },
@@ -912,6 +845,7 @@ const RESEAUX_PAR_PAYS = {
   ]
 };
 
+const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', celtiis: 'Celtiis', togocell: 'Togocell', banque: 'Compte Bancaire' };
 const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', celtiis: '🟣', togocell: '🟢', banque: '🏦' };
 
 let utilisateur = null, solde = 0;
@@ -935,7 +869,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     isListening = true;
     const btn = document.getElementById('voiceAssistantBtn');
     if (btn) btn.classList.add('listening');
-    toast("🎙️ Dites votre commande...");
+    toast("🎙️ Dites votre commande (ex: Ouvre investir, Ouvre retrait, Retour)...");
   };
 
   speechRecognition.onresult = (event) => {
@@ -944,7 +878,8 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     traiterCommandeVocale(transcript);
   };
 
-  speechRecognition.onerror = () => {
+  speechRecognition.onerror = (e) => {
+    console.error("Erreur vocale:", e);
     arreterAssistantVocal();
   };
 
@@ -956,12 +891,17 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
 function toggleVoiceAssistant() {
   if (!speechRecognition) {
     toast("⚠️ Reconnaissance vocale non supportée par votre navigateur.");
+    parlerReponse("La reconnaissance vocale n'est pas supportée sur votre appareil.");
     return;
   }
   if (isListening) {
     speechRecognition.stop();
   } else {
-    try { speechRecognition.start(); } catch(e) { console.error(e); }
+    try {
+      speechRecognition.start();
+    } catch(e) {
+      console.error(e);
+    }
   }
 }
 
@@ -976,26 +916,84 @@ function parlerReponse(texte) {
     window.speechSynthesis.cancel();
     const msg = new SpeechSynthesisUtterance(texte);
     msg.lang = 'fr-FR';
+    msg.rate = 1.0;
     window.speechSynthesis.speak(msg);
   }
 }
 
 function traiterCommandeVocale(cmd) {
-  if (cmd.includes('retour') || cmd.includes('revenir')) {
-    openPage(pagePrecedente || 'homePage');
+  if (cmd.includes('retour') || cmd.includes('revenir') || cmd.includes('derrière') || cmd.includes('précédent')) {
+    if (pagePrecedente && pagePrecedente !== pageActuelle) {
+      parlerReponse("Retour à la page précédente.");
+      openPage(pagePrecedente);
+    } else {
+      parlerReponse("Retour à l'accueil.");
+      openPage('homePage');
+    }
     return;
   }
-  if (cmd.includes('accueil')) { openPage('homePage'); return; }
-  if (cmd.includes('investir')) { openPage('investPage'); return; }
-  if (cmd.includes('retrait') || cmd.includes('retirer')) { openPage('withdrawPage'); return; }
-  if (cmd.includes('recharger') || cmd.includes('recharge')) { openPage('rechargePage'); return; }
-  if (cmd.includes('compte') || cmd.includes('profil')) { openPage('accountPage'); return; }
-  if (cmd.includes('bonus')) { openPage('bonusPage'); return; }
-  if (cmd.includes('équipe') || cmd.includes('parrainage')) { openPage('teamPage'); return; }
-  if (cmd.includes('historique')) { openPage('historyPage'); return; }
-  if (cmd.includes('service') || cmd.includes('support')) { openPage('servicePage'); return; }
-  if (cmd.includes('déconnecter')) { deconnexion(); return; }
-  parlerReponse("Commande non reconnue.");
+
+  if (cmd.includes('accueil') || cmd.includes('maison') || cmd.includes('menu principal')) {
+    parlerReponse("Ouverture de l'accueil.");
+    openPage('homePage');
+    return;
+  }
+
+  if (cmd.includes('investir') || cmd.includes('investissement') || cmd.includes('plans') || cmd.includes('offres')) {
+    parlerReponse("Ouverture de la page d'investissement.");
+    openPage('investPage');
+    return;
+  }
+
+  if (cmd.includes('retrait') || cmd.includes('retirer') || cmd.includes('gains') || cmd.includes('argent')) {
+    parlerReponse("Ouverture de la page de retrait.");
+    openPage('withdrawPage');
+    return;
+  }
+
+  if (cmd.includes('recharger') || cmd.includes('recharge') || cmd.includes('déposer') || cmd.includes('dépôt')) {
+    parlerReponse("Ouverture de la page de recharge.");
+    openPage('rechargePage');
+    return;
+  }
+
+  if (cmd.includes('compte') || cmd.includes('profil') || cmd.includes('mon compte')) {
+    parlerReponse("Ouverture de votre profil.");
+    openPage('accountPage');
+    return;
+  }
+
+  if (cmd.includes('bonus') || cmd.includes('cadeau') || cmd.includes('récompense')) {
+    parlerReponse("Ouverture de vos bonus.");
+    openPage('bonusPage');
+    return;
+  }
+
+  if (cmd.includes('équipe') || cmd.includes('equipe') || cmd.includes('filleul') || cmd.includes('parrainage')) {
+    parlerReponse("Ouverture de votre équipe.");
+    openPage('teamPage');
+    return;
+  }
+
+  if (cmd.includes('historique') || cmd.includes('transactions') || cmd.includes('opération')) {
+    parlerReponse("Ouverture de votre historique.");
+    openPage('historyPage');
+    return;
+  }
+
+  if (cmd.includes('service') || cmd.includes('support') || cmd.includes('aide') || cmd.includes('whatsapp')) {
+    parlerReponse("Ouverture du service client.");
+    openPage('servicePage');
+    return;
+  }
+
+  if (cmd.includes('déconnecter') || cmd.includes('déconnexion') || cmd.includes('quitter')) {
+    parlerReponse("Déconnexion en cours.");
+    deconnexion();
+    return;
+  }
+
+  parlerReponse("Commande non reconnue. Essayez : ouvre investir, ouvre retrait, ou retour.");
 }
 
 let mediaRecorderService = null;
@@ -1016,22 +1014,27 @@ async function toggleEnregistrementVocalService() {
     clearInterval(voiceTimerInterval);
     btn.classList.remove('recording');
     btn.textContent = "🎙️";
-    status.textContent = "Enregistrement terminé !";
+    status.textContent = "Enregistrement terminé ! Écoutez ou envoyez.";
   } else {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorderService = new MediaRecorder(stream);
       audioChunksService = [];
 
-      mediaRecorderService.ondataavailable = event => { audioChunksService.push(event.data); };
+      mediaRecorderService.ondataavailable = event => {
+        audioChunksService.push(event.data);
+      };
+
       mediaRecorderService.onstop = () => {
         audioBlobService = new Blob(audioChunksService, { type: 'audio/mp3' });
         const audioUrl = URL.createObjectURL(audioBlobService);
         player.src = audioUrl;
         player.classList.remove('hidden');
         actions.classList.remove('hidden');
-        document.getElementById('downloadVoiceLink').href = audioUrl;
-        document.getElementById('downloadVoiceLink').download = `Vocal_Service_VIP_${Date.now()}.mp3`;
+
+        const downloadLink = document.getElementById('downloadVoiceLink');
+        downloadLink.href = audioUrl;
+        downloadLink.download = `Vocal_Service_VIP_${Date.now()}.mp3`;
       };
 
       mediaRecorderService.start();
@@ -1048,12 +1051,13 @@ async function toggleEnregistrementVocalService() {
 
       btn.classList.add('recording');
       btn.textContent = "⏹️";
-      status.textContent = "Enregistrement en cours...";
+      status.textContent = "Enregistrement en cours... Cliquez pour arrêter";
       actions.classList.add('hidden');
       player.classList.add('hidden');
 
     } catch (err) {
-      toast("⚠️ Accès au microphone refusé.");
+      console.error(err);
+      toast("⚠️ Accès au microphone refusé ou non supporté.");
     }
   }
 }
@@ -1062,7 +1066,9 @@ function envoyerVocalWhatsAppDirect() {
   const nomMembre = utilisateur ? (utilisateur.name || 'Membre') : 'Membre';
   const telMembre = utilisateur ? (utilisateur.phone || '') : '';
   const texteMessage = encodeURIComponent(`Bonjour Service Client VIP Canal Box,\n\nJe suis le membre : ${nomMembre} (${telMembre}).\n\nJ'ai enregistré un message vocal pour votre support. Merci de prendre en charge ma demande.`);
-  window.open(`https://wa.me/qr/JZYGKM3FM3XTL1?text=${texteMessage}`, '_blank');
+  const urlWhatsApp = `https://wa.me/qr/JZYGKM3FM3XTL1?text=${texteMessage}`;
+  toast("Redirection vers WhatsApp pour l'envoi direct...");
+  window.open(urlWhatsApp, '_blank');
 }
 
 let currentStepAssistant = 0;
@@ -1074,7 +1080,7 @@ function initAssistantChat() {
   if (logs) {
     logs.innerHTML = '';
     addBotMessage("Bonjour ! 👋 Bienvenue sur Canal Box VIP.");
-    addBotMessage("Je suis votre assistant. Pour commencer, quel est votre **Nom complet** ?");
+    addBotMessage("Je suis votre assistant. Pour commencer la création de votre compte, quel est votre **Nom complet** ?");
   }
   showAssistantInput('text', 'Entrez votre nom complet...');
 }
@@ -1125,37 +1131,45 @@ function validerEtapeAssistant() {
   
   if (currentStepAssistant === 0) {
     const val = inp.value.trim();
-    if (!val) { addBotMessage("Veuillez entrer un nom valide."); return; }
+    if (!val) { addBotMessage("Veuillez entrer un nom valide pour continuer."); return; }
     assistantData.name = val;
     document.getElementById('regName').value = val;
     addUserMessage(val);
+    
     currentStepAssistant = 1;
     addBotMessage(`Enchanté ${val} ! 🌍 Dans quel **pays** résidez-vous ?`);
     showAssistantInput('select', '');
+    
   } else if (currentStepAssistant === 1) {
     const val = sel.value;
+    const txt = sel.options[sel.selectedIndex].text;
     assistantData.countryCode = val;
     document.getElementById('regCountryCode').value = val;
-    addUserMessage(sel.options[sel.selectedIndex].text);
+    addUserMessage(txt);
+    
     currentStepAssistant = 2;
-    addBotMessage("Saisissez votre **Numéro de téléphone** :");
+    addBotMessage("Merci ! Veuillez saisir votre **Numéro de téléphone** (sans l'indicatif) :");
     showAssistantInput('tel', 'Ex : 0700000000');
+
   } else if (currentStepAssistant === 2) {
     const val = inp.value.trim().replace(/\s+/g, '');
-    if (cle(val).length < 7) { addBotMessage("⚠️ Numéro invalide."); return; }
+    if (cle(val).length < 7) { addBotMessage("⚠️ Ce numéro semble invalide. Entrez un numéro valide."); return; }
     assistantData.phone = val;
     document.getElementById('regPhone').value = val;
     addUserMessage(val);
+
     currentStepAssistant = 3;
-    addBotMessage("Choisissez un **Mot de passe** (6 caractères min.) :");
+    addBotMessage("Parfait. Enfin, choisissez un **Mot de passe** sécurisé (au moins 6 caractères) :");
     showAssistantInput('password', '••••••');
+
   } else if (currentStepAssistant === 3) {
     const val = inp.value;
-    if (val.length < 6) { addBotMessage("⚠️ Doit contenir au moins 6 caractères."); return; }
+    if (val.length < 6) { addBotMessage("⚠️ Le mot de passe doit contenir au moins 6 caractères."); return; }
     assistantData.password = val;
     document.getElementById('regPassword').value = val;
     addUserMessage("••••••••");
-    addBotMessage("⏳ Création de votre compte en cours...");
+
+    addBotMessage("⏳ Validation et création de votre compte en cours...");
     creerCompte();
   }
 }
@@ -1191,6 +1205,8 @@ function jouerAudioRetrait() {
     window.speechSynthesis.cancel();
     const msg = new SpeechSynthesisUtterance("Retirez votre argent pour ce weekend");
     msg.lang = 'fr-FR';
+    msg.rate = 0.95;
+    msg.pitch = 1.0;
     window.speechSynthesis.speak(msg);
   }
 }
@@ -1198,13 +1214,15 @@ function jouerAudioRetrait() {
 function verifierEtSauvegarderParrain() {
   const urlParams = new URLSearchParams(window.location.search);
   const p = urlParams.get('parrain');
-  if (p && cle(p)) localStorage.setItem('cb_parrain_code', cle(p));
+  if (p && cle(p)) {
+    localStorage.setItem('cb_parrain_code', cle(p));
+  }
 }
 
 function erreurAuth(e) {
   const m = {
-    'auth/email-already-in-use': "Ce numéro possède déjà un compte.",
-    'auth/weak-password': "Mot de passe trop court.",
+    'auth/email-already-in-use': "Ce numéro possède déjà un compte. Connectez-vous.",
+    'auth/weak-password': "Mot de passe trop court (6 caractères minimum).",
     'auth/invalid-email': "Adresse e-mail invalide.",
     'auth/network-request-failed': "Erreur de connexion internet."
   };
@@ -1255,12 +1273,13 @@ function verifierEtCrediterGainsJournaliers() {
   investissements.forEach(inv => {
     if (inv.statut !== 'Actif') return;
     const derniereVerif = new Date(inv.derniereDateGain || inv.date);
-    const diffJours = Math.floor((maintenant - derniereVerif) / (1000 * 60 * 60 * 24));
+    const diffTemps = maintenant - derniereVerif;
+    const diffJours = Math.floor(diffTemps / (1000 * 60 * 60 * 24));
 
     if (diffJours > 0) {
-      const gainTotal = diffJours * inv.gain;
-      solde += gainTotal;
-      gainsCreditesTotal += gainTotal;
+      const gainTotalPeriode = diffJours * inv.gain;
+      solde += gainTotalPeriode;
+      gainsCreditesTotal += gainTotalPeriode;
       inv.derniereDateGain = maintenant.toISOString();
       modifie = true;
     }
@@ -1269,7 +1288,7 @@ function verifierEtCrediterGainsJournaliers() {
   if (modifie) {
     sauvegarderTout();
     mettreAJourAccueil();
-    toast(`🎉 Gains crédités : +${formatArgent(gainsCreditesTotal)}`);
+    toast(`🎉 Gains journaliers crédités : +${formatArgent(gainsCreditesTotal)}`);
   }
 }
 
@@ -1317,6 +1336,10 @@ function ecouterChangementsFirebase() {
     utilisateur.solde = solde;
     mettreAJourAccueil();
     afficherCompteLie();
+    ['achatsPage:afficherAchats', 'historyPage:afficherHistorique', 'teamPage:afficherEquipe'].forEach(x => {
+      const [id, fn] = x.split(':');
+      if (document.getElementById(id).classList.contains('active')) window[fn]();
+    });
   }, err => console.error(err));
 }
 
@@ -1325,6 +1348,7 @@ function mettreAJourMethodesLien() {
   const selType = document.getElementById('linkedType');
   const selPrefix = document.getElementById('linkedPhonePrefix');
   if (!selType || !selPrefix) return;
+
   selPrefix.value = pays;
   const reseaux = RESEAUX_PAR_PAYS[pays] || RESEAUX_PAR_PAYS["+225"];
   selType.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
@@ -1335,6 +1359,7 @@ function mettreAJourMethodesRetrait() {
   const selMethod = document.getElementById('withdrawMethod');
   const selPrefix = document.getElementById('withdrawPhonePrefix');
   if (!selMethod || !selPrefix) return;
+
   selPrefix.value = pays;
   const reseaux = RESEAUX_PAR_PAYS[pays] || RESEAUX_PAR_PAYS["+225"];
   selMethod.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
@@ -1343,15 +1368,19 @@ function mettreAJourMethodesRetrait() {
 function afficherOptionsRecharge() {
   const container = document.getElementById('rechargeOptionsContainer');
   if (!container) return;
-  container.innerHTML = PLANS.map((plan, index) => `
-    <div class="recharge-option-card ${planRechargeSelectionneIndex === index ? 'selected' : ''}" onclick="selectionnerPlanRecharge(${index})">
-      <div class="recharge-info">
-        <div class="plan-title">${esc(plan[0])}</div>
-        <div class="plan-action-text">Je veux recharger ${plan[1].toLocaleString('fr-FR')} FCFA</div>
+  
+  container.innerHTML = PLANS.map((plan, index) => {
+    const isSelected = planRechargeSelectionneIndex === index;
+    return `
+      <div class="recharge-option-card ${isSelected ? 'selected' : ''}" onclick="selectionnerPlanRecharge(${index})">
+        <div class="recharge-info">
+          <div class="plan-title">${esc(plan[0])}</div>
+          <div class="plan-action-text">Je veux recharger ${plan[1].toLocaleString('fr-FR')} FCFA</div>
+        </div>
+        <div class="recharge-radio-circle"></div>
       </div>
-      <div class="recharge-radio-circle"></div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function selectionnerPlanRecharge(index) {
@@ -1361,22 +1390,29 @@ function selectionnerPlanRecharge(index) {
 
 function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
+  const urlPaiement = plan[4];
+  
+  // Enregistrement strict avec le statut "En attente" pour approbation admin
   historiqueRecharges.unshift({
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
-    methode: 'Paiement en ligne (' + plan[0] + ')',
+    methode: 'Paiement en ligne Kkiapay (' + plan[0] + ')',
     txId: 'KKIA-' + Date.now(),
     date: new Date().toISOString(),
     statut: 'En attente'
   });
   sauvegarderTout();
-  toast("Redirection vers le paiement...");
-  window.open(plan[4], '_blank');
+
+  toast("Demande enregistrée en attente. Redirection vers le paiement...");
+  window.open(urlPaiement, '_blank');
   openPage('historyPage');
 }
 
 function openPage(pageId) {
-  if (pageActuelle !== pageId) { pagePrecedente = pageActuelle; pageActuelle = pageId; }
+  if (pageActuelle !== pageId) {
+    pagePrecedente = pageActuelle;
+    pageActuelle = pageId;
+  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = document.getElementById(pageId);
   if (t) t.classList.add('active');
@@ -1387,8 +1423,12 @@ function openPage(pageId) {
   if (pageId === 'teamPage') afficherEquipe();
   if (pageId === 'viewLinkedPage') afficherCompteLie();
   if (pageId === 'accountPage') chargerProfil();
-  if (pageId === 'rechargePage') afficherOptionsRecharge();
-  if (pageId === 'linkPage') mettreAJourMethodesLien();
+  if (pageId === 'rechargePage') {
+    afficherOptionsRecharge();
+  }
+  if (pageId === 'linkPage') {
+    mettreAJourMethodesLien();
+  }
   if (pageId === 'withdrawPage') {
     document.getElementById('wBalance').textContent = formatArgent(solde);
     mettreAJourMethodesRetrait();
@@ -1406,7 +1446,10 @@ function showAuth(type) {
   document.getElementById('registerTab').classList.toggle('active', !login);
   document.getElementById('loginForm').classList.toggle('hidden', !login);
   document.getElementById('registerForm').classList.toggle('hidden', login);
-  if (!login) initAssistantChat();
+  
+  if (!login) {
+    initAssistantChat();
+  }
 }
 
 async function creerCompte() {
@@ -1417,9 +1460,21 @@ async function creerCompte() {
   const phone = countryCode + rawPhone.replace(/^0+/, '');
   const email = cle(phone) + "@canalbox.app";
 
-  if (!name || !rawPhone || !password) { toast("Remplissez tous les champs."); return; }
-  if (cle(rawPhone).length < 7) { toast("Numéro invalide."); return; }
-  if (password.length < 6) { toast("Mot de passe : 6 caractères minimum."); return; }
+  if (!name || !rawPhone || !password) { 
+    toast("Remplissez tous les champs."); 
+    addBotMessage("❌ Des informations sont manquantes. Veuillez recommencer.");
+    return; 
+  }
+  if (cle(rawPhone).length < 7) { 
+    toast("Numéro de téléphone invalide."); 
+    addBotMessage("❌ Le numéro de téléphone saisi est invalide.");
+    return; 
+  }
+  if (password.length < 6) { 
+    toast("Mot de passe : 6 caractères minimum."); 
+    addBotMessage("❌ Le mot de passe doit contenir au moins 6 caractères.");
+    return; 
+  }
 
   try {
     await auth.signOut();
@@ -1431,14 +1486,35 @@ async function creerCompte() {
     if (existant.exists) {
       const ex = existant.data();
       const em = ex.user ? ex.user.email : '';
-      if (ex.user && ex.user.uid !== uid && (!em || em === email)) {
+      const orphelin = ex.user && ex.user.uid !== uid && (!em || !String(em).includes('@') || em === email);
+      if (orphelin) {
         await ref.delete();
       } else if (!ex.user || ex.user.uid !== uid) {
         await userCred.user.delete();
         reinitialiserEtat();
-        toast("Ce numéro est déjà utilisé.");
+        toast("Ce numéro est déjà utilisé. Connectez-vous.");
+        addBotMessage("❌ Ce numéro possède déjà un compte. Basculez sur l'onglet Connexion.");
         showAuth('login');
         return;
+      }
+    }
+
+    const parrainCode = localStorage.getItem('cb_parrain_code');
+    if (parrainCode && parrainCode !== cle(phone)) {
+      try {
+        const parrainRef = db.collection("comptes_tel").doc(parrainCode);
+        const pDoc = await parrainRef.get();
+        if (pDoc.exists) {
+          const pData = pDoc.data();
+          let listEq = pData.equipe || [];
+          if (!listEq.some(f => cle(f.phone) === cle(phone))) {
+            listEq.push({ nom: name, phone, date: new Date().toISOString() });
+            await parrainRef.update({ equipe: listEq });
+            rtdb.ref("comptes_tel/" + parrainCode + "/equipe").set(listEq);
+          }
+        }
+      } catch (errParrain) {
+        console.error("Erreur parrain :", errParrain);
       }
     }
 
@@ -1449,7 +1525,9 @@ async function creerCompte() {
     toast("Compte créé avec succès !");
   } catch (e) {
     reinitialiserEtat();
-    toast(erreurAuth(e));
+    const msgErr = erreurAuth(e);
+    toast(msgErr);
+    addBotMessage("❌ " + msgErr);
   }
 }
 
@@ -1461,13 +1539,26 @@ async function seConnecter() {
   if (!contact || !password) { toast("Remplissez tous les champs."); return; }
   const parEmail = contact.includes('@');
   let fullPhone = contact;
-  if (!parEmail && !contact.startsWith('+')) fullPhone = countryCode + contact.replace(/^0+/, '');
+  if (!parEmail && !contact.startsWith('+')) {
+    fullPhone = countryCode + contact.replace(/^0+/, '');
+  }
   let targetEmail = parEmail ? contact : (cle(fullPhone) + "@canalbox.app");
 
   try {
     await auth.signOut();
     reinitialiserEtat();
-    let cred = await auth.signInWithEmailAndPassword(targetEmail, password);
+    let cred = null;
+    try {
+      cred = await auth.signInWithEmailAndPassword(targetEmail, password);
+    } catch (e1) {
+      if (!parEmail) {
+        const altEmail = cle(contact) + "@canalbox.app";
+        cred = await auth.signInWithEmailAndPassword(altEmail, password);
+        targetEmail = altEmail;
+      } else {
+        throw e1;
+      }
+    }
     const uid = cred.user.uid;
     const d = await trouverCompte(uid, targetEmail, parEmail ? '' : fullPhone);
     if (d) {
@@ -1478,6 +1569,10 @@ async function seConnecter() {
       appliquerDonnees(d);
     } else if (!parEmail) {
       utilisateur = { uid, name: "Membre", email: targetEmail, phone: fullPhone, solde: 0 };
+    } else {
+      await auth.signOut(); reinitialiserEtat();
+      toast("Profil introuvable.");
+      return;
     }
     sauvegarderTout();
     verifierConnexion();
@@ -1509,7 +1604,10 @@ function verifierConnexion() {
     if (utilisateur && utilisateur.phone) {
       const linkFinal = SITE_BASE_URL + "?parrain=" + cle(utilisateur.phone);
       const elLien = document.getElementById('lienParrainage');
-      if (elLien) { elLien.textContent = linkFinal; elLien.dataset.raw = linkFinal; }
+      if (elLien) {
+        elLien.textContent = linkFinal;
+        elLien.dataset.raw = linkFinal;
+      }
     }
   }
 }
@@ -1538,9 +1636,10 @@ function enregistrerLien() {
   const phoneRaw = document.getElementById('linkedPhone').value.trim();
   const phone2Raw = document.getElementById('linkedPhone2').value.trim();
 
-  if (!holder || !phoneRaw || !phone2Raw) { toast("Remplissez tous les champs."); return; }
+  if (!holder || !phoneRaw || !phone2Raw) { toast("Remplissez tous les champs (Nom et numéros)."); return; }
   if (phoneRaw !== phone2Raw) { toast("Les numéros ne correspondent pas."); return; }
-  compteLie = { type, phone: code + " " + phoneRaw.replace(/^0+/, ''), holder };
+  const phoneFull = code + " " + phoneRaw.replace(/^0+/, '');
+  compteLie = { type, phone: phoneFull, holder };
   sauvegarderTout();
   toast("Compte lié avec succès.");
   openPage('viewLinkedPage');
@@ -1565,7 +1664,7 @@ function afficherCompteLie() {
       <div class="empty-history box" style="margin-bottom:20px">
         <div style="font-size:40px;margin-bottom:10px">💳</div>
         <strong>Aucun compte lié</strong>
-        <p style="font-size:13px;margin-top:6px">Liez un compte pour vos retraits.</p>
+        <p style="font-size:13px;margin-top:6px">Veuillez lier votre compte de paiement mobile pour effectuer des retraits.</p>
       </div>`;
   }
 }
@@ -1574,7 +1673,7 @@ function detacherCompte() { compteLie = null; sauvegarderTout(); afficherCompteL
 
 function investirPlan(i) {
   const [nom, montant, gain] = PLANS[i];
-  if (solde < montant) { toast("Solde insuffisant."); openPage('rechargePage'); return; }
+  if (solde < montant) { toast("Solde insuffisant. Veuillez recharger."); openPage('rechargePage'); return; }
   solde -= montant;
   investissements.unshift({ nom, montant, gain, date: new Date().toISOString(), derniereDateGain: new Date().toISOString(), statut: 'Actif' });
   sauvegarderTout();
@@ -1585,7 +1684,7 @@ function investirPlan(i) {
 
 function afficherAchats() {
   const l = document.getElementById('achatsList');
-  if (!investissements.length) { l.innerHTML = `<div class="empty-history">Aucun achat effectué.</div>`; return; }
+  if (!investissements.length) { l.innerHTML = `<div class="empty-history">Aucun achat effectué pour le moment.</div>`; return; }
   l.innerHTML = investissements.map(inv => `
     <div class="history-item">
       <div class="history-top"><span class="history-type">👑 ${esc(inv.nom)}</span><span class="history-status status-success">${esc(inv.statut || 'Actif')}</span></div>
@@ -1597,7 +1696,7 @@ function afficherAchats() {
 
 function afficherEquipe() {
   const l = document.getElementById('teamList');
-  if (!equipe.length) { l.innerHTML = `<div class="empty-history">Aucun filleul enregistré.</div>`; return; }
+  if (!equipe.length) { l.innerHTML = `<div class="empty-history">Aucun filleul enregistré. Copiez et partagez votre lien pour inviter des membres !</div>`; return; }
   l.innerHTML = equipe.map(m => `
     <div class="history-item">
       <div class="history-top"><span class="history-type">👤 ${esc(m.nom || m.name || 'Filleul')}</span><span class="history-status status-success">Membre Actif</span></div>
@@ -1607,8 +1706,18 @@ function afficherEquipe() {
 
 function confirmerDemandeRetrait() {
   const maintenant = new Date();
-  if (maintenant.getDay() === 0 || maintenant.getDay() === 6) { toast("Retraits disponibles du lundi au vendredi."); return; }
-  if (maintenant.getHours() < 16) { toast("Horaires de retrait : 16h00 à 00h00."); return; }
+  const jourActuel = maintenant.getDay();
+  const heureActuelle = maintenant.getHours();
+
+  if (jourActuel === 0 || jourActuel === 6) {
+    toast("Les retraits sont uniquement disponibles du lundi au vendredi !");
+    return;
+  }
+
+  if (heureActuelle < 16) {
+    toast("Les retraits ouvrent à partir de 16h00 jusqu'à 00h00 !");
+    return;
+  }
 
   const montantDemande = parseFloat(document.getElementById('withdrawAmount').value);
   const code = document.getElementById('withdrawCountryCode').value;
@@ -1618,15 +1727,18 @@ function confirmerDemandeRetrait() {
 
   if (!montantDemande || montantDemande < 500) { toast("Minimum de retrait : 500 FCFA"); return; }
   if (montantDemande > solde) { toast("Solde insuffisant."); return; }
-  if (!holder || !phoneRaw) { toast("Champs incomplets."); return; }
+  if (!holder || !phoneRaw) { toast("Veuillez remplir le nom du titulaire et le numéro de réception."); return; }
 
   const frais = Math.round(montantDemande * 0.15);
+  const montantNet = montantDemande - frais;
+  const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
+
   solde -= montantDemande;
   historiqueRetraits.unshift({
-    montant: montantDemande - frais,
+    montant: montantNet,
     montantBrut: montantDemande,
     frais: frais,
-    compte: code + " " + phoneRaw.replace(/^0+/, ''),
+    compte: fullPhone,
     titulaire: holder,
     methode: method,
     date: new Date().toISOString(),
@@ -1635,7 +1747,11 @@ function confirmerDemandeRetrait() {
 
   sauvegarderTout();
   mettreAJourAccueil();
-  toast("Demande de retrait transmise.");
+  document.getElementById('recapRetrait').style.display = 'none';
+  document.getElementById('withdrawAmount').value = '';
+  document.getElementById('withdrawHolder').value = '';
+  document.getElementById('withdrawPhone').value = '';
+  toast("Demande de retrait transmise (-15% frais réduits).");
   openPage('historyPage');
 }
 
@@ -1644,9 +1760,10 @@ function calculerFraisRetrait() {
   const divRecap = document.getElementById('recapRetrait');
   if (m > 0) {
     const frais = Math.round(m * 0.15);
+    const net = Math.max(0, m - frais);
     document.getElementById('reqMontant').textContent = formatArgent(m);
     document.getElementById('reqFrais').textContent = '-' + formatArgent(frais);
-    document.getElementById('reqNet').textContent = formatArgent(Math.max(0, m - frais));
+    document.getElementById('reqNet').textContent = formatArgent(net);
     divRecap.style.display = 'block';
   } else {
     divRecap.style.display = 'none';
@@ -1664,14 +1781,21 @@ function afficherHistorique() {
   l.innerHTML = items.map(it => {
     const st = String(it.statut || 'En attente');
     const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
-    let titre = it.type === 'recharge' ? '💳 Recharge' : (it.type === 'retrait' ? '💸 Retrait' : '👑 Achat ' + esc(it.nom));
-    let signe = it.type === 'recharge' ? '+' : '-';
-    let cm = it.type === 'recharge' ? 'amount-plus' : 'amount-minus';
+    let titre, signe, cm;
+    if (it.type === 'recharge') {
+      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 Recharge (' + esc(it.methode ? it.methode.toUpperCase() : 'MOMO') + ')');
+      signe = '+'; cm = 'amount-plus';
+    }
+    else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
+    else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
     return `
       <div class="history-item">
         <div class="history-top"><span class="history-type">${titre}</span><span class="history-status ${cls}">${esc(st)}</span></div>
         <div class="history-date">${formatDate(it.date)}</div>
         <div class="history-amount ${cm}">${signe}${formatArgent(it.montant)}</div>
+        ${it.frais ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Frais 15% déduits (-${formatArgent(it.frais)}) | Bruts : ${formatArgent(it.montantBrut)}</div>` : ''}
+        ${it.titulaire ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Titulaire : ${esc(it.titulaire)}</div>` : ''}
+        ${it.compte ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Destinataire : ${esc(it.compte)}</div>` : ''}
       </div>`;
   }).join('');
 }
@@ -1688,12 +1812,16 @@ window.addEventListener('load', () => {
         const d = await trouverCompte(fb.uid, fb.email, utilisateur ? utilisateur.phone : '');
         if (d) {
           utilisateur = { ...(d.user || {}), uid: fb.uid, email: fb.email };
+          utilisateur.phone = utilisateur.phone || d.telephone || '';
+          delete utilisateur.password;
           appliquerDonnees(d);
+        } else if (!utilisateur) {
+          await auth.signOut(); reinitialiserEtat();
         }
       } else {
         reinitialiserEtat();
       }
-    } catch (e) { console.error(e); }
+    } catch (e) { console.error(e); if (!utilisateur) reinitialiserEtat(); }
     const loader = document.getElementById('appLoading');
     loader.style.opacity = '0';
     setTimeout(() => { loader.style.display = 'none'; verifierConnexion(); }, 300);
