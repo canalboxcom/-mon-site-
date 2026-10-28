@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Canal Box VIP — Plateforme d'Investissement Premium</title>
 <style>
+/* --- MASQUAGE AUTO DES BANNIÈRES PUBLICITAIRES DU CONVERTISSEUR WEBTOAPP --- */
+div[id*="freewebsite"], 
+a[href*="freewebsiteToApp"], 
+img[src*="freewebsite"], 
+.freewebsite-banner,
+iframe[src*="freewebsite"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 :root{
   --bg-main:#0B0E14;--bg-card:#141923;--bg-card-hover:#1D2432;
   --orange:#FF6B00;--orange-fonce:#E05A00;--jaune:#FFB800;--jaune-clair:#FFE599;
@@ -229,12 +242,15 @@ a{text-decoration:none;color:inherit}
 .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,107,0,0.2),transparent 70%);border-radius:50%}
 .hero small{opacity:.8;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--jaune);position:relative;z-index:1}
 .hero-balance{font-size:40px;font-weight:900;margin:10px 0 4px;letter-spacing:-1px;position:relative;z-index:1;color:var(--blanc)}
-.hero-actions{display:flex;gap:12px;margin-top:24px;position:relative;z-index:1}
+.hero-actions{display:flex;flex-direction:column;gap:12px;margin-top:24px;position:relative;z-index:1}
+.hero-buttons-row{display:flex;gap:12px;}
 .hero-btn{padding:14px 20px;border-radius:12px;font-weight:800;flex:1;font-size:14px;transition:var(--transition);letter-spacing:.2px;text-align:center}
 .hero-btn.gold{background:var(--gradient-gold);color:var(--bg-main);box-shadow:var(--ombre-orange)}
 .hero-btn.gold:hover{filter:brightness(1.1)}
 .hero-btn.ghost{background:rgba(255,255,255,0.06);color:var(--blanc);border:1px solid rgba(255,255,255,0.15)}
 .hero-btn.ghost:hover{background:rgba(255,255,255,0.12);border-color:var(--jaune)}
+.hero-btn.download-app{background:var(--gradient-vert);color:#FFF;box-shadow:var(--ombre-vert);width:100%;text-align:center;display:block;}
+
 .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:32px}
 .quick-card{background:var(--bg-card);border-radius:var(--radius);padding:20px 18px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.05);cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
 .quick-card:hover{transform:translateY(-3px);background:var(--bg-card-hover);border-color:var(--orange);box-shadow:var(--ombre-orange)}
@@ -320,7 +336,6 @@ a{text-decoration:none;color:inherit}
 .vip-details{color:var(--texte-gris);font-size:13px;margin:4px 0;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px}
 .vip-income{font-size:14px;font-weight:800;color:var(--succes);margin:10px 0 14px;background:var(--succes-bg);padding:6px 12px;border-radius:10px;display:inline-block;border:1px solid rgba(16,185,129,0.25)}
 
-/* Grille des options de recharge élégantes */
 .recharge-options-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -519,8 +534,12 @@ a{text-decoration:none;color:inherit}
       <div class="hero-balance" id="homeBalance">0 FCFA</div>
       <small id="homeWelcome">Bienvenue, Membre</small>
       <div class="hero-actions">
-        <button class="hero-btn gold" onclick="openPage('rechargePage')">＋ Recharger</button>
-        <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
+        <div class="hero-buttons-row">
+          <button class="hero-btn gold" onclick="openPage('rechargePage')">＋ Recharger</button>
+          <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
+        </div>
+        <!-- BOUTON DE TÉLÉCHARGEMENT DIRECT DE L'APK -->
+        <a href="https://canalboxcom.github.io/-mon-site-/app-debug.apk" download class="hero-btn download-app">📲 Télécharger l'Application VIP (APK)</a>
       </div>
     </div>
     <div class="cards-grid">
@@ -705,7 +724,6 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Recharger mon Solde</h2>
     <p class="section-sub">Sélectionnez le montant de votre recharge pour accéder au paiement instantané :</p>
     
-    <!-- Grille élégante des options de rechargement -->
     <div id="rechargeOptionsContainer" class="recharge-options-grid"></div>
 
     <div style="margin-top: 24px;">
@@ -1392,7 +1410,6 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  // Enregistrement strict avec le statut "En attente" pour approbation admin
   historiqueRecharges.unshift({
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
