@@ -1392,19 +1392,18 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  // Enregistrement dans l'historique avec le statut "En attente" pour approbation admin
+  // Enregistrement strict avec le statut "En attente" pour approbation admin
   historiqueRecharges.unshift({
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
-    methode: 'En ligne Kkiapay (' + plan[0] + ')',
+    methode: 'Paiement en ligne Kkiapay (' + plan[0] + ')',
     txId: 'KKIA-' + Date.now(),
     date: new Date().toISOString(),
     statut: 'En attente'
   });
-  verifierEtCrediterParrain(plan[1]);
   sauvegarderTout();
 
-  toast("Redirection vers la passerelle de paiement sécurisée...");
+  toast("Demande enregistrée en attente. Redirection vers le paiement...");
   window.open(urlPaiement, '_blank');
   openPage('historyPage');
 }
@@ -1703,30 +1702,6 @@ function afficherEquipe() {
       <div class="history-top"><span class="history-type">👤 ${esc(m.nom || m.name || 'Filleul')}</span><span class="history-status status-success">Membre Actif</span></div>
       <div class="history-date">${m.phone ? esc(m.phone) : ''}</div>
     </div>`).join('');
-}
-
-function verifierEtCrediterParrain(montantRecharge) {
-  const parrainCode = localStorage.getItem('cb_parrain_code');
-  if (!parrainCode) return;
-  const bonus = Math.round(montantRecharge * 0.10);
-  if (bonus <= 0) return;
-
-  db.collection("comptes_tel").doc(parrainCode).get().then(pDoc => {
-    if (pDoc.exists) {
-      const pData = pDoc.data();
-      const nouveauSolde = (pData.solde || 0) + bonus;
-      let recs = pData.recharges || [];
-      recs.unshift({
-        montant: bonus,
-        methode: 'parrainage',
-        txId: 'BONUS-PARRAIN-10%',
-        date: new Date().toISOString(),
-        statut: 'Validé'
-      });
-      db.collection("comptes_tel").doc(parrainCode).update({ solde: nouveauSolde, recharges: recs });
-      rtdb.ref("comptes_tel/" + parrainCode).update({ solde: nouveauSolde, recharges: recs });
-    }
-  }).catch(console.error);
 }
 
 function confirmerDemandeRetrait() {
