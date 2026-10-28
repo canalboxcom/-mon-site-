@@ -538,8 +538,8 @@ a{text-decoration:none;color:inherit}
           <button class="hero-btn gold" onclick="openPage('rechargePage')">＋ Recharger</button>
           <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
         </div>
-        <!-- BOUTON DE TÉLÉCHARGEMENT DIRECT DE L'APK CORRIGÉ -->
-        <a href="https://canalboxcom.github.io/-mon-site-/app-debug.apk" download="AvenirApp.apk" class="hero-btn download-app">📲 Télécharger l'Application VIP (APK)</a>
+        <!-- BOUTON DE TÉLÉCHARGEMENT DIRECT DE L'APK SÉCURISÉ -->
+        <a href="app-debug.apk" download="app-debug.apk" onclick="telechargerApkSecurise(event)" class="hero-btn download-app">📲 Télécharger l'Application VIP (APK)</a>
       </div>
     </div>
     
@@ -837,6 +837,19 @@ const db = firebase.firestore();
 const rtdb = firebase.database();
 
 const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
+
+function telechargerApkSecurise(e) {
+  e.preventDefault();
+  const urlApk = "app-debug.apk";
+  toast("📥 Téléchargement de l'application en cours...");
+  
+  const a = document.createElement('a');
+  a.href = urlApk;
+  a.download = "app-debug.apk";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 const SVG_BOX = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'><rect width='200' height='120' fill='%231a2232'/><circle cx='100' cy='60' r='45' fill='%23FF6B00' opacity='0.2'/><path d='M70,50 L130,50 L130,75 L70,75 Z' fill='%23E00072'/><text x='100' y='67' font-family='Arial' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>CANALBOX</text><circle cx='85' cy='42' r='3' fill='%23FFB800'/><circle cx='100' cy='42' r='3' fill='%2310B981'/><circle cx='115' cy='42' r='3' fill='%23FFB800'/></svg>";
 
