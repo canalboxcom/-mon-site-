@@ -885,7 +885,7 @@ let pagePrecedente = 'homePage';
 let pageActuelle = 'homePage';
 let planRechargeSelectionneIndex = 0;
 
-let tradingStats = { date: '', roundCount: 0 };
+let tradingStats = { date: '', wins: 0 };
 
 let isListening = false;
 let speechRecognition = null;
@@ -1272,6 +1272,7 @@ function rendrePlans() {
   if (!elInvest) return;
 
   elInvest.innerHTML = PLANS.map((p, i) => {
+    // Vérifie si l'utilisateur a déjà souscrit à ce plan précis
     const dejaSouscrit = investissements.some(inv => inv.montant === p[1]);
     
     if (dejaSouscrit) {
@@ -1310,7 +1311,7 @@ function reinitialiserEtat() {
   utilisateur = null; solde = 0;
   historiqueRecharges = []; historiqueRetraits = []; investissements = []; equipe = [];
   compteLie = null;
-  tradingStats = { date: '', roundCount: 0 };
+  tradingStats = { date: '', wins: 0 };
 }
 
 function appliquerDonnees(d) {
@@ -1739,6 +1740,7 @@ function detacherCompte() { compteLie = null; sauvegarderTout(); afficherCompteL
 function investirPlan(i) {
   const [nom, montant, gain] = PLANS[i];
   
+  // Vérification si le plan a déjà été acheté
   const dejaAcquis = investissements.some(inv => inv.montant === montant);
   if (dejaAcquis) {
     toast(`⚠️ Vous avez déjà investi pour ${montant.toLocaleString('fr-FR')} FCFA. Veuillez compléter et investir dans le plan supérieur !`);
@@ -1884,7 +1886,7 @@ function chargerPageTrading() {
   
   const aujourdHui = new Date().toDateString();
   if (tradingStats.date !== aujourdHui) {
-    tradingStats = { date: aujourdHui, roundCount: 0 };
+    tradingStats = { date: aujourdHui, wins: 0 };
     sauvegarderTout();
   }
 }
@@ -1901,7 +1903,7 @@ function executerTrade(direction) {
 
   const aujourdHui = new Date().toDateString();
   if (tradingStats.date !== aujourdHui) {
-    tradingStats = { date: aujourdHui, roundCount: 0 };
+    tradingStats = { date: aujourdHui, wins: 0 };
   }
 
   if (solde < montant) {
@@ -1915,25 +1917,17 @@ function executerTrade(direction) {
   chargerPageTrading();
   mettreAJourAccueil();
 
-  // Traitement rapide instantané
-  resultBox.innerHTML = `<span style="color: var(--attention);">⚡ Traitement ultra-rapide en cours (${direction})...</span>`;
+  resultBox.innerHTML = `<span style="color: var(--attention);">⏳ Analyse du marché en cours pour une position en ${direction}...</span>`;
 
   setTimeout(() => {
-    tradingStats.roundCount++;
-    const tourActuel = tradingStats.roundCount;
-
-    // Règle demandée :
-    // - 1er jeu : Gagne
-    // - 2e jeu : Perd
-    // - Après la 1ère victoire, il faut au moins 10 tours (tours 2 à 11) avant la 2ème victoire (au tour 12)
-    // - Le reste des jeux : Perd
     let gagne = false;
-    if (tourActuel === 1 || tourActuel === 12) {
+    if (tradingStats.wins < 2) {
       gagne = true;
+      tradingStats.wins++;
+      sauvegarderTout();
     } else {
       gagne = false;
     }
-    sauvegarderTout();
 
     if (gagne) {
       const gainTotal = montant + 500;
@@ -1943,8 +1937,8 @@ function executerTrade(direction) {
       mettreAJourAccueil();
       
       resultBox.innerHTML = `
-        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 TRADE GAGNÉ (Jeu ${tourActuel} - ${direction}) !</div>
-        <div style="color: var(--blanc);">Mise : ${formatArgent(montant)} | Gain reçu : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 TRADE GAGNÉ (${direction}) !</div>
+        <div style="color: var(--blanc);">Vous avez misé ${formatArgent(montant)} et remporté : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
       `;
       toast(`🎉 Trade gagné ! +${formatArgent(gainTotal)}`);
     } else {
@@ -1952,8 +1946,8 @@ function executerTrade(direction) {
       chargerPageTrading();
       
       resultBox.innerHTML = `
-        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ TRADE PERDU (Jeu ${tourActuel} - ${direction})</div>
-        <div style="color: var(--texte-gris);">Position clôturée. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
+        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ TRADE PERDU (${direction})</div>
+        <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
       `;
       toast(`❌ Trade perdu : -${formatArgent(montant)}`);
     }
@@ -1961,13 +1955,13 @@ function executerTrade(direction) {
     historiqueRecharges.unshift({
       montant: gagne ? (montant + 500) : montant,
       phone: utilisateur ? utilisateur.phone : '',
-      methode: `Trading Live (Jeu ${tourActuel} - ${direction})`,
+      methode: 'Trading Live (' + direction + ')',
       txId: 'TRADE-' + Date.now(),
       date: new Date().toISOString(),
       statut: gagne ? 'Gagné' : 'Perdu'
     });
     sauvegarderTout();
-  }, 500); // Résultat affiché très rapidement en 500ms
+  }, 1500);
 }
 
 window.addEventListener('load', () => {
