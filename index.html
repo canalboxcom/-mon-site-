@@ -542,12 +542,12 @@ a{text-decoration:none;color:inherit}
   <!-- PAGE APPLE OF FORTUNE -->
   <section id="appleGamePage" class="page">
     <h2 class="section-title">Apple of Fortune 🍎</h2>
-    <p class="section-sub">Montez ligne par ligne jusqu'en haut en évitant les pièges. Atteignez le sommet pour remporter 1 000 FCFA !</p>
+    <p class="section-sub">Montez ligne par ligne. L'avant-dernière case (marquée en vert) est votre case gagnante du jour !</p>
     
     <div class="hero" style="background:radial-gradient(circle at center, #0B3C24 0%, #062214 100%); margin-bottom: 20px; border: 1.5px solid var(--vert-client);">
       <small>Solde de jeu</small>
       <div class="hero-balance" id="appleGameBalance">0 FCFA</div>
-      <small>Gravissez les 7 niveaux de tonneaux</small>
+      <small>Gravissez les lignes et choisissez l'avant-dernière case</small>
     </div>
 
     <!-- Plateau de jeu -->
@@ -576,7 +576,7 @@ a{text-decoration:none;color:inherit}
     <div class="box" style="margin-top: 20px;">
       <h3 style="font-size: 15px; font-weight: 800; color: var(--blanc); margin-bottom: 8px;">📢 Statut de la partie</h3>
       <div id="appleResultBox" style="font-size: 14px; color: var(--texte-gris); text-align: center; padding: 14px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
-        Entrez votre mise et cliquez sur "Lancer la partie" pour commencer.
+        Entrez votre mise et lancez la partie pour choisir une case.
       </div>
     </div>
 
@@ -930,11 +930,11 @@ let planRechargeSelectionneIndex = 0;
 
 let tradingStats = { date: '', roundCount: 0 };
 
-// Variables pour Apple of Fortune
+// Variables pour Apple of Fortune (Avant-dernière case gagnante, 1 gain par jour)
 let appleGameActive = false;
-let appleCurrentRow = 0; // 0 à 6 (6 lignes au total, 0 = le bas, 6 = le sommet)
-let appleWinningCols = []; // Colonne gagnante (0 à 4) pour chaque ligne
+let appleCurrentRow = 0; 
 let appleCurrentBet = 500;
+let appleDailyWinStats = { date: '', hasWonToday: false };
 
 let isListening = false;
 let speechRecognition = null;
@@ -1354,6 +1354,9 @@ function appliquerDonnees(d) {
   if (d.tradingStats) {
     tradingStats = d.tradingStats;
   }
+  if (d.appleDailyWinStats) {
+    appleDailyWinStats = d.appleDailyWinStats;
+  }
   verifierEtCrediterGainsJournaliers();
   rendrePlans();
 }
@@ -1413,6 +1416,7 @@ function sauvegarderTout() {
     solde, nom: utilisateur.name || "Utilisateur", telephone: utilisateur.phone, user: utilisateur,
     recharges: historiqueRecharges, retraits: historiqueRetraits, investissements, compteLie, equipe,
     tradingStats,
+    appleDailyWinStats,
     derniereModif: new Date().toISOString()
   };
   db.collection("comptes_tel").doc(docId).set(payload, { merge: true }).catch(console.error);
@@ -1997,11 +2001,17 @@ function executerTrade(direction) {
 }
 
 // ==========================================
-// LOGIQUE DU JEU APPLE OF FORTUNE (7 LIGNES, 5 COLONNES)
+// LOGIQUE DU JEU APPLE OF FORTUNE (AVANT-DERNIÈRE CASE GAGNANTE, 1 FOIS PAR JOUR)
 // ==========================================
 function chargerPageAppleGame() {
   const el = document.getElementById('appleGameBalance');
   if (el) el.textContent = formatArgent(solde);
+  
+  const aujourdHui = new Date().toDateString();
+  if (appleDailyWinStats.date !== aujourdHui) {
+    appleDailyWinStats = { date: aujourdHui, hasWonToday: false };
+    sauvegarderTout();
+  }
   initialiserPlateauApple(false);
 }
 
@@ -2044,6 +2054,11 @@ function demarrerPartieApple() {
     return;
   }
 
+  const aujourdHui = new Date().toDateString();
+  if (appleDailyWinStats.date !== aujourdHui) {
+    appleDailyWinStats = { date: aujourdHui, hasWonToday: false };
+  }
+
   appleCurrentBet = montant;
   solde -= montant;
   sauvegarderTout();
@@ -2051,21 +2066,12 @@ function demarrerPartieApple() {
   document.getElementById('appleGameBalance').textContent = formatArgent(solde);
 
   appleGameActive = true;
-  appleCurrentRow = 0; // On commence tout en bas (ligne 0)
-  
-  // Générer les colonnes gagnantes :
-  // De la ligne 0 à la ligne 5, ce sont des pièges (aucune case ne gagne vraiment, ou aléatoire qui perd).
-  // Seule la ligne 6 (tout en haut) a la case gagnante précise !
-  appleWinningCols = [];
-  for (let r = 0; r < 7; r++) {
-    // Choix d'une colonne gagnante purement aléatoire pour chaque ligne, mais aux lignes intermédiaires cliquer dessus fait perdre sauf la dernière ligne tout en haut !
-    appleWinningCols.push(Math.floor(Math.random() * 5));
-  }
+  appleCurrentRow = 0; // On commence par la ligne du bas
 
   document.getElementById('appleStartBtn').disabled = true;
   document.getElementById('appleStartBtn').style.opacity = '0.5';
-  document.getElementById('appleResultBox').innerHTML = `<span style="color: var(--attention);">🎮 Partie lancée ! Choisissez un tonneau sur la ligne du bas pour progresser.</span>`;
-  toast("🍎 Partie lancée ! Faites vos choix.");
+  document.getElementById('appleResultBox').innerHTML = `<span style="color: var(--attention);">🎮 Partie lancée ! Choisissez une case sur la ligne du bas.</span>`;
+  toast("🍎 Partie lancée ! Faites votre choix.");
 
   initialiserPlateauApple(true);
 }
@@ -2075,36 +2081,23 @@ function cliquerCaseApple(row, col) {
 
   const resultBox = document.getElementById('appleResultBox');
   const cell = document.getElementById(`apple-cell-${row}-${col}`);
+  const aujourdHui = new Date().toDateString();
 
-  // Règle stricte demandée : 
-  // - S'il n'est pas tout en haut (ligne 6), il perd directement dès qu'il clique.
-  // - S'il arrive tout en haut (ligne 6) sur la bonne case, il gagne 1 000 FCFA de prime + sa mise multipliée ou son gain !
-  if (row < 6) {
-    // Mauvaise ligne / Piège -> Perdu immédiat
-    cell.innerHTML = '❌';
-    cell.style.background = 'rgba(239, 68, 68, 0.2)';
-    cell.style.borderColor = 'var(--erreur)';
-    
-    appleGameActive = false;
-    document.getElementById('appleStartBtn').disabled = false;
-    document.getElementById('appleStartBtn').style.opacity = '1';
+  // Vérification de la règle : l'avant-dernière case (colonne index 3, car 5 colonnes au total : 0, 1, 2, [3], 4)
+  // et l'utilisateur ne doit pas avoir déjà gagné aujourd'hui.
+  const estAvantDerniereCase = (col === 3);
+  const peutGagnerAujourdHui = (!appleDailyWinStats.hasWonToday && appleDailyWinStats.date === aujourdHui);
 
-    resultBox.innerHTML = `
-      <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">❌ Vous avez perdu !</div>
-      <div style="color: var(--texte-gris);">Vous avez touché un piège à la ligne ${row + 1}. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
-    `;
-    toast(`❌ Vous avez perdu : -${formatArgent(appleCurrentBet)}`);
-    sauvegarderTout();
-    initialiserPlateauApple(false);
-
-  } else {
-    // Ligne 6 (tout en haut) -> Gagné ! Il remporte 1000 FCFA + gain
+  if (estAvantDerniereCase && peutGagnerAujourdHui) {
+    // VICTOIRE : C'est l'avant-dernière case et il n'a pas encore gagné aujourd'hui !
     cell.innerHTML = '🍎';
     cell.style.background = 'rgba(16, 185, 129, 0.2)';
     cell.style.borderColor = 'var(--succes)';
 
-    const gainTotal = appleCurrentBet + 1000;
+    // Calcul du gain basé sur la mise (par exemple, le double ou mise + multiplicateur)
+    const gainTotal = appleCurrentBet * 2;
     solde += gainTotal;
+    appleDailyWinStats.hasWonToday = true;
     sauvegarderTout();
 
     appleGameActive = false;
@@ -2114,18 +2107,45 @@ function cliquerCaseApple(row, col) {
     mettreAJourAccueil();
 
     resultBox.innerHTML = `
-      <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 Vous avez gagné !</div>
-      <div style="color: var(--blanc);">Vous avez atteint le sommet ! Gagnant de : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+      <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">Vous avez gagné !</div>
+      <div style="color: var(--blanc);">Vous avez choisi l'avant-dernière case. Crédité sur votre compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
     `;
-    toast(`🎉 Vous avez gagné ! +${formatArgent(gainTotal)}`);
+    toast(`Vous avez gagné ! +${formatArgent(gainTotal)}`);
 
     historiqueRecharges.unshift({
       montant: gainTotal,
       phone: utilisateur ? utilisateur.phone : '',
-      methode: 'Apple of Fortune (Victoire Sommet)',
+      methode: 'Apple of Fortune (Avant-dernière case)',
       txId: 'APPLE-' + Date.now(),
       date: new Date().toISOString(),
       statut: 'Gagné'
+    });
+    sauvegarderTout();
+    initialiserPlateauApple(false);
+
+  } else {
+    // DÉFAITE : Soit ce n'est pas l'avant-dernière case, soit il a déjà gagné aujourd'hui
+    cell.innerHTML = '❌';
+    cell.style.background = 'rgba(239, 68, 68, 0.2)';
+    cell.style.borderColor = 'var(--erreur)';
+
+    appleGameActive = false;
+    document.getElementById('appleStartBtn').disabled = false;
+    document.getElementById('appleStartBtn').style.opacity = '1';
+
+    resultBox.innerHTML = `
+      <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">Vous avez perdre !</div>
+      <div style="color: var(--texte-gris);">Ce n'était pas la bonne case ou votre gain journalier a déjà été atteint. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
+    `;
+    toast(`Vous avez perdre : -${formatArgent(appleCurrentBet)}`);
+    
+    historiqueRecharges.unshift({
+      montant: appleCurrentBet,
+      phone: utilisateur ? utilisateur.phone : '',
+      methode: 'Apple of Fortune (Perdu)',
+      txId: 'APPLE-' + Date.now(),
+      date: new Date().toISOString(),
+      statut: 'Perdu'
     });
     sauvegarderTout();
     initialiserPlateauApple(false);
