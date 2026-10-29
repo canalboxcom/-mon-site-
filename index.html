@@ -245,6 +245,44 @@ a{text-decoration:none;color:inherit}
 .section-sub{color:var(--texte-gris);margin-bottom:22px;font-size:13px;line-height:1.5;font-weight:500}
 .box{background:var(--bg-card);padding:24px;border-radius:20px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.08)}
 
+/* Style pour la zone de copie du lien de parrainage */
+.copy-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg-card);
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--ombre);
+}
+.copy-row .lbl {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--texte-gris);
+  margin-bottom: 4px;
+}
+.copy-row .val {
+  word-break: break-all;
+  font-weight: 700;
+}
+.copy-btn {
+  background: var(--gradient-gold);
+  color: var(--bg-main);
+  font-weight: 800;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  box-shadow: var(--ombre-orange);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.copy-btn:hover {
+  filter: brightness(1.1);
+}
+
 .invest-banner {
   width: 100%;
   height: 140px;
@@ -955,6 +993,71 @@ let appleDailyWinStats = { date: '', hasWonToday: false };
 
 let isListening = false;
 let speechRecognition = null;
+
+// ==========================================
+// FONCTION DE COPIE DU LIEN DE PARRAINAGE
+// ==========================================
+function copierDepuis(btnElement) {
+  const targetId = btnElement.getAttribute('data-src');
+  const targetEl = document.getElementById(targetId);
+  if (!targetEl) return;
+
+  const texteACopier = targetEl.dataset.raw || targetEl.textContent;
+
+  if (!texteACopier || texteACopier.includes('Génération')) {
+    toast("⚠️ Le lien de parrainage n'est pas encore disponible.");
+    return;
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(texteACopier).then(() => {
+      changerTexteBoutonCopie(btnElement);
+      toast("📋 Lien de parrainage copié dans le presse-papier !");
+    }).catch(err => {
+      console.error("Erreur de copie Clipboard API:", err);
+      fallbackCopier(texteACopier, btnElement);
+    });
+  } else {
+    fallbackCopier(texteACopier, btnElement);
+  }
+}
+
+function fallbackCopier(texte, btnElement) {
+  try {
+    const tempInput = document.createElement('textarea');
+    tempInput.value = texte;
+    tempInput.style.position = 'fixed';
+    tempInput.style.opacity = '0';
+    document.body.appendChild(tempInput);
+    tempInput.focus();
+    tempInput.select();
+    const reussi = document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    if (reussi) {
+      changerTexteBoutonCopie(btnElement);
+      toast("📋 Lien de parrainage copié !");
+    } else {
+      toast("❌ Échec de la copie automatique.");
+    }
+  } catch (err) {
+    console.error("Erreur fallback copie:", err);
+    toast("❌ La copie automatique a échoué.");
+  }
+}
+
+function changerTexteBoutonCopie(btnElement) {
+  const texteOriginal = btnElement.textContent;
+  btnElement.textContent = "Copié !";
+  btnElement.style.background = "var(--vert-client)";
+  btnElement.style.color = "#FFF";
+  
+  setTimeout(() => {
+    btnElement.textContent = texteOriginal;
+    btnElement.style.background = "var(--gradient-gold)";
+    btnElement.style.color = "var(--bg-main)";
+  }, 2000);
+}
 
 function envoyerNotificationTelephone(titre, message) {
   const banner = document.getElementById('pushNotificationBanner');
@@ -1958,7 +2061,6 @@ function calculerFraisRetrait() {
 
 function afficherHistorique() {
   const l = document.getElementById('historyAll');
-  // Seules les recharges et les retraits sont affichés dans l'historique
   const items = [
     ...historiqueRecharges.map(r => ({ type: 'recharge', ...r })),
     ...historiqueRetraits.map(r => ({ type: 'retrait', ...r }))
