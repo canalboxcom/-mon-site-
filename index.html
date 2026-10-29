@@ -885,7 +885,7 @@ let pagePrecedente = 'homePage';
 let pageActuelle = 'homePage';
 let planRechargeSelectionneIndex = 0;
 
-let tradingStats = { date: '', wins: 0 };
+let tradingStats = { date: '', roundCount: 0 };
 
 let isListening = false;
 let speechRecognition = null;
@@ -1272,7 +1272,6 @@ function rendrePlans() {
   if (!elInvest) return;
 
   elInvest.innerHTML = PLANS.map((p, i) => {
-    // Vérifie si l'utilisateur a déjà souscrit à ce plan précis
     const dejaSouscrit = investissements.some(inv => inv.montant === p[1]);
     
     if (dejaSouscrit) {
@@ -1311,7 +1310,7 @@ function reinitialiserEtat() {
   utilisateur = null; solde = 0;
   historiqueRecharges = []; historiqueRetraits = []; investissements = []; equipe = [];
   compteLie = null;
-  tradingStats = { date: '', wins: 0 };
+  tradingStats = { date: '', roundCount: 0 };
 }
 
 function appliquerDonnees(d) {
@@ -1740,7 +1739,6 @@ function detacherCompte() { compteLie = null; sauvegarderTout(); afficherCompteL
 function investirPlan(i) {
   const [nom, montant, gain] = PLANS[i];
   
-  // Vérification si le plan a déjà été acheté
   const dejaAcquis = investissements.some(inv => inv.montant === montant);
   if (dejaAcquis) {
     toast(`⚠️ Vous avez déjà investi pour ${montant.toLocaleString('fr-FR')} FCFA. Veuillez compléter et investir dans le plan supérieur !`);
@@ -1886,7 +1884,7 @@ function chargerPageTrading() {
   
   const aujourdHui = new Date().toDateString();
   if (tradingStats.date !== aujourdHui) {
-    tradingStats = { date: aujourdHui, wins: 0 };
+    tradingStats = { date: aujourdHui, roundCount: 0 };
     sauvegarderTout();
   }
 }
@@ -1903,7 +1901,7 @@ function executerTrade(direction) {
 
   const aujourdHui = new Date().toDateString();
   if (tradingStats.date !== aujourdHui) {
-    tradingStats = { date: aujourdHui, wins: 0 };
+    tradingStats = { date: aujourdHui, roundCount: 0 };
   }
 
   if (solde < montant) {
@@ -1917,17 +1915,25 @@ function executerTrade(direction) {
   chargerPageTrading();
   mettreAJourAccueil();
 
-  resultBox.innerHTML = `<span style="color: var(--attention);">⏳ Analyse du marché en cours pour une position en ${direction}...</span>`;
+  // Affichage ultra-rapide (500ms)
+  resultBox.innerHTML = `<span style="color: var(--attention);">⚡ Analyse du marché en cours (${direction})...</span>`;
 
   setTimeout(() => {
+    tradingStats.roundCount++;
+    const tourActuel = tradingStats.roundCount;
+
+    // Règle demandée : 
+    // 1er jeu : gagne
+    // 2e au 10e jeu : perd (jusqu'à 10 jeux)
+    // 11e jeu : gagne
+    // Le reste (12e et plus) : perd jusqu'au lendemain
     let gagne = false;
-    if (tradingStats.wins < 2) {
+    if (tourActuel === 1 || tourActuel === 11) {
       gagne = true;
-      tradingStats.wins++;
-      sauvegarderTout();
     } else {
       gagne = false;
     }
+    sauvegarderTout();
 
     if (gagne) {
       const gainTotal = montant + 500;
@@ -1937,31 +1943,31 @@ function executerTrade(direction) {
       mettreAJourAccueil();
       
       resultBox.innerHTML = `
-        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 TRADE GAGNÉ (${direction}) !</div>
-        <div style="color: var(--blanc);">Vous avez misé ${formatArgent(montant)} et remporté : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 Vous avez gagné (Jeu ${tourActuel}) !</div>
+        <div style="color: var(--blanc);">Mise : ${formatArgent(montant)} | Crédité sur le compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
       `;
-      toast(`🎉 Trade gagné ! +${formatArgent(gainTotal)}`);
+      toast(`🎉 Vous avez gagné ! +${formatArgent(gainTotal)}`);
     } else {
       sauvegarderTout();
       chargerPageTrading();
       
       resultBox.innerHTML = `
-        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ TRADE PERDU (${direction})</div>
+        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ Vous avez perdre (Jeu ${tourActuel})</div>
         <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
       `;
-      toast(`❌ Trade perdu : -${formatArgent(montant)}`);
+      toast(`❌ Vous avez perdre : -${formatArgent(montant)}`);
     }
 
     historiqueRecharges.unshift({
       montant: gagne ? (montant + 500) : montant,
       phone: utilisateur ? utilisateur.phone : '',
-      methode: 'Trading Live (' + direction + ')',
+      methode: `Trading Live (Jeu ${tourActuel} - ${direction})`,
       txId: 'TRADE-' + Date.now(),
       date: new Date().toISOString(),
       statut: gagne ? 'Gagné' : 'Perdu'
     });
     sauvegarderTout();
-  }, 1500);
+  }, 500);
 }
 
 window.addEventListener('load', () => {
