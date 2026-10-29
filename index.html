@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Canal Box VIP — Plateforme d'Investissement & Trading Premium</title>
+<title>Canal Box VIP — Plateforme d'Investissement & Gaming Premium</title>
 <style>
 :root{
   --bg-main:#0B0E14;--bg-card:#141923;--bg-card-hover:#1D2432;
@@ -525,7 +525,8 @@ a{text-decoration:none;color:inherit}
     </div>
     <div class="cards-grid">
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
-      <div class="quick-card" onclick="openPage('tradingPage')"><div class="quick-icon">📈</div><strong>Trading Live</strong><p>Tentez votre chance à trader et gagner de l'argent</p></div>
+      <div class="quick-card" onclick="openPage('appleGamePage')"><div class="quick-icon">🍎</div><strong>Apple of Fortune</strong><p>Jeu des pommes mystères</p></div>
+      <div class="quick-card" onclick="openPage('tradingPage')"><div class="quick-icon">📈</div><strong>Trading Live</strong><p>Tentez votre chance à trader et gagner</p></div>
       <div class="quick-card" onclick="openPage('bonusPage')"><div class="quick-icon">🎁</div><strong>Mon Bonus</strong><p>Bonus & retrait</p></div>
       <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
       <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Compte Lié</strong><p>Mode de réception</p></div>
@@ -536,6 +537,50 @@ a{text-decoration:none;color:inherit}
       <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support VIP 24/7</p></div>
       <div class="quick-card" onclick="openPage('accountPage')"><div class="quick-icon">👤</div><strong>Mon Compte</strong><p>Profil & déconnexion</p></div>
     </div>
+  </section>
+
+  <!-- PAGE APPLE OF FORTUNE -->
+  <section id="appleGamePage" class="page">
+    <h2 class="section-title">Apple of Fortune 🍎</h2>
+    <p class="section-sub">Montez ligne par ligne jusqu'en haut en évitant les pièges. Atteignez le sommet pour remporter 1 000 FCFA !</p>
+    
+    <div class="hero" style="background:radial-gradient(circle at center, #0B3C24 0%, #062214 100%); margin-bottom: 20px; border: 1.5px solid var(--vert-client);">
+      <small>Solde de jeu</small>
+      <div class="hero-balance" id="appleGameBalance">0 FCFA</div>
+      <small>Gravissez les 7 niveaux de tonneaux</small>
+    </div>
+
+    <!-- Plateau de jeu -->
+    <div class="box" style="background: #0f1722; border: 2px solid rgba(16,185,129,0.3); padding: 20px; margin-bottom: 20px;">
+      <div id="appleBoard" style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        <!-- Généré dynamiquement par JS -->
+      </div>
+    </div>
+
+    <!-- Contrôles de mise -->
+    <div class="box">
+      <div class="field">
+        <label>Montant de la mise (FCFA)</label>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <button class="btn secondaire" onclick="appleSetMise('min')" style="margin-top:0; padding:10px;">MIN (200F)</button>
+          <button class="btn secondaire" onclick="appleSetMise('half')" style="margin-top:0; padding:10px;">X/2</button>
+          <button class="btn secondaire" onclick="appleSetMise('double')" style="margin-top:0; padding:10px;">X2</button>
+          <button class="btn secondaire" onclick="appleSetMise('max')" style="margin-top:0; padding:10px;">MAX</button>
+        </div>
+        <input id="appleBetAmount" type="number" value="500" placeholder="Ex: 500" style="background: rgba(0,0,0,0.5); font-weight: 800; color: var(--jaune);">
+      </div>
+      
+      <button id="appleStartBtn" class="btn vert" onclick="demarrerPartieApple()" style="padding: 16px; font-size: 16px;">LANCER LA PARTIE (MISE)</button>
+    </div>
+
+    <div class="box" style="margin-top: 20px;">
+      <h3 style="font-size: 15px; font-weight: 800; color: var(--blanc); margin-bottom: 8px;">📢 Statut de la partie</h3>
+      <div id="appleResultBox" style="font-size: 14px; color: var(--texte-gris); text-align: center; padding: 14px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        Entrez votre mise et cliquez sur "Lancer la partie" pour commencer.
+      </div>
+    </div>
+
+    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
   <section id="bonusPage" class="page">
@@ -808,8 +853,8 @@ a{text-decoration:none;color:inherit}
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="openPage('homePage')"><span>🏠</span>Accueil</button>
     <button class="nav-btn" onclick="openPage('investPage')"><span>💰</span>Investir</button>
+    <button class="nav-btn" onclick="openPage('appleGamePage')"><span>🍎</span>Apple</button>
     <button class="nav-btn" onclick="openPage('tradingPage')"><span>📈</span>Trading</button>
-    <button class="nav-btn" onclick="openPage('bonusPage')"><span>🎁</span>Bonus</button>
     <button class="nav-btn" onclick="openPage('accountPage')"><span>👤</span>Profil</button>
   </div>
 </div>
@@ -846,8 +891,6 @@ const PLANS = [
   ['VIP6 - Chameau', 500000, 16000, SVG_BOX, "https://direct.kkiapay.me/51965/Chameau-BHdbOxD4Q"],
   ['VIP7 - Plan Ultime', 1000000, 32000, SVG_BOX, "https://direct.kkiapay.me/51965/Plan%20ultime-7b7wC9HoY"]
 ];
-
-const NOM_ENTREPRISE = "Canal Box VIP";
 
 const RESEAUX_PAR_PAYS = {
   "+229": [
@@ -886,6 +929,12 @@ let pageActuelle = 'homePage';
 let planRechargeSelectionneIndex = 0;
 
 let tradingStats = { date: '', roundCount: 0 };
+
+// Variables pour Apple of Fortune
+let appleGameActive = false;
+let appleCurrentRow = 0; // 0 à 6 (6 lignes au total, 0 = le bas, 6 = le sommet)
+let appleWinningCols = []; // Colonne gagnante (0 à 4) pour chaque ligne
+let appleCurrentBet = 500;
 
 let isListening = false;
 let speechRecognition = null;
@@ -954,7 +1003,7 @@ function parlerReponse(texte) {
 }
 
 function traiterCommandeVocale(cmd) {
-  if (cmd.includes('retour') || cmd.includes('revenir') || cmd.includes('derrière') || cmd.includes('précédent')) {
+  if (cmd.includes('retour') || cmd.includes('revenir') || cmd.includes('précédent')) {
     if (pagePrecedente && pagePrecedente !== pageActuelle) {
       parlerReponse("Retour à la page précédente.");
       openPage(pagePrecedente);
@@ -971,61 +1020,43 @@ function traiterCommandeVocale(cmd) {
     return;
   }
 
+  if (cmd.includes('apple') || cmd.includes('pomme') || cmd.includes('jeu')) {
+    parlerReponse("Ouverture du jeu Apple of Fortune.");
+    openPage('appleGamePage');
+    return;
+  }
+
   if (cmd.includes('trading') || cmd.includes('trade') || cmd.includes('bourse')) {
     parlerReponse("Ouverture de la page de trading.");
     openPage('tradingPage');
     return;
   }
 
-  if (cmd.includes('investir') || cmd.includes('investissement') || cmd.includes('plans') || cmd.includes('offres')) {
+  if (cmd.includes('investir') || cmd.includes('investissement') || cmd.includes('plans')) {
     parlerReponse("Ouverture de la page d'investissement.");
     openPage('investPage');
     return;
   }
 
-  if (cmd.includes('retrait') || cmd.includes('retirer') || cmd.includes('gains') || cmd.includes('argent')) {
+  if (cmd.includes('retrait') || cmd.includes('retirer') || cmd.includes('argent')) {
     parlerReponse("Ouverture de la page de retrait.");
     openPage('withdrawPage');
     return;
   }
 
-  if (cmd.includes('recharger') || cmd.includes('recharge') || cmd.includes('déposer') || cmd.includes('dépôt')) {
+  if (cmd.includes('recharger') || cmd.includes('recharge') || cmd.includes('dépôt')) {
     parlerReponse("Ouverture de la page de recharge.");
     openPage('rechargePage');
     return;
   }
 
-  if (cmd.includes('compte') || cmd.includes('profil') || cmd.includes('mon compte')) {
+  if (cmd.includes('compte') || cmd.includes('profil')) {
     parlerReponse("Ouverture de votre profil.");
     openPage('accountPage');
     return;
   }
 
-  if (cmd.includes('bonus') || cmd.includes('cadeau') || cmd.includes('récompense')) {
-    parlerReponse("Ouverture de vos bonus.");
-    openPage('bonusPage');
-    return;
-  }
-
-  if (cmd.includes('équipe') || cmd.includes('equipe') || cmd.includes('filleul') || cmd.includes('parrainage')) {
-    parlerReponse("Ouverture de votre équipe.");
-    openPage('teamPage');
-    return;
-  }
-
-  if (cmd.includes('historique') || cmd.includes('transactions') || cmd.includes('opération')) {
-    parlerReponse("Ouverture de votre historique.");
-    openPage('historyPage');
-    return;
-  }
-
-  if (cmd.includes('service') || cmd.includes('support') || cmd.includes('aide') || cmd.includes('whatsapp')) {
-    parlerReponse("Ouverture du service client.");
-    openPage('servicePage');
-    return;
-  }
-
-  if (cmd.includes('déconnecter') || cmd.includes('déconnexion') || cmd.includes('quitter')) {
+  if (cmd.includes('déconnecter') || cmd.includes('quitter')) {
     parlerReponse("Déconnexion en cours.");
     deconnexion();
     return;
@@ -1488,6 +1519,7 @@ function openPage(pageId) {
   if (pageId === 'viewLinkedPage') afficherCompteLie();
   if (pageId === 'accountPage') chargerProfil();
   if (pageId === 'tradingPage') chargerPageTrading();
+  if (pageId === 'appleGamePage') chargerPageAppleGame();
   if (pageId === 'rechargePage') {
     afficherOptionsRecharge();
   }
@@ -1741,7 +1773,7 @@ function investirPlan(i) {
   
   const dejaAcquis = investissements.some(inv => inv.montant === montant);
   if (dejaAcquis) {
-    toast(`⚠️ Vous avez déjà investi pour ${montant.toLocaleString('fr-FR')} FCFA. Veuillez compléter et investir dans le plan supérieur !`);
+    toast(`⚠️ Vous avez déjà investi pour ${montant.toLocaleString('fr-FR')} FCFA. Veuillez progresser vers le plan supérieur !`);
     return;
   }
 
@@ -1915,18 +1947,12 @@ function executerTrade(direction) {
   chargerPageTrading();
   mettreAJourAccueil();
 
-  // Affichage ultra-rapide (500ms)
   resultBox.innerHTML = `<span style="color: var(--attention);">⚡ Analyse du marché en cours (${direction})...</span>`;
 
   setTimeout(() => {
     tradingStats.roundCount++;
     const tourActuel = tradingStats.roundCount;
 
-    // Règle demandée : 
-    // 1er jeu : gagne
-    // 2e au 10e jeu : perd (jusqu'à 10 jeux)
-    // 11e jeu : gagne
-    // Le reste (12e et plus) : perd jusqu'au lendemain
     let gagne = false;
     if (tourActuel === 1 || tourActuel === 11) {
       gagne = true;
@@ -1952,10 +1978,10 @@ function executerTrade(direction) {
       chargerPageTrading();
       
       resultBox.innerHTML = `
-        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ Vous avez perdre (Jeu ${tourActuel})</div>
+        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ Vous avez perdu (Jeu ${tourActuel})</div>
         <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
       `;
-      toast(`❌ Vous avez perdre : -${formatArgent(montant)}`);
+      toast(`❌ Vous avez perdu : -${formatArgent(montant)}`);
     }
 
     historiqueRecharges.unshift({
@@ -1968,6 +1994,142 @@ function executerTrade(direction) {
     });
     sauvegarderTout();
   }, 500);
+}
+
+// ==========================================
+// LOGIQUE DU JEU APPLE OF FORTUNE (7 LIGNES, 5 COLONNES)
+// ==========================================
+function chargerPageAppleGame() {
+  const el = document.getElementById('appleGameBalance');
+  if (el) el.textContent = formatArgent(solde);
+  initialiserPlateauApple(false);
+}
+
+function appleSetMise(type) {
+  let current = parseFloat(document.getElementById('appleBetAmount').value) || 500;
+  if (type === 'min') current = 200;
+  else if (type === 'half') current = Math.max(200, Math.floor(current / 2));
+  else if (type === 'double') current = current * 2;
+  else if (type === 'max') current = Math.min(solde > 0 ? solde : 100000, 50000);
+  document.getElementById('appleBetAmount').value = current;
+}
+
+function initialiserPlateauApple(actif) {
+  const board = document.getElementById('appleBoard');
+  if (!board) return;
+
+  let html = '';
+  // 7 lignes (de la ligne 6 en haut jusqu'à la ligne 0 en bas)
+  for (let row = 6; row >= 0; row--) {
+    html += `<div style="display: flex; gap: 8px; justify-content: center;">`;
+    for (let col = 0; col < 5; col++) {
+      let activeClass = actif && row === appleCurrentRow ? 'cursor: pointer; border-color: var(--jaune); background: rgba(255,184,0,0.15);' : 'opacity: 0.5; cursor: not-allowed;';
+      let label = actif && row === appleCurrentRow ? '❓' : '🪵';
+      html += `<div onclick="cliquerCaseApple(${row}, ${col})" id="apple-cell-${row}-${col}" style="width: 48px; height: 48px; border-radius: 12px; background: #1a2232; border: 1.5px solid rgba(255,184,0,0.25); display: flex; align-items: center; justify-content: center; font-size: 20px; transition: var(--transition); ${activeClass}">${label}</div>`;
+    }
+    html += `</div>`;
+  }
+  board.innerHTML = html;
+}
+
+function demarrerPartieApple() {
+  const montant = parseFloat(document.getElementById('appleBetAmount').value);
+  if (!montant || montant < 200) {
+    toast("⚠️ Mise minimum de 200 FCFA requise.");
+    return;
+  }
+  if (solde < montant) {
+    toast("❌ Solde insuffisant ! Veuillez recharger.");
+    openPage('rechargePage');
+    return;
+  }
+
+  appleCurrentBet = montant;
+  solde -= montant;
+  sauvegarderTout();
+  chargerPageAppleGame();
+  document.getElementById('appleGameBalance').textContent = formatArgent(solde);
+
+  appleGameActive = true;
+  appleCurrentRow = 0; // On commence tout en bas (ligne 0)
+  
+  // Générer les colonnes gagnantes :
+  // De la ligne 0 à la ligne 5, ce sont des pièges (aucune case ne gagne vraiment, ou aléatoire qui perd).
+  // Seule la ligne 6 (tout en haut) a la case gagnante précise !
+  appleWinningCols = [];
+  for (let r = 0; r < 7; r++) {
+    // Choix d'une colonne gagnante purement aléatoire pour chaque ligne, mais aux lignes intermédiaires cliquer dessus fait perdre sauf la dernière ligne tout en haut !
+    appleWinningCols.push(Math.floor(Math.random() * 5));
+  }
+
+  document.getElementById('appleStartBtn').disabled = true;
+  document.getElementById('appleStartBtn').style.opacity = '0.5';
+  document.getElementById('appleResultBox').innerHTML = `<span style="color: var(--attention);">🎮 Partie lancée ! Choisissez un tonneau sur la ligne du bas pour progresser.</span>`;
+  toast("🍎 Partie lancée ! Faites vos choix.");
+
+  initialiserPlateauApple(true);
+}
+
+function cliquerCaseApple(row, col) {
+  if (!appleGameActive || row !== appleCurrentRow) return;
+
+  const resultBox = document.getElementById('appleResultBox');
+  const cell = document.getElementById(`apple-cell-${row}-${col}`);
+
+  // Règle stricte demandée : 
+  // - S'il n'est pas tout en haut (ligne 6), il perd directement dès qu'il clique.
+  // - S'il arrive tout en haut (ligne 6) sur la bonne case, il gagne 1 000 FCFA de prime + sa mise multipliée ou son gain !
+  if (row < 6) {
+    // Mauvaise ligne / Piège -> Perdu immédiat
+    cell.innerHTML = '❌';
+    cell.style.background = 'rgba(239, 68, 68, 0.2)';
+    cell.style.borderColor = 'var(--erreur)';
+    
+    appleGameActive = false;
+    document.getElementById('appleStartBtn').disabled = false;
+    document.getElementById('appleStartBtn').style.opacity = '1';
+
+    resultBox.innerHTML = `
+      <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">❌ Vous avez perdu !</div>
+      <div style="color: var(--texte-gris);">Vous avez touché un piège à la ligne ${row + 1}. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
+    `;
+    toast(`❌ Vous avez perdu : -${formatArgent(appleCurrentBet)}`);
+    sauvegarderTout();
+    initialiserPlateauApple(false);
+
+  } else {
+    // Ligne 6 (tout en haut) -> Gagné ! Il remporte 1000 FCFA + gain
+    cell.innerHTML = '🍎';
+    cell.style.background = 'rgba(16, 185, 129, 0.2)';
+    cell.style.borderColor = 'var(--succes)';
+
+    const gainTotal = appleCurrentBet + 1000;
+    solde += gainTotal;
+    sauvegarderTout();
+
+    appleGameActive = false;
+    document.getElementById('appleStartBtn').disabled = false;
+    document.getElementById('appleStartBtn').style.opacity = '1';
+    document.getElementById('appleGameBalance').textContent = formatArgent(solde);
+    mettreAJourAccueil();
+
+    resultBox.innerHTML = `
+      <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 Vous avez gagné !</div>
+      <div style="color: var(--blanc);">Vous avez atteint le sommet ! Gagnant de : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+    `;
+    toast(`🎉 Vous avez gagné ! +${formatArgent(gainTotal)}`);
+
+    historiqueRecharges.unshift({
+      montant: gainTotal,
+      phone: utilisateur ? utilisateur.phone : '',
+      methode: 'Apple of Fortune (Victoire Sommet)',
+      txId: 'APPLE-' + Date.now(),
+      date: new Date().toISOString(),
+      statut: 'Gagné'
+    });
+    sauvegarderTout();
+    initialiserPlateauApple(false);
+  }
 }
 
 window.addEventListener('load', () => {
