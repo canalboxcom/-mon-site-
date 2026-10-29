@@ -245,173 +245,72 @@ a{text-decoration:none;color:inherit}
 .section-sub{color:var(--texte-gris);margin-bottom:22px;font-size:13px;line-height:1.5;font-weight:500}
 .box{background:var(--bg-card);padding:24px;border-radius:20px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.08)}
 
-.invest-banner {
+/* STYLES DU JEU AVIATOR CRASH */
+.aviator-canvas-box {
   width: 100%;
-  height: 140px;
+  height: 220px;
+  background: #090E17;
   border-radius: 18px;
-  background: linear-gradient(135deg, #e00072 0%, #ff6b00 100%);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 22px;
-  box-shadow: var(--ombre-orange);
-  border: 1px solid rgba(255, 184, 0, 0.4);
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding: 15px;
 }
-.invest-banner h3 {
-  font-size: 24px;
+.aviator-multiplier {
+  font-size: 42px;
   font-weight: 900;
-  color: #FFF;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-}
-.invest-banner p {
-  font-size: 13px;
-  color: #FFE599;
-  margin-top: 4px;
-  font-weight: 600;
-}
-
-.vip-grid{display:grid;gap:18px}
-.vip-card{background:var(--bg-card);border-radius:20px;padding:20px;text-align:center;box-shadow:var(--ombre);border:1.5px solid var(--border);transition:var(--transition);position:relative;overflow:hidden}
-.vip-card:hover{transform:translateY(-4px);border-color:var(--jaune);box-shadow:var(--ombre-orange);background:var(--bg-card-hover)}
-.vip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-gold);opacity:0;transition:var(--transition)}
-.vip-card:hover::before{opacity:1}
-.vip-card.deja-souscrit{opacity:0.6;filter:grayscale(0.5);border-color:rgba(255,255,255,0.1)}
-
-.vip-card-img-box {
-  width: 100%;
-  height: 130px;
-  border-radius: 14px;
-  background: radial-gradient(circle, #252d3d 0%, #11151c 100%);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 184, 0, 0.25);
-  position: relative;
-  overflow: hidden;
-}
-.vip-card-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-}
-.vip-card-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: var(--gradient-gold);
-  color: var(--bg-main);
-  font-size: 10px;
-  font-weight: 900;
-  padding: 3px 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-}
-
-.vip-name{font-size:17px;font-weight:800;margin-bottom:6px;color:var(--blanc);letter-spacing:-.3px}
-.vip-amount{font-size:28px;font-weight:900;color:var(--jaune);margin-bottom:4px;letter-spacing:-1px}
-.vip-details{color:var(--texte-gris);font-size:13px;margin:4px 0;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px}
-.vip-income{font-size:14px;font-weight:800;color:var(--succes);margin:10px 0 14px;background:var(--succes-bg);padding:6px 12px;border-radius:10px;display:inline-block;border:1px solid rgba(16,185,129,0.25)}
-
-.recharge-options-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.recharge-option-card {
-  background: linear-gradient(135deg, #1A2232 0%, var(--bg-card) 100%);
-  border: 2px solid rgba(255, 184, 0, 0.25);
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: var(--ombre);
-}
-.recharge-option-card:hover {
-  border-color: var(--orange);
-  transform: translateY(-2px);
-  background: var(--bg-card-hover);
-  box-shadow: var(--ombre-orange);
-}
-.recharge-option-card.selected {
-  border-color: var(--jaune);
-  background: linear-gradient(135deg, rgba(255,184,0,0.15) 0%, rgba(255,107,0,0.1) 100%);
-  box-shadow: var(--ombre-orange);
-}
-.recharge-info .plan-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--blanc);
-  letter-spacing: -0.2px;
-}
-.recharge-info .plan-action-text {
-  font-size: 14px;
-  font-weight: 700;
   color: var(--jaune);
-  margin-top: 4px;
+  z-index: 2;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.8);
 }
-.recharge-radio-circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.aviator-plane {
+  position: absolute;
+  font-size: 32px;
+  transition: all 0.1s linear;
+  z-index: 2;
+}
+.aviator-status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.aviator-quick-bets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.aviator-quick-bets button {
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--blanc);
+  font-weight: 700;
+  font-size: 13px;
   transition: var(--transition);
 }
-.recharge-option-card.selected .recharge-radio-circle {
+.aviator-quick-bets button:hover {
+  background: rgba(255, 184, 0, 0.2);
   border-color: var(--jaune);
-  background: var(--gradient-gold);
-}
-.recharge-option-card.selected .recharge-radio-circle::after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background: var(--bg-main);
-  border-radius: 50%;
 }
 
-.linked-badge{background:var(--bg-card);border-radius:20px;padding:24px;box-shadow:var(--ombre);border:2px solid var(--orange);display:flex;align-items:center;gap:18px;margin-bottom:20px;position:relative;overflow:hidden}
-.linked-icon{width:60px;height:60px;border-radius:16px;background:var(--gradient-soft);display:flex;justify-content:center;align-items:center;font-size:28px;border:1px solid rgba(255,184,0,0.3);flex-shrink:0}
-.history-list{display:flex;flex-direction:column;gap:12px}
-.history-item{background:var(--bg-card);border-radius:16px;padding:18px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.06);transition:var(--transition)}
-.history-item:hover{background:var(--bg-card-hover)}
-.history-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.history-type{font-weight:700;font-size:14px;color:var(--blanc)}
-.history-status{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.3px;text-transform:uppercase}
-.status-pending{background:rgba(245,158,11,0.15);color:var(--attention);border:1px solid rgba(245,158,11,0.3)}
-.status-success{background:var(--succes-bg);color:var(--succes);border:1px solid rgba(16,185,129,0.3)}
-.status-cancel{background:rgba(239,68,68,0.15);color:var(--erreur);border:1px solid rgba(239,68,68,0.3)}
-.history-date{font-size:12px;color:var(--texte-gris);margin-bottom:6px;font-weight:500}
-.history-amount{font-size:20px;font-weight:800;letter-spacing:-.3px}
-.amount-plus{color:var(--succes)}
-.amount-minus{color:var(--erreur)}
-.empty-history{text-align:center;padding:50px 20px;color:var(--texte-gris);font-size:14px;font-weight:500}
-#servicePage{background:radial-gradient(circle at top,rgba(16,185,129,0.15) 0%,var(--bg-main) 70%)}
-#servicePage .section-title{color:var(--vert-client)}
-.service-green-box{background:var(--bg-card);border:1.5px solid rgba(16,185,129,0.3);box-shadow:var(--ombre-vert);border-radius:20px;padding:24px}
-.service-green-card{text-align:center;padding:24px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:18px;transition:var(--transition)}
-.service-green-card:hover{transform:translateY(-3px);background:rgba(16,185,129,0.12);border-color:var(--vert-client)}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:74px;background:rgba(11,14,20,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;z-index:50;padding:0 6px}
 .nav-btn{flex:1;background:transparent;color:var(--texte-gris);font-size:11px;font-weight:600;text-align:center;padding:6px 2px;transition:var(--transition);border-radius:12px;letter-spacing:.2px}
 .nav-btn span{display:block;font-size:22px;margin-bottom:3px;transition:var(--transition)}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
 
-/* Style pour les notifications push simulées sur mobile */
 #pushNotificationBanner{position:fixed;top:-120px;left:16px;right:16px;background:var(--bg-card);border:1px solid var(--jaune);padding:14px 18px;border-radius:18px;box-shadow:var(--ombre-orange);z-index:99999;transition:top .4s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:14px}
 #pushNotificationBanner.show{top:20px}
 .push-icon{width:46px;height:46px;border-radius:12px;background:var(--gradient-gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;color:var(--bg-main);font-weight:900}
@@ -431,7 +330,6 @@ a{text-decoration:none;color:inherit}
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
 
-<!-- Bannière de notification mobile -->
 <div id="pushNotificationBanner">
   <div class="push-icon">CB</div>
   <div class="push-content">
@@ -440,7 +338,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<button id="voiceAssistantBtn" onclick="toggleVoiceAssistant()" title="Assistant Vocal - Appuyez et parlez">🎙️</button>
+<button id="voiceAssistantBtn" onclick="toggleVoiceAssistant()" title="Assistant Vocal">🎙️</button>
 
 <div id="auth">
   <div class="auth-box">
@@ -473,7 +371,6 @@ a{text-decoration:none;color:inherit}
     </div>
 
     <div id="registerForm" class="hidden">
-      
       <div class="assistant-box">
         <div class="assistant-header">
           <div class="assistant-avatar">🤖</div>
@@ -482,12 +379,9 @@ a{text-decoration:none;color:inherit}
             <p>Guide interactif de création de compte</p>
           </div>
         </div>
-
         <div id="chatLogs" class="chat-logs"></div>
-
         <div id="chatInputWrap" class="chat-input-area">
           <input id="chatInput" type="text" placeholder="Répondez ici..." onkeypress="handleChatKeyPress(event)">
-          
           <select id="chatSelectCountry" class="hidden">
             <option value="+229">🇧🇯 Bénin (+229)</option>
             <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
@@ -495,7 +389,6 @@ a{text-decoration:none;color:inherit}
             <option value="+226">🇧🇫 Burkina Faso (+226)</option>
             <option value="+221">🇸🇳 Sénégal (+221)</option>
           </select>
-
           <button onclick="validerEtapeAssistant()">Envoyer</button>
         </div>
       </div>
@@ -521,7 +414,6 @@ a{text-decoration:none;color:inherit}
       <button id="btnClassicToggle" class="btn secondaire" onclick="toggleFormulaireClassique()" style="margin-top:0">Basculer sur le formulaire classique</button>
       <button id="btnClassicSubmit" class="btn accent hidden" onclick="creerCompte()" style="margin-top:12px">CRÉER MON COMPTE</button>
     </div>
-
   </div>
 </div>
 
@@ -543,39 +435,76 @@ a{text-decoration:none;color:inherit}
     </div>
     <div class="cards-grid">
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
+      <div class="quick-card" onclick="openPage('aviatorGamePage')"><div class="quick-icon">✈️</div><strong>Aviator VIP</strong><p>Jeu d'avion & Cash Out</p></div>
       <div class="quick-card" onclick="openPage('appleGamePage')"><div class="quick-icon">🍎</div><strong>Apple of Fortune</strong><p>Jeu des pommes mystères</p></div>
-      <div class="quick-card" onclick="openPage('tradingPage')"><div class="quick-icon">📈</div><strong>Trading Live</strong><p>Tentez votre chance à trader et gagner</p></div>
+      <div class="quick-card" onclick="openPage('tradingPage')"><div class="quick-icon">📈</div><strong>Trading Live</strong><p>Tentez votre chance</p></div>
       <div class="quick-card" onclick="openPage('bonusPage')"><div class="quick-icon">🎁</div><strong>Mon Bonus</strong><p>Bonus & retrait</p></div>
       <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
       <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Compte Lié</strong><p>Mode de réception</p></div>
       <div class="quick-card" onclick="openPage('linkPage')"><div class="quick-icon">🔗</div><strong>Lier un Compte</strong><p>Nouveau compte</p></div>
-      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains (15% frais)</p></div>
+      <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains</p></div>
       <div class="quick-card" onclick="openPage('teamPage')"><div class="quick-icon">👥</div><strong>Mon Équipe</strong><p>Parrainage & filleuls</p></div>
       <div class="quick-card" onclick="openPage('historyPage')"><div class="quick-icon">📋</div><strong>Historique</strong><p>Recharges & Retraits</p></div>
       <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support VIP 24/7</p></div>
-      <div class="quick-card" onclick="openPage('accountPage')"><div class="quick-icon">👤</div><strong>Mon Compte</strong><p>Profil & déconnexion</p></div>
     </div>
+  </section>
+
+  <!-- PAGE AVIATOR GAME (NOUVEAU JEU D'AVION) -->
+  <section id="aviatorGamePage" class="page">
+    <h2 class="section-title">Aviator VIP ✈️</h2>
+    <p class="section-sub">Placez votre pari et encaissez avant que l'avion ne s'envole ou n'explose !</p>
+
+    <div class="hero" style="background: radial-gradient(circle at center, #1E102A 0%, #0B0E14 100%); margin-bottom: 20px; border: 1.5px solid var(--orange);">
+      <small>Solde de jeu</small>
+      <div class="hero-balance" id="aviatorGameBalance">0 FCFA</div>
+      <small>Multipliez vos gains en direct</small>
+    </div>
+
+    <!-- Zone Canvas / Animation de l'avion -->
+    <div class="aviator-canvas-box" id="aviatorBox">
+      <div class="aviator-status-badge" id="aviatorStatusBadge">En attente du tour...</div>
+      <div class="aviator-multiplier" id="aviatorMultiplierText">1.00x</div>
+      <div class="aviator-plane" id="aviatorPlaneIcon">✈️</div>
+    </div>
+
+    <!-- Contrôles et mises de l'Aviator -->
+    <div class="box">
+      <div class="aviator-quick-bets">
+        <button onclick="setAviatorBet(200)">200 F</button>
+        <button onclick="setAviatorBet(800)">800 F</button>
+        <button onclick="setAviatorBet(2000)">2000 F</button>
+        <button onclick="setAviatorBet(6000)">6000 F</button>
+        <button onclick="setAviatorBet(20000)">20000 F</button>
+        <button onclick="setAviatorBet(70000)">70000 F</button>
+      </div>
+
+      <div class="field">
+        <label>Montant du pari (FCFA)</label>
+        <input id="aviatorBetAmount" type="number" value="300" placeholder="Ex: 300" style="background: rgba(0,0,0,0.5); font-weight: 800; color: var(--jaune);">
+      </div>
+
+      <div id="aviatorActionArea">
+        <button id="aviatorBetBtn" class="btn accent" onclick="placerPariAviator()" style="padding: 16px; font-size: 16px;">PLACER UN PARI</button>
+      </div>
+    </div>
+
+    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
   <!-- PAGE APPLE OF FORTUNE -->
   <section id="appleGamePage" class="page">
     <h2 class="section-title">Apple of Fortune 🍎</h2>
-    <p class="section-sub">Montez ligne par ligne. L'avant-dernière case (marquée en vert) est votre case gagnante du jour !</p>
+    <p class="section-sub">Montez ligne par ligne. Choisissez vos cases avec précaution !</p>
     
     <div class="hero" style="background:radial-gradient(circle at center, #0B3C24 0%, #062214 100%); margin-bottom: 20px; border: 1.5px solid var(--vert-client);">
       <small>Solde de jeu</small>
       <div class="hero-balance" id="appleGameBalance">0 FCFA</div>
-      <small>Gravissez les lignes et choisissez l'avant-dernière case</small>
     </div>
 
-    <!-- Plateau de jeu -->
     <div class="box" style="background: #0f1722; border: 2px solid rgba(16,185,129,0.3); padding: 20px; margin-bottom: 20px;">
-      <div id="appleBoard" style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
-        <!-- Généré dynamiquement par JS -->
-      </div>
+      <div id="appleBoard" style="display: flex; flex-direction: column; gap: 10px; align-items: center;"></div>
     </div>
 
-    <!-- Contrôles de mise -->
     <div class="box">
       <div class="field">
         <label>Montant de la mise (FCFA)</label>
@@ -594,28 +523,11 @@ a{text-decoration:none;color:inherit}
     <div class="box" style="margin-top: 20px;">
       <h3 style="font-size: 15px; font-weight: 800; color: var(--blanc); margin-bottom: 8px;">📢 Statut de la partie</h3>
       <div id="appleResultBox" style="font-size: 14px; color: var(--texte-gris); text-align: center; padding: 14px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
-        Entrez votre mise et lancez la partie pour choisir une case.
+        Entrez votre mise et lancez la partie.
       </div>
     </div>
 
     <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
-  </section>
-
-  <section id="bonusPage" class="page">
-    <h2 class="section-title">Espace Bonus & Récompenses 🎁</h2>
-    <p class="section-sub">Consultez vos bonus de parrainage et demandes de récompenses</p>
-    <div class="box" style="text-align:center;margin-bottom:20px;border-color:var(--jaune);">
-      <div style="font-size:42px;margin-bottom:10px">🎁</div>
-      <h3 style="color:var(--jaune);font-size:22px;font-weight:800;margin-bottom:6px">Bonus de Parrainage (10%)</h3>
-      <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:20px">Chaque filleul parrainé qui s'inscrit et effectue une recharge vous génère automatiquement <strong>10% du montant rechargé</strong> directement crédité sur votre solde !</p>
-      <button class="btn vert" onclick="openPage('teamPage')">👥 VOIR MON ÉQUIPE & MON LIEN</button>
-    </div>
-    <div class="box">
-      <h3 style="font-size:16px;color:var(--blanc);margin-bottom:14px;font-weight:800">Retirer mes Bonus</h3>
-      <p style="color:var(--texte-gris);font-size:13px;margin-bottom:16px">Les bonus sont crédités directement sur votre solde principal et peuvent être retirés à tout moment.</p>
-      <button class="btn accent" onclick="openPage('withdrawPage')">EFFECTUER UN RETRAIT DE GAINS</button>
-    </div>
-    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
   <section id="tradingPage" class="page">
@@ -625,7 +537,6 @@ a{text-decoration:none;color:inherit}
     <div class="hero" style="background:linear-gradient(135deg, #065F46 0%, #047857 100%); margin-bottom: 20px;">
       <small>Solde disponible pour le trading</small>
       <div class="hero-balance" id="tradingBalance">0 FCFA</div>
-      <small>Tentez votre chance à trader et gagner de l'argent</small>
     </div>
 
     <div class="box" style="margin-bottom: 20px;">
@@ -643,234 +554,67 @@ a{text-decoration:none;color:inherit}
     <div class="box">
       <h3 style="font-size: 16px; font-weight: 800; color: var(--blanc); margin-bottom: 12px;">📊 Résultat du dernier Trade</h3>
       <div id="tradeResultBox" style="font-size: 14px; color: var(--texte-gris); text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
-        Saisissez un montant et placez votre position sur les marchés.
+        Saisissez un montant et placez votre position.
       </div>
     </div>
 
     <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <section id="viewLinkedPage" class="page">
-    <h2 class="section-title">Mon Compte Lié</h2>
-    <p class="section-sub">Coordonnées de votre compte de réception pour vos retraits</p>
-    <div id="linkedAccountCardContainer"></div>
-    <button class="btn primaire" onclick="openPage('linkPage')">MODIFIER LE COMPTE</button>
-    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
-  </section>
-
-  <section id="linkPage" class="page">
-    <h2 class="section-title">Lier un Compte</h2>
-    <p class="section-sub">Enregistrez votre compte pour recevoir rapidement vos gains</p>
-    <div class="box">
-      <div class="field"><label>Pays de résidence</label>
-        <select id="linkedCountryCode" onchange="mettreAJourMethodesLien()">
-          <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
-          <option value="+229">🇧🇯 Bénin (+229)</option>
-          <option value="+228">🇹🇬 Togo (+228)</option>
-          <option value="+226">🇧🇫 Burkina Faso (+226)</option>
-          <option value="+221">🇸🇳 Sénégal (+221)</option>
-        </select></div>
-      <div class="field"><label>Service / Réseau de réception</label>
-        <select id="linkedType">
-        </select></div>
-      <div class="field"><label>Nom complet du titulaire du compte</label><input id="linkedHolderName" type="text" placeholder="Prénom et nom sur le compte"></div>
-      <div class="field">
-        <label>Numéro de téléphone de réception (avec indicatif)</label>
-        <div class="phone-group">
-          <select id="linkedPhonePrefix" disabled style="background:rgba(0,0,0,0.5)">
-            <option value="+225" selected>+225</option>
-          </select>
-          <input id="linkedPhone" type="tel" placeholder="Ex : 0700000000">
-        </div>
-      </div>
-      <div class="field"><label>Confirmer le numéro</label><input id="linkedPhone2" type="tel" placeholder="Confirmation du numéro"></div>
-      <button class="btn accent" onclick="enregistrerLien()">LIER CE COMPTE</button>
-    </div>
-    <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
-  </section>
-
-  <section id="servicePage" class="page">
-    <div class="service-green-box">
-      <div style="text-align:center;margin-bottom:18px">
-        <div style="width:70px;height:70px;margin:0 auto 12px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;font-size:32px;border:2px solid var(--vert-client)">💬</div>
-        <h2 class="section-title" style="color:var(--vert-client);font-size:24px">Service Client VIP 24/7</h2>
-        <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée, validation de recharges & réclamation de vos bonus</p>
-      </div>
-
-      <div class="service-voice-card">
-        <div style="font-size:20px;font-weight:800;color:var(--vert-client);margin-bottom:4px">🎙️ Assistant Vocal WhatsApp Direct</div>
-        <p style="font-size:12px;color:var(--texte-gris)">Enregistrez votre message audio puis envoyez-le directement au support WhatsApp.</p>
-        
-        <div id="serviceVoiceBtn" class="service-voice-btn" onclick="toggleEnregistrementVocalService()">🎙️</div>
-        
-        <div id="serviceVoiceStatus" style="font-size:13px;font-weight:700;color:var(--blanc)">Cliquez sur le micro pour enregistrer</div>
-        <div id="serviceVoiceTimer" class="voice-timer hidden">00:00</div>
-
-        <audio id="serviceVoiceAudioPlayer" controls class="hidden" style="margin:14px auto 8px;width:100%;max-width:300px"></audio>
-
-        <div id="serviceVoiceActions" class="hidden" style="margin-top:14px">
-          <button class="btn vert" onclick="envoyerVocalWhatsAppDirect()" style="padding:14px;font-size:13px;margin-bottom:8px">🚀 ENVOYER DIRECTEMENT SUR WHATSAPP</button>
-          <a id="downloadVoiceLink" class="btn secondaire" style="display:block;padding:12px;font-size:12px">📥 Télécharger l'audio enregistré</a>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-bottom:20px">
-        
-        <div class="service-green-card">
-          <div style="font-size:36px;margin-bottom:8px">💬</div>
-          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Assistance WhatsApp Directe</div>
-          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Discutez immédiatement avec notre agent pour réclamer vos bonus ou suivre un retrait.</p>
-          <a href="https://wa.me/qr/JZYGKM3FM3XTL1" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">DISCUTER SUR WHATSAPP</a>
-        </div>
-
-        <div class="service-green-card">
-          <div style="font-size:36px;margin-bottom:8px">👥</div>
-          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Groupe WhatsApp Officiel</div>
-          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez le groupe d'entraide et d'échanges entre membres VIP Canal Box.</p>
-          <a href="https://chat.whatsapp.com/CBlYZXLe9um2txk9baGpdh?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE GROUPE WHATSAPP</a>
-        </div>
-
-        <div class="service-green-card">
-          <div style="font-size:36px;margin-bottom:8px">✈️</div>
-          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Canal Télégram Officiel</div>
-          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez la communauté VIP pour être informé des nouveaux bonus et preuves de paiements.</p>
-          <a href="https://t.me/+HXgd2NLKBUU0ZDVk" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE TELEGRAM</a>
-        </div>
-
-      </div>
+  <!-- AUTRES PAGES REPRISES DU CODE EXISTANT -->
+  <section id="bonusPage" class="page">
+    <h2 class="section-title">Espace Bonus & Récompenses 🎁</h2>
+    <div class="box" style="text-align:center;margin-bottom:20px;border-color:var(--jaune);">
+      <div style="font-size:42px;margin-bottom:10px">🎁</div>
+      <h3 style="color:var(--jaune);font-size:22px;font-weight:800;margin-bottom:6px">Bonus de Parrainage (10%)</h3>
+      <p style="color:var(--texte-gris);font-size:13px;line-height:1.5;margin-bottom:20px">Chaque filleul parrainé vous génère automatiquement <strong>10% de sa recharge</strong> !</p>
+      <button class="btn vert" onclick="openPage('teamPage')">👥 VOIR MON ÉQUIPE</button>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
-  </section>
-
-  <section id="accountPage" class="page">
-    <h2 class="section-title">Mon Compte</h2>
-    <p class="section-sub">Informations personnelles et gestion de votre profil</p>
-    <div class="box" style="margin-bottom:20px">
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08)">
-        <div style="width:60px;height:60px;border-radius:50%;background:var(--gradient-gold);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:var(--bg-main);" id="profileAvatar">U</div>
-        <div>
-          <div style="font-size:18px;font-weight:800;color:var(--blanc)" id="profileDisplayHeader">Membre VIP</div>
-          <div style="font-size:12px;color:var(--succes);font-weight:700;margin-top:2px">● Compte Vérifié & Sécurisé</div>
-        </div>
-      </div>
-      <div class="field"><label>Nom complet</label><input id="profileName" type="text" readonly style="background:rgba(0,0,0,0.2)"></div>
-      <div class="field"><label>E-mail identifiant</label><input id="profileEmail" type="text" readonly style="background:rgba(0,0,0,0.2)"></div>
-      <div class="field"><label>Numéro de téléphone</label><input id="profilePhone" type="text" readonly style="background:rgba(0,0,0,0.2)"></div>
-      <div class="field"><label>Solde Principal</label><input id="profileBalance" type="text" readonly style="background:rgba(0,0,0,0.2);font-weight:900;color:var(--jaune)"></div>
-    </div>
-    <button class="btn vert" onclick="openPage('bonusPage')">🎁 VOIR MES BONUS & RETRAITS</button>
-    <button class="btn danger" onclick="deconnexion()">SE DÉCONNECTER</button>
-    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
-  </section>
-
-  <section id="investPage" class="page">
-    <h2 class="section-title">Investissements VIP</h2>
-    <p class="section-sub">Chaque plan d'une durée de 60 jours ne peut être souscrit qu'une seule fois. Vous devez progresser vers le plan supérieur (ex: après 2500, passez à 5500).</p>
-    
-    <div class="invest-banner">
-      <h3>CANALBOX FIBRE</h3>
-      <p>L'INTERNET TRÈS HAUT DÉBIT & FORMULES RENDEMENT VIP</p>
-    </div>
-
-    <div class="vip-grid" id="vipInvest"></div>
-    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR</button>
-  </section>
-
-  <section id="achatsPage" class="page">
-    <h2 class="section-title">Mes Achats & Plans</h2>
-    <div id="achatsList" class="history-list"></div>
-    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
-  </section>
-
-  <section id="teamPage" class="page">
-    <h2 class="section-title">Mon Équipe</h2>
-    <p class="section-sub">Invitez vos amies/proches avec votre lien ci-dessous pour gagner 10% sur leurs recharges !</p>
-    <div class="copy-row" style="margin-bottom:22px">
-      <div style="min-width:0">
-        <div class="lbl">Lien de parrainage VIP</div>
-        <div class="val" id="lienParrainage" data-raw="" style="font-size:12px;color:var(--jaune)">Génération automatique du lien...</div>
-      </div>
-      <button class="copy-btn" data-src="lienParrainage" onclick="copierDepuis(this)">Copier</button>
-    </div>
-    <div id="teamList" class="history-list"></div>
-    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
   <section id="rechargePage" class="page">
     <h2 class="section-title">Recharger mon Solde</h2>
-    <p class="section-sub">Sélectionnez le montant de votre recharge pour accéder au paiement instantané :</p>
-    
     <div id="rechargeOptionsContainer" class="recharge-options-grid"></div>
-
-    <div style="margin-top: 24px;">
-      <button class="btn accent" onclick="accederLienPaiementDirect()" style="padding:18px;font-size:16px;">💳 PROCÉDER AU PAIEMENT EN LIGNE</button>
-    </div>
+    <button class="btn accent" onclick="accederLienPaiementDirect()" style="padding:18px;font-size:16px;">💳 PROCÉDER AU PAIEMENT EN LIGNE</button>
     <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top:12px;">RETOUR À L'ACCUEIL</button>
   </section>
 
   <section id="withdrawPage" class="page">
     <h2 class="section-title">Demande de Retrait</h2>
     <p class="section-sub">Solde disponible : <strong id="wBalance" style="color:var(--jaune)">0 FCFA</strong></p>
-    
-    <div style="background:rgba(255,184,0,0.1);border:1px solid var(--jaune);padding:12px;border-radius:12px;margin-bottom:18px;font-size:12px;color:var(--jaune-clair);text-align:center;font-weight:600;">
-      📅 Horaires des retraits : Du Lundi au Vendredi, de 16h00 à 00h00.
-    </div>
-
-    <button class="btn vert" onclick="jouerAudioRetrait()" style="margin-bottom:16px;padding:12px;font-size:13px;">🔊 ÉCOUTER LE MESSAGE DE RETRAIT</button>
-
     <div class="box">
       <div class="field">
         <label>Montant à retirer (FCFA)</label>
         <input id="withdrawAmount" type="number" placeholder="Min : 500 FCFA" oninput="calculerFraisRetrait()">
       </div>
-      
-      <div id="recapRetrait" style="background:rgba(0,0,0,0.3);padding:14px;border-radius:12px;margin-bottom:18px;font-size:13px;display:none;border:1px solid rgba(255,255,255,0.08)">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Montant demandé :</span> <b id="reqMontant">0 F</b></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Frais de retrait (15%) :</span> <b id="reqFrais" style="color:var(--erreur)">-0 F</b></div>
-        <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;margin-top:6px;font-weight:800"><span>Montant net perçu :</span> <b id="reqNet" style="color:var(--succes)">0 F</b></div>
-      </div>
-
-      <div class="field"><label>Pays de résidence</label>
-        <select id="withdrawCountryCode" onchange="mettreAJourMethodesRetrait()">
-          <option value="+225" selected>🇨🇮 Côte d'Ivoire (+225)</option>
-          <option value="+229">🇧🇯 Bénin (+229)</option>
-          <option value="+228">🇹🇬 Togo (+228)</option>
-          <option value="+226">🇧🇫 Burkina Faso (+226)</option>
-          <option value="+221">🇸🇳 Sénégal (+221)</option>
-        </select>
-      </div>
-
-      <div class="field"><label>Réseau de paiement</label>
-        <select id="withdrawMethod">
-        </select>
-      </div>
-
-      <div class="field"><label>Nom complet du titulaire</label><input id="withdrawHolder" type="text" placeholder="Prénom et nom sur le compte"></div>
-
-      <div class="field">
-        <label>Numéro de téléphone de réception</label>
-        <div class="phone-group">
-          <select id="withdrawPhonePrefix" disabled style="background:rgba(0,0,0,0.5)">
-            <option value="+225" selected>+225</option>
-          </select>
-          <input id="withdrawPhone" type="tel" placeholder="Ex : 0700000000">
-        </div>
+      <div id="recapRetrait" style="background:rgba(0,0,0,0.3);padding:14px;border-radius:12px;margin-bottom:18px;font-size:13px;display:none;">
+        <div style="display:flex;justify-content:space-between;"><span>Net à recevoir :</span> <b id="reqNet" style="color:var(--succes)">0 F</b></div>
       </div>
       <button class="btn accent" onclick="confirmerDemandeRetrait()">RETIRER LES FONDS</button>
     </div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
+  <section id="accountPage" class="page">
+    <h2 class="section-title">Mon Compte</h2>
+    <div class="box">
+      <div class="field"><label>Nom complet</label><input id="profileName" type="text" readonly></div>
+      <div class="field"><label>Solde Principal</label><input id="profileBalance" type="text" readonly style="font-weight:900;color:var(--jaune)"></div>
+    </div>
+    <button class="btn danger" onclick="deconnexion()">SE DÉCONNECTER</button>
+    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
+  </section>
+
   <section id="historyPage" class="page">
     <h2 class="section-title">Historique des Opérations</h2>
-    <p class="section-sub">Consultez le détail de vos recharges et retraits</p>
     <div id="historyAll" class="history-list"></div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="openPage('homePage')"><span>🏠</span>Accueil</button>
-    <button class="nav-btn" onclick="openPage('investPage')"><span>💰</span>Investir</button>
+    <button class="nav-btn" onclick="openPage('aviatorGamePage')"><span>✈️</span>Aviator</button>
     <button class="nav-btn" onclick="openPage('appleGamePage')"><span>🍎</span>Apple</button>
     <button class="nav-btn" onclick="openPage('tradingPage')"><span>📈</span>Trading</button>
     <button class="nav-btn" onclick="openPage('accountPage')"><span>👤</span>Profil</button>
@@ -892,1329 +636,163 @@ const firebaseConfig = {
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-const rtdb = firebase.database();
-
-const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
-
-const SVG_BOX = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'><rect width='200' height='120' fill='%231a2232'/><circle cx='100' cy='60' r='45' fill='%23FF6B00' opacity='0.2'/><path d='M70,50 L130,50 L130,75 L70,75 Z' fill='%23E00072'/><text x='100' y='67' font-family='Arial' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>CANALBOX</text><circle cx='85' cy='42' r='3' fill='%23FFB800'/><circle cx='100' cy='42' r='3' fill='%2310B981'/><circle cx='115' cy='42' r='3' fill='%23FFB800'/></svg>";
-
-const PLANS = [
-  ['VIP0 - Leghorn Chicken', 2500, 100, SVG_BOX, "https://direct.kkiapay.me/51965/Leghoron%20chiken-qZeIIageg"],
-  ['VIP0+ - Muscovy Duck', 5500, 175, SVG_BOX, "https://direct.kkiapay.me/51965/Muscovy%20duck-AHNvISUOe"],
-  ['VIP1 - Pekin Duck', 12500, 400, SVG_BOX, "https://direct.kkiapay.me/51965/Pekin%20duck-wslNc21Md"],
-  ['VIP2 - Uda Sheep', 25000, 800, SVG_BOX, "https://direct.kkiapay.me/51965/Ida%20sheep-toMQc5RQ9"],
-  ['VIP3 - Suffolk Sheep', 50000, 1600, SVG_BOX, "https://direct.kkiapay.me/51965/Suffolk%20sheep-I5KLmNhTs"],
-  ['VIP4 - Autruche', 100000, 3200, SVG_BOX, "https://direct.kkiapay.me/51965/Autruche-rR2HZfmif"],
-  ['VIP5 - Vache laitière', 200000, 6400, SVG_BOX, "https://direct.kkiapay.me/51965/Vache%20laitiere-f1k4kLaJo"],
-  ['VIP6 - Chameau', 500000, 16000, SVG_BOX, "https://direct.kkiapay.me/51965/Chameau-BHdbOxD4Q"],
-  ['VIP7 - Plan Ultime', 1000000, 32000, SVG_BOX, "https://direct.kkiapay.me/51965/Plan%20ultime-7b7wC9HoY"]
-];
-
-const RESEAUX_PAR_PAYS = {
-  "+229": [
-    { id: "mtn", nom: "MTN Money" },
-    { id: "moov", nom: "Moov Money" },
-    { id: "celtiis", nom: "Celtiis" }
-  ],
-  "+225": [
-    { id: "mtn", nom: "MTN Money" },
-    { id: "moov", nom: "Moov Money" },
-    { id: "wave", nom: "Wave Mobile" },
-    { id: "orange", nom: "Orange Money" }
-  ],
-  "+221": [
-    { id: "orange", nom: "Orange Money" }
-  ],
-  "+228": [
-    { id: "togocell", nom: "Togocell / T-Money" },
-    { id: "moov", nom: "Moov Money" }
-  ],
-  "+226": [
-    { id: "moov", nom: "Moov Money" },
-    { id: "orange", nom: "Orange Money" },
-    { id: "wave", nom: "Wave Mobile" }
-  ]
-};
-
-const NOMS_RESEAUX = { wave: 'Wave Mobile', orange: 'Orange Money', mtn: 'MTN Money', moov: 'Moov Money', celtiis: 'Celtiis', togocell: 'Togocell', banque: 'Compte Bancaire' };
-const ICONES = { wave: '🌊', orange: '🍊', mtn: '💛', moov: '💙', celtiis: '🟣', togocell: '🟢', banque: '🏦' };
 
 let utilisateur = null, solde = 0;
-let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equipe = [];
-let compteLie = null, unsubscribeListener = null;
-let pagePrecedente = 'homePage';
-let pageActuelle = 'homePage';
-let planRechargeSelectionneIndex = 0;
 
-let tradingStats = { date: '', roundCount: 0 };
+function formatArgent(n) { return Number(n || 0).toLocaleString('fr-FR') + ' FCFA'; }
+function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
 
-let appleGameActive = false;
-let appleCurrentRow = 0; 
-let appleCurrentBet = 500;
-let appleDailyWinStats = { date: '', hasWonToday: false };
+// ==========================================
+// LOGIQUE DU JEU AVIATOR (CRASH GAME)
+// ==========================================
+let aviatorFlying = false;
+let aviatorCurrentMultiplier = 1.00;
+let aviatorCrashPoint = 2.00;
+let aviatorBetAmount = 300;
+let aviatorHasBetted = false;
+let aviatorInterval = null;
 
-let isListening = false;
-let speechRecognition = null;
+function chargerPageAviatorGame() {
+  document.getElementById('aviatorGameBalance').textContent = formatArgent(solde);
+  resetAviatorUI();
+}
 
-function envoyerNotificationTelephone(titre, message) {
-  const banner = document.getElementById('pushNotificationBanner');
-  const tEl = document.getElementById('pushTitle');
-  const mEl = document.getElementById('pushText');
+function setAviatorBet(val) {
+  document.getElementById('aviatorBetAmount').value = val;
+}
+
+function resetAviatorUI() {
+  aviatorFlying = false;
+  aviatorCurrentMultiplier = 1.00;
+  aviatorHasBetted = false;
+  clearInterval(aviatorInterval);
+
+  document.getElementById('aviatorMultiplierText').textContent = "1.00x";
+  document.getElementById('aviatorMultiplierText').style.color = "var(--jaune)";
+  document.getElementById('aviatorStatusBadge').textContent = "En attente du tour...";
   
-  if (!banner || !tEl || !mEl) return;
-  
-  tEl.textContent = titre;
-  mEl.textContent = message;
-  banner.classList.add('show');
-  
-  if ('vibrate' in navigator) {
-    try { navigator.vibrate([200, 100, 200]); } catch(e){}
-  }
-  
-  parlerReponse(message);
+  const plane = document.getElementById('aviatorPlaneIcon');
+  plane.style.bottom = "10px";
+  plane.style.left = "10px";
 
-  setTimeout(() => {
-    banner.classList.remove('show');
-  }, 6000);
+  document.getElementById('aviatorActionArea').innerHTML = `
+    <button class="btn accent" onclick="placerPariAviator()" style="padding: 16px; font-size: 16px;">PLACER UN PARI</button>
+  `;
 }
 
-let tempsDepartAbsence = Date.now();
-const DELAI_MINUTES_ABSENCE = 2;
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    tempsDepartAbsence = Date.now();
-  } else {
-    if (utilisateur) {
-      const minutesEcoulees = (Date.now() - tempsDepartAbsence) / (1000 * 60);
-      if (minutesEcoulees >= DELAI_MINUTES_ABSENCE) {
-        setTimeout(() => {
-          envoyerNotificationTelephone(
-            "🔔 Canal Box VIP", 
-            "Vous vous êtes absenté quelques minutes ! Venez vérifier vos soldes et tenter votre chance dès maintenant."
-          );
-        }, 1200);
-      }
-    }
-  }
-});
-
-if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  speechRecognition = new SpeechRec();
-  speechRecognition.continuous = false;
-  speechRecognition.interimResults = false;
-  speechRecognition.lang = 'fr-FR';
-
-  speechRecognition.onstart = () => {
-    isListening = true;
-    const btn = document.getElementById('voiceAssistantBtn');
-    if (btn) btn.classList.add('listening');
-    toast("🎙️ Dites votre commande...");
-  };
-
-  speechRecognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript.toLowerCase().trim();
-    toast(`🗣️ Ordre reçu : "${transcript}"`);
-    traiterCommandeVocale(transcript);
-  };
-
-  speechRecognition.onerror = (e) => {
-    console.error("Erreur vocale:", e);
-    arreterAssistantVocal();
-  };
-
-  speechRecognition.onend = () => {
-    arreterAssistantVocal();
-  };
-}
-
-function toggleVoiceAssistant() {
-  if (!speechRecognition) {
-    toast("⚠️ Reconnaissance vocale non supportée par votre navigateur.");
-    parlerReponse("La reconnaissance vocale n'est pas supportée sur votre appareil.");
+function placerPariAviator() {
+  const montant = parseFloat(document.getElementById('aviatorBetAmount').value);
+  if (!montant || montant < 100) {
+    toast("⚠️ Pari minimum : 100 FCFA");
     return;
   }
-  if (isListening) {
-    speechRecognition.stop();
-  } else {
-    try {
-      speechRecognition.start();
-    } catch(e) {
-      console.error(e);
-    }
-  }
-}
-
-function arreterAssistantVocal() {
-  isListening = false;
-  const btn = document.getElementById('voiceAssistantBtn');
-  if (btn) btn.classList.remove('listening');
-}
-
-function parlerReponse(texte) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const msg = new SpeechSynthesisUtterance(texte);
-    msg.lang = 'fr-FR';
-    msg.rate = 1.0;
-    window.speechSynthesis.speak(msg);
-  }
-}
-
-function traiterCommandeVocale(cmd) {
-  if (cmd.includes('retour') || cmd.includes('revenir') || cmd.includes('précédent')) {
-    if (pagePrecedente && pagePrecedente !== pageActuelle) {
-      parlerReponse("Retour à la page précédente.");
-      openPage(pagePrecedente);
-    } else {
-      parlerReponse("Retour à l'accueil.");
-      openPage('homePage');
-    }
-    return;
-  }
-
-  if (cmd.includes('accueil') || cmd.includes('maison') || cmd.includes('menu principal')) {
-    parlerReponse("Ouverture de l'accueil.");
-    openPage('homePage');
-    return;
-  }
-
-  if (cmd.includes('apple') || cmd.includes('pomme') || cmd.includes('jeu')) {
-    parlerReponse("Ouverture du jeu Apple of Fortune.");
-    openPage('appleGamePage');
-    return;
-  }
-
-  if (cmd.includes('trading') || cmd.includes('trade') || cmd.includes('bourse')) {
-    parlerReponse("Ouverture de la page de trading.");
-    openPage('tradingPage');
-    return;
-  }
-
-  if (cmd.includes('investir') || cmd.includes('investissement') || cmd.includes('plans')) {
-    parlerReponse("Ouverture de la page d'investissement.");
-    openPage('investPage');
-    return;
-  }
-
-  if (cmd.includes('retrait') || cmd.includes('retirer') || cmd.includes('argent')) {
-    parlerReponse("Ouverture de la page de retrait.");
-    openPage('withdrawPage');
-    return;
-  }
-
-  if (cmd.includes('recharger') || cmd.includes('recharge') || cmd.includes('dépôt')) {
-    parlerReponse("Ouverture de la page de recharge.");
+  if (solde < montant) {
+    toast("❌ Solde insuffisant ! Faites un dépôt.");
     openPage('rechargePage');
     return;
   }
 
-  if (cmd.includes('compte') || cmd.includes('profil')) {
-    parlerReponse("Ouverture de votre profil.");
-    openPage('accountPage');
-    return;
-  }
+  aviatorBetAmount = montant;
+  solde -= montant;
+  document.getElementById('aviatorGameBalance').textContent = formatArgent(solde);
+  document.getElementById('homeBalance').textContent = formatArgent(solde);
 
-  if (cmd.includes('déconnecter') || cmd.includes('quitter')) {
-    parlerReponse("Déconnexion en cours.");
-    deconnexion();
-    return;
-  }
-
-  parlerReponse("Commande non reconnue.");
+  aviatorHasBetted = true;
+  demarrerVolAviator();
 }
 
-let mediaRecorderService = null;
-let audioChunksService = [];
-let voiceTimerInterval = null;
-let secondsEnregistres = 0;
-let audioBlobService = null;
-
-async function toggleEnregistrementVocalService() {
-  const btn = document.getElementById('serviceVoiceBtn');
-  const status = document.getElementById('serviceVoiceStatus');
-  const timer = document.getElementById('serviceVoiceTimer');
-  const actions = document.getElementById('serviceVoiceActions');
-  const player = document.getElementById('serviceVoiceAudioPlayer');
-
-  if (mediaRecorderService && mediaRecorderService.state === "recording") {
-    mediaRecorderService.stop();
-    clearInterval(voiceTimerInterval);
-    btn.classList.remove('recording');
-    btn.textContent = "🎙️";
-    status.textContent = "Enregistrement terminé ! Écoutez ou envoyez.";
-  } else {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderService = new MediaRecorder(stream);
-      audioChunksService = [];
-
-      mediaRecorderService.ondataavailable = event => {
-        audioChunksService.push(event.data);
-      };
-
-      mediaRecorderService.onstop = () => {
-        audioBlobService = new Blob(audioChunksService, { type: 'audio/mp3' });
-        const audioUrl = URL.createObjectURL(audioBlobService);
-        player.src = audioUrl;
-        player.classList.remove('hidden');
-        actions.classList.remove('hidden');
-
-        const downloadLink = document.getElementById('downloadVoiceLink');
-        downloadLink.href = audioUrl;
-        downloadLink.download = `Vocal_Service_VIP_${Date.now()}.mp3`;
-      };
-
-      mediaRecorderService.start();
-      secondsEnregistres = 0;
-      timer.classList.remove('hidden');
-      timer.textContent = "00:00";
-      
-      voiceTimerInterval = setInterval(() => {
-        secondsEnregistres++;
-        const mins = String(Math.floor(secondsEnregistres / 60)).padStart(2, '0');
-        const secs = String(secondsEnregistres % 60).padStart(2, '0');
-        timer.textContent = `${mins}:${secs}`;
-      }, 1000);
-
-      btn.classList.add('recording');
-      btn.textContent = "⏹️";
-      status.textContent = "Enregistrement en cours... Cliquez pour arrêter";
-      actions.classList.add('hidden');
-      player.classList.add('hidden');
-
-    } catch (err) {
-      console.error(err);
-      toast("⚠️ Accès au microphone refusé ou non supporté.");
-    }
-  }
-}
-
-function envoyerVocalWhatsAppDirect() {
-  const nomMembre = utilisateur ? (utilisateur.name || 'Membre') : 'Membre';
-  const telMembre = utilisateur ? (utilisateur.phone || '') : '';
-  const texteMessage = encodeURIComponent(`Bonjour Service Client VIP Canal Box,\n\nJe suis le membre : ${nomMembre} (${telMembre}).\n\nJ'ai enregistré un message vocal pour votre support. Merci de prendre en charge ma demande.`);
-  const urlWhatsApp = `https://wa.me/qr/JZYGKM3FM3XTL1?text=${texteMessage}`;
-  toast("Redirection vers WhatsApp pour l'envoi direct...");
-  window.open(urlWhatsApp, '_blank');
-}
-
-let currentStepAssistant = 0;
-const assistantData = { name: '', countryCode: '+225', phone: '', password: '' };
-
-function initAssistantChat() {
-  currentStepAssistant = 0;
-  const logs = document.getElementById('chatLogs');
-  if (logs) {
-    logs.innerHTML = '';
-    addBotMessage("Bonjour ! 👋 Bienvenue sur Canal Box VIP.");
-    addBotMessage("Je suis votre assistant. Pour commencer la création de votre compte, quel est votre **Nom complet** ?");
-  }
-  showAssistantInput('text', 'Entrez votre nom complet...');
-}
-
-function addBotMessage(msg) {
-  const logs = document.getElementById('chatLogs');
-  if (!logs) return;
-  const m = document.createElement('div');
-  m.className = 'chat-msg bot';
-  m.innerHTML = msg;
-  logs.appendChild(m);
-  logs.scrollTop = logs.scrollHeight;
-}
-
-function addUserMessage(msg) {
-  const logs = document.getElementById('chatLogs');
-  if (!logs) return;
-  const m = document.createElement('div');
-  m.className = 'chat-msg user';
-  m.textContent = msg;
-  logs.appendChild(m);
-  logs.scrollTop = logs.scrollHeight;
-}
-
-function showAssistantInput(type, placeholder) {
-  const inp = document.getElementById('chatInput');
-  const sel = document.getElementById('chatSelectCountry');
-  if (type === 'select') {
-    inp.classList.add('hidden');
-    sel.classList.remove('hidden');
-  } else {
-    sel.classList.add('hidden');
-    inp.classList.remove('hidden');
-    inp.type = type;
-    inp.placeholder = placeholder;
-    inp.value = '';
-    inp.focus();
-  }
-}
-
-function handleChatKeyPress(e) {
-  if (e.key === 'Enter') validerEtapeAssistant();
-}
-
-function validerEtapeAssistant() {
-  const inp = document.getElementById('chatInput');
-  const sel = document.getElementById('chatSelectCountry');
+function demarrerVolAviator() {
+  aviatorFlying = true;
+  aviatorCurrentMultiplier = 1.00;
   
-  if (currentStepAssistant === 0) {
-    const val = inp.value.trim();
-    if (!val) { addBotMessage("Veuillez entrer un nom valide pour continuer."); return; }
-    assistantData.name = val;
-    document.getElementById('regName').value = val;
-    addUserMessage(val);
-    
-    currentStepAssistant = 1;
-    addBotMessage(`Enchanté ${val} ! 🌍 Dans quel **pays** résidez-vous ?`);
-    showAssistantInput('select', '');
-    
-  } else if (currentStepAssistant === 1) {
-    const val = sel.value;
-    const txt = sel.options[sel.selectedIndex].text;
-    assistantData.countryCode = val;
-    document.getElementById('regCountryCode').value = val;
-    addUserMessage(txt);
-    
-    currentStepAssistant = 2;
-    addBotMessage("Merci ! Veuillez saisir votre **Numéro de téléphone** (sans l'indicatif) :");
-    showAssistantInput('tel', 'Ex : 0700000000');
+  // Définit le crash point de manière semi-aléatoire (entre 1.1x et 5.0x)
+  aviatorCrashPoint = (Math.random() * 3.5 + 1.2).toFixed(2);
 
-  } else if (currentStepAssistant === 2) {
-    const val = inp.value.trim().replace(/\s+/g, '');
-    if (cle(val).length < 7) { addBotMessage("⚠️ Ce numéro semble invalide. Entrez un numéro valide."); return; }
-    assistantData.phone = val;
-    document.getElementById('regPhone').value = val;
-    addUserMessage(val);
+  document.getElementById('aviatorStatusBadge').textContent = "AVION EN VOL ✈️";
 
-    currentStepAssistant = 3;
-    addBotMessage("Parfait. Enfin, choisissez un **Mot de passe** sécurisé (au moins 6 caractères) :");
-    showAssistantInput('password', '••••••');
+  // Affiche le bouton Cash Out
+  document.getElementById('aviatorActionArea').innerHTML = `
+    <button id="aviatorCashoutBtn" class="btn vert" onclick="cashOutAviator()" style="padding: 16px; font-size: 16px;">CASH OUT (<span id="aviatorGainLive">0</span> F)</button>
+  `;
 
-  } else if (currentStepAssistant === 3) {
-    const val = inp.value;
-    if (val.length < 6) { addBotMessage("⚠️ Le mot de passe doit contenir au moins 6 caractères."); return; }
-    assistantData.password = val;
-    document.getElementById('regPassword').value = val;
-    addUserMessage("••••••••");
+  const plane = document.getElementById('aviatorPlaneIcon');
 
-    addBotMessage("⏳ Validation et création de votre compte en cours...");
-    creerCompte();
-  }
-}
+  aviatorInterval = setInterval(() => {
+    aviatorCurrentMultiplier += 0.03;
+    const currentMultText = aviatorCurrentMultiplier.toFixed(2);
+    document.getElementById('aviatorMultiplierText').textContent = currentMultText + "x";
 
-function toggleFormulaireClassique() {
-  const boxBot = document.querySelector('.assistant-box');
-  const fields = document.getElementById('classicRegisterFields');
-  const btnSubmit = document.getElementById('btnClassicSubmit');
-  const btnToggle = document.getElementById('btnClassicToggle');
+    const liveGain = Math.floor(aviatorBetAmount * aviatorCurrentMultiplier);
+    const liveGainEl = document.getElementById('aviatorGainLive');
+    if (liveGainEl) liveGainEl.textContent = liveGain.toLocaleString('fr-FR');
 
-  if (fields.classList.contains('hidden')) {
-    fields.classList.remove('hidden');
-    btnSubmit.classList.remove('hidden');
-    boxBot.classList.add('hidden');
-    btnToggle.textContent = "Utiliser l'Assistant Interactif";
-  } else {
-    fields.classList.add('hidden');
-    btnSubmit.classList.add('hidden');
-    boxBot.classList.remove('hidden');
-    btnToggle.textContent = "Basculer sur le formulaire classique";
-    initAssistantChat();
-  }
-}
+    // Mouvement visuel de l'avion
+    let leftPos = Math.min(80, (aviatorCurrentMultiplier - 1) * 20);
+    let bottomPos = Math.min(70, (aviatorCurrentMultiplier - 1) * 15);
+    plane.style.left = (10 + leftPos) + "%";
+    plane.style.bottom = (10 + bottomPos) + "%";
 
-const cle = t => String(t || '').replace(/[^0-9]/g, '');
-const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
-function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
-function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
-
-function jouerAudioRetrait() {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const msg = new SpeechSynthesisUtterance("Retirez votre argent pour ce weekend");
-    msg.lang = 'fr-FR';
-    msg.rate = 0.95;
-    msg.pitch = 1.0;
-    window.speechSynthesis.speak(msg);
-  }
-}
-
-function verifierEtSauvegarderParrain() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const p = urlParams.get('parrain');
-  if (p && cle(p)) {
-    localStorage.setItem('cb_parrain_code', cle(p));
-  }
-}
-
-function erreurAuth(e) {
-  const m = {
-    'auth/email-already-in-use': "Ce numéro possède déjà un compte. Connectez-vous.",
-    'auth/weak-password': "Mot de passe trop court (6 caractères minimum).",
-    'auth/invalid-email': "Adresse e-mail invalide.",
-    'auth/network-request-failed': "Erreur de connexion internet."
-  };
-  return m[e.code] || ("Erreur : " + e.message);
-}
-
-function rendrePlans() {
-  const elInvest = document.getElementById('vipInvest');
-  if (!elInvest) return;
-
-  elInvest.innerHTML = PLANS.map((p, i) => {
-    const dejaSouscrit = investissements.some(inv => inv.montant === p[1]);
-    
-    if (dejaSouscrit) {
-      return `
-        <div class="vip-card deja-souscrit">
-          <div class="vip-card-img-box">
-            <span class="vip-card-badge" style="background:var(--texte-gris)">DÉJÀ SOUSCRIT</span>
-            <img src="${p[3]}" alt="Offre VIP">
-          </div>
-          <div class="vip-name">${p[0]}</div>
-          <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
-          <div class="vip-details">⏳ 60 jours</div>
-          <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
-          <button class="btn secondaire" disabled style="opacity:0.6;cursor:not-allowed">Plan déjà acquis (Passez au supérieur)</button>
-        </div>`;
-    } else {
-      return `
-        <div class="vip-card" onclick="investirPlan(${i})">
-          <div class="vip-card-img-box">
-            <span class="vip-card-badge">OFFICIEL</span>
-            <img src="${p[3]}" alt="Offre VIP">
-          </div>
-          <div class="vip-name">${p[0]}</div>
-          <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
-          <div class="vip-details">⏳ 60 jours</div>
-          <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
-          <button class="btn accent">Souscrire</button>
-        </div>`;
+    // Vérifie le crash
+    if (aviatorCurrentMultiplier >= aviatorCrashPoint) {
+      crasherAviator();
     }
-  }).join('');
+  }, 100);
 }
 
-function reinitialiserEtat() {
-  if (unsubscribeListener) { unsubscribeListener(); unsubscribeListener = null; }
-  localStorage.clear();
-  utilisateur = null; solde = 0;
-  historiqueRecharges = []; historiqueRetraits = []; investissements = []; equipe = [];
-  compteLie = null;
-  tradingStats = { date: '', roundCount: 0 };
-}
+function cashOutAviator() {
+  if (!aviatorFlying || !aviatorHasBetted) return;
 
-function appliquerDonnees(d) {
-  solde = d.solde !== undefined ? d.solde : 0;
-  historiqueRecharges = d.recharges || [];
-  historiqueRetraits = d.retraits || [];
-  investissements = d.investissements || [];
-  compteLie = d.compteLie || null;
-  equipe = d.equipe || [];
-  if (d.tradingStats) {
-    tradingStats = d.tradingStats;
-  }
-  if (d.appleDailyWinStats) {
-    appleDailyWinStats = d.appleDailyWinStats;
-  }
-  verifierEtCrediterGainsJournaliers();
-  rendrePlans();
-}
+  clearInterval(aviatorInterval);
+  aviatorFlying = false;
 
-function verifierEtCrediterGainsJournaliers() {
-  if (!investissements || !investissements.length) return;
-  const maintenant = new Date();
-  let gainsCreditesTotal = 0;
-  let modifie = false;
+  const gain = Math.floor(aviatorBetAmount * aviatorCurrentMultiplier);
+  solde += gain;
 
-  investissements.forEach(inv => {
-    if (inv.statut !== 'Actif') return;
-    const derniereVerif = new Date(inv.derniereDateGain || inv.date);
-    const diffTemps = maintenant - derniereVerif;
-    const diffJours = Math.floor(diffTemps / (1000 * 60 * 60 * 24));
+  document.getElementById('aviatorGameBalance').textContent = formatArgent(solde);
+  document.getElementById('homeBalance').textContent = formatArgent(solde);
 
-    if (diffJours > 0) {
-      const gainTotalPeriode = diffJours * inv.gain;
-      solde += gainTotalPeriode;
-      gainsCreditesTotal += gainTotalPeriode;
-      inv.derniereDateGain = maintenant.toISOString();
-      modifie = true;
-    }
-  });
-
-  if (modifie) {
-    sauvegarderTout();
-    mettreAJourAccueil();
-    toast(`🎉 Gains journaliers crédités : +${formatArgent(gainsCreditesTotal)}`);
-  }
-}
-
-async function trouverCompte(uid, email, tel) {
-  const col = db.collection("comptes_tel");
-  let q = await col.where("user.uid", "==", uid).limit(1).get();
-  if (!q.empty) return q.docs[0].data();
-  if (email) {
-    q = await col.where("user.email", "==", email).limit(1).get();
-    if (!q.empty) return q.docs[0].data();
-  }
-  if (cle(tel)) {
-    const s = await col.doc(cle(tel)).get();
-    if (s.exists && (!s.data().user || !s.data().user.uid || s.data().user.uid === uid)) return s.data();
-  }
-  return null;
-}
-
-function sauvegarderTout() {
-  const fb = auth.currentUser;
-  if (!utilisateur || !fb || utilisateur.uid !== fb.uid) return;
-  utilisateur.solde = solde;
-  delete utilisateur.password;
-  localStorage.setItem('cb_user', JSON.stringify(utilisateur));
-  const docId = cle(utilisateur.phone);
-  if (!docId) return;
-  const payload = {
-    solde, nom: utilisateur.name || "Utilisateur", telephone: utilisateur.phone, user: utilisateur,
-    recharges: historiqueRecharges, retraits: historiqueRetraits, investissements, compteLie, equipe,
-    tradingStats,
-    appleDailyWinStats,
-    derniereModif: new Date().toISOString()
-  };
-  db.collection("comptes_tel").doc(docId).set(payload, { merge: true }).catch(console.error);
-  rtdb.ref("comptes_tel/" + docId).set(payload).catch(console.error);
-}
-
-function ecouterChangementsFirebase() {
-  if (!utilisateur || !cle(utilisateur.phone)) return;
-  if (unsubscribeListener) unsubscribeListener();
-  const uidCourant = utilisateur.uid;
-  unsubscribeListener = db.collection("comptes_tel").doc(cle(utilisateur.phone)).onSnapshot(doc => {
-    if (!doc.exists || !utilisateur || utilisateur.uid !== uidCourant) return;
-    const data = doc.data();
-    if (!data.user || data.user.uid !== uidCourant) return;
-    appliquerDonnees(data);
-    utilisateur.solde = solde;
-    mettreAJourAccueil();
-    afficherCompteLie();
-    ['achatsPage:afficherAchats', 'historyPage:afficherHistorique', 'teamPage:afficherEquipe'].forEach(x => {
-      const [id, fn] = x.split(':');
-      if (document.getElementById(id).classList.contains('active')) window[fn]();
-    });
-  }, err => console.error(err));
-}
-
-function mettreAJourMethodesLien() {
-  const pays = document.getElementById('linkedCountryCode').value;
-  const selType = document.getElementById('linkedType');
-  const selPrefix = document.getElementById('linkedPhonePrefix');
-  if (!selType || !selPrefix) return;
-
-  selPrefix.value = pays;
-  const reseaux = RESEAUX_PAR_PAYS[pays] || RESEAUX_PAR_PAYS["+225"];
-  selType.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
-}
-
-function mettreAJourMethodesRetrait() {
-  const pays = document.getElementById('withdrawCountryCode').value;
-  const selMethod = document.getElementById('withdrawMethod');
-  const selPrefix = document.getElementById('withdrawPhonePrefix');
-  if (!selMethod || !selPrefix) return;
-
-  selPrefix.value = pays;
-  const reseaux = RESEAUX_PAR_PAYS[pays] || RESEAUX_PAR_PAYS["+225"];
-  selMethod.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
-}
-
-function afficherOptionsRecharge() {
-  const container = document.getElementById('rechargeOptionsContainer');
-  if (!container) return;
+  document.getElementById('aviatorStatusBadge').textContent = "GAGNÉ 🎉";
+  document.getElementById('aviatorMultiplierText').style.color = "var(--succes)";
   
-  container.innerHTML = PLANS.map((plan, index) => {
-    const isSelected = planRechargeSelectionneIndex === index;
-    return `
-      <div class="recharge-option-card ${isSelected ? 'selected' : ''}" onclick="selectionnerPlanRecharge(${index})">
-        <div class="recharge-info">
-          <div class="plan-title">${esc(plan[0])}</div>
-          <div class="plan-action-text">Je veux recharger ${plan[1].toLocaleString('fr-FR')} FCFA</div>
-        </div>
-        <div class="recharge-radio-circle"></div>
-      </div>
-    `;
-  }).join('');
+  toast(`🎉 Encaissé à ${aviatorCurrentMultiplier.toFixed(2)}x ! Gain : +${formatArgent(gain)}`);
+
+  document.getElementById('aviatorActionArea').innerHTML = `
+    <button class="btn secondaire" onclick="resetAviatorUI()" style="margin-top:0">REJOUER AU PROCHAIN TOUR</button>
+  `;
 }
 
-function selectionnerPlanRecharge(index) {
-  planRechargeSelectionneIndex = index;
-  afficherOptionsRecharge();
+function crasherAviator() {
+  clearInterval(aviatorInterval);
+  aviatorFlying = false;
+
+  document.getElementById('aviatorStatusBadge').textContent = "CRASH ! 💥";
+  document.getElementById('aviatorMultiplierText').style.color = "var(--erreur)";
+  document.getElementById('aviatorPlaneIcon').textContent = "💥";
+
+  toast(`💥 L'avion s'est écrasé à ${aviatorCurrentMultiplier.toFixed(2)}x ! Pari perdu.`);
+
+  document.getElementById('aviatorActionArea').innerHTML = `
+    <button class="btn danger" onclick="resetAviatorUI()" style="margin-top:0">REESSAYER</button>
+  `;
 }
 
-function accederLienPaiementDirect() {
-  const plan = PLANS[planRechargeSelectionneIndex];
-  const urlPaiement = plan[4];
-  
-  const nouvelleRecharge = {
-    montant: plan[1],
-    phone: utilisateur ? utilisateur.phone : '',
-    methode: 'Paiement en ligne (' + plan[0] + ')',
-    txId: 'RECH-' + Date.now(),
-    date: new Date().toISOString(),
-    statut: 'En attente'
-  };
-
-  historiqueRecharges.unshift(nouvelleRecharge);
-  sauvegarderTout();
-
-  toast("Paiement enregistré dans l'historique. Redirection...");
-  window.open(urlPaiement, '_blank');
-  openPage('historyPage');
-}
-
+// NAVIGATION ENTRE PAGES
 function openPage(pageId) {
-  if (pageActuelle !== pageId) {
-    pagePrecedente = pageActuelle;
-    pageActuelle = pageId;
-  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = document.getElementById(pageId);
   if (t) t.classList.add('active');
   window.scrollTo(0, 0);
-  if (pageId === 'homePage') mettreAJourAccueil();
-  if (pageId === 'investPage') { rendrePlans(); }
-  if (pageId === 'achatsPage') afficherAchats();
-  if (pageId === 'historyPage') afficherHistorique();
-  if (pageId === 'teamPage') afficherEquipe();
-  if (pageId === 'viewLinkedPage') afficherCompteLie();
-  if (pageId === 'accountPage') chargerProfil();
-  if (pageId === 'tradingPage') chargerPageTrading();
-  if (pageId === 'appleGamePage') chargerPageAppleGame();
-  if (pageId === 'rechargePage') {
-    afficherOptionsRecharge();
-  }
-  if (pageId === 'linkPage') {
-    mettreAJourMethodesLien();
-  }
-  if (pageId === 'withdrawPage') {
-    document.getElementById('wBalance').textContent = formatArgent(solde);
-    mettreAJourMethodesRetrait();
-    if (compteLie) {
-      document.getElementById('withdrawPhone').value = compteLie.phone.replace(/^\+\d{3,4}/, '');
-      if (compteLie.holder) document.getElementById('withdrawHolder').value = compteLie.holder;
-    }
-    jouerAudioRetrait();
-  }
+
+  if (pageId === 'aviatorGamePage') chargerPageAviatorGame();
 }
 
-function showAuth(type) {
-  const login = type === 'login';
-  document.getElementById('loginTab').classList.toggle('active', login);
-  document.getElementById('registerTab').classList.toggle('active', !login);
-  document.getElementById('loginForm').classList.toggle('hidden', !login);
-  document.getElementById('registerForm').classList.toggle('hidden', login);
-  
-  if (!login) {
-    initAssistantChat();
-  }
-}
-
-async function creerCompte() {
-  const name = document.getElementById('regName').value.trim();
-  const countryCode = document.getElementById('regCountryCode').value;
-  const rawPhone = document.getElementById('regPhone').value.trim();
-  const password = document.getElementById('regPassword').value;
-  const phone = countryCode + rawPhone.replace(/^0+/, '');
-  const email = cle(phone) + "@canalbox.app";
-
-  if (!name || !rawPhone || !password) { 
-    toast("Remplissez tous les champs."); 
-    addBotMessage("❌ Des informations sont manquantes. Veuillez recommencer.");
-    return; 
-  }
-  if (cle(rawPhone).length < 7) { 
-    toast("Numéro de téléphone invalide."); 
-    addBotMessage("❌ Le numéro de téléphone saisi est invalide.");
-    return; 
-  }
-  if (password.length < 6) { 
-    toast("Mot de passe : 6 caractères minimum."); 
-    addBotMessage("❌ Le mot de passe doit contenir au moins 6 caractères.");
-    return; 
-  }
-
-  try {
-    await auth.signOut();
-    reinitialiserEtat();
-    const userCred = await auth.createUserWithEmailAndPassword(email, password);
-    const uid = userCred.user.uid;
-    const ref = db.collection("comptes_tel").doc(cle(phone));
-    const existant = await ref.get();
-    if (existant.exists) {
-      const ex = existant.data();
-      const em = ex.user ? ex.user.email : '';
-      const orphelin = ex.user && ex.user.uid !== uid && (!em || !String(em).includes('@') || em === email);
-      if (orphelin) {
-        await ref.delete();
-      } else if (!ex.user || ex.user.uid !== uid) {
-        await userCred.user.delete();
-        reinitialiserEtat();
-        toast("Ce numéro est déjà utilisé. Connectez-vous.");
-        addBotMessage("❌ Ce numéro possède déjà un compte. Basculez sur l'onglet Connexion.");
-        showAuth('login');
-        return;
-      }
-    }
-
-    const parrainCode = localStorage.getItem('cb_parrain_code');
-    if (parrainCode && parrainCode !== cle(phone)) {
-      try {
-        const parrainRef = db.collection("comptes_tel").doc(parrainCode);
-        const pDoc = await parrainRef.get();
-        if (pDoc.exists) {
-          const pData = pDoc.data();
-          let listEq = pData.equipe || [];
-          if (!listEq.some(f => cle(f.phone) === cle(phone))) {
-            listEq.unshift({ nom: name, phone, date: new Date().toISOString() });
-            await parrainRef.update({ equipe: listEq });
-            rtdb.ref("comptes_tel/" + parrainCode + "/equipe").set(listEq);
-          }
-        }
-      } catch (errParrain) {
-        console.error("Erreur parrain :", errParrain);
-      }
-    }
-
-    utilisateur = { uid, name, email, phone, solde: 0 };
-    sauvegarderTout();
-    verifierConnexion();
-    openPage('homePage');
-    toast("Compte créé avec succès !");
-
-    setTimeout(() => {
-      envoyerNotificationTelephone("🔔 Bienvenue sur Canal Box VIP !", "Votre inscription est validée. Rechargez votre compte et venez tenter votre chance !");
-    }, 1200);
-
-  } catch (e) {
-    reinitialiserEtat();
-    const msgErr = erreurAuth(e);
-    toast(msgErr);
-    addBotMessage("❌ " + msgErr);
-  }
-}
-
-async function seConnecter() {
-  const contact = document.getElementById('loginContact').value.trim();
-  const countryCode = document.getElementById('loginCountryCode').value;
-  const password = document.getElementById('loginPassword').value;
-
-  if (!contact || !password) { toast("Remplissez tous les champs."); return; }
-  const parEmail = contact.includes('@');
-  let fullPhone = contact;
-  if (!parEmail && !contact.startsWith('+')) {
-    fullPhone = countryCode + contact.replace(/^0+/, '');
-  }
-  let targetEmail = parEmail ? contact : (cle(fullPhone) + "@canalbox.app");
-
-  try {
-    await auth.signOut();
-    reinitialiserEtat();
-    let cred = null;
-    try {
-      cred = await auth.signInWithEmailAndPassword(targetEmail, password);
-    } catch (e1) {
-      if (!parEmail) {
-        const altEmail = cle(contact) + "@canalbox.app";
-        cred = await auth.signInWithEmailAndPassword(altEmail, password);
-        targetEmail = altEmail;
-      } else {
-        throw e1;
-      }
-    }
-    const uid = cred.user.uid;
-    const d = await trouverCompte(uid, targetEmail, parEmail ? '' : fullPhone);
-    if (d) {
-      utilisateur = { ...(d.user || {}), uid, email: targetEmail };
-      utilisateur.phone = utilisateur.phone || d.telephone || (parEmail ? '' : fullPhone);
-      utilisateur.name = utilisateur.name || d.nom || "Membre";
-      delete utilisateur.password;
-      appliquerDonnees(d);
-    } else if (!parEmail) {
-      utilisateur = { uid, name: "Membre", email: targetEmail, phone: fullPhone, solde: 0 };
-    } else {
-      await auth.signOut(); reinitialiserEtat();
-      toast("Profil introuvable.");
-      return;
-    }
-    sauvegarderTout();
-    verifierConnexion();
-    openPage('homePage');
-    toast("Connexion réussie !");
-
-    setTimeout(() => {
-      envoyerNotificationTelephone("👋 Bon retour !", "Venez vérifier vos soldes et tenter votre chance sur nos jeux VIP.");
-    }, 1000);
-
-  } catch (e) {
-    await auth.signOut().catch(() => {});
-    reinitialiserEtat();
-    toast("Identifiants incorrects.");
-  }
-}
-
-function deconnexion() {
-  auth.signOut().finally(() => {
-    reinitialiserEtat();
-    verifierConnexion();
-    showAuth('login');
-    toast("Déconnexion réussie.");
-  });
-}
-
-function verifierConnexion() {
-  const connecte = !!utilisateur;
-  document.getElementById('auth').style.display = connecte ? 'none' : 'flex';
-  document.getElementById('app').style.display = connecte ? 'block' : 'none';
-  if (connecte) {
-    mettreAJourAccueil();
-    ecouterChangementsFirebase();
-    if (utilisateur && utilisateur.phone) {
-      const linkFinal = SITE_BASE_URL + "?parrain=" + cle(utilisateur.phone);
-      const elLien = document.getElementById('lienParrainage');
-      if (elLien) {
-        elLien.textContent = linkFinal;
-        elLien.dataset.raw = linkFinal;
-      }
-    }
-  }
-}
-
-function chargerProfil() {
-  if (!utilisateur) return;
-  const nom = utilisateur.name || "Membre";
-  document.getElementById('profileName').value = nom;
-  document.getElementById('profileDisplayHeader').textContent = nom;
-  document.getElementById('profileAvatar').textContent = nom.charAt(0).toUpperCase();
-  document.getElementById('profileEmail').value = (utilisateur.email && !utilisateur.email.endsWith('@canalbox.app')) ? utilisateur.email : "Non renseigné";
-  document.getElementById('profilePhone').value = utilisateur.phone || "Non renseigné";
-  document.getElementById('profileBalance').value = formatArgent(solde);
-}
-
-function mettreAJourAccueil() {
-  document.getElementById('homeBalance').textContent = formatArgent(solde);
-  document.getElementById('homeWelcome').textContent = "Bienvenue, " + (utilisateur ? (utilisateur.name || 'Membre') : 'Membre');
-  document.getElementById('topUser').textContent = utilisateur ? (utilisateur.name || 'U').charAt(0).toUpperCase() : 'U';
-}
-
-function enregistrerLien() {
-  const type = document.getElementById('linkedType').value;
-  const code = document.getElementById('linkedCountryCode').value;
-  const holder = document.getElementById('linkedHolderName').value.trim();
-  const phoneRaw = document.getElementById('linkedPhone').value.trim();
-  const phone2Raw = document.getElementById('linkedPhone2').value.trim();
-
-  if (!holder || !phoneRaw || !phone2Raw) { toast("Remplissez tous les champs (Nom et numéros)."); return; }
-  if (phoneRaw !== phone2Raw) { toast("Les numéros ne correspondent pas."); return; }
-  const phoneFull = code + " " + phoneRaw.replace(/^0+/, '');
-  compteLie = { type, phone: phoneFull, holder };
-  sauvegarderTout();
-  toast("Compte lié avec succès.");
-  openPage('viewLinkedPage');
-}
-
-function afficherCompteLie() {
-  const c = document.getElementById('linkedAccountCardContainer');
-  if (compteLie) {
-    c.innerHTML = `
-      <div class="linked-badge">
-        <div class="linked-icon">${ICONES[compteLie.type] || '💳'}</div>
-        <div>
-          <div style="font-weight:800;font-size:18px;color:var(--blanc)">${esc(String(compteLie.type).toUpperCase())}</div>
-          <div style="font-size:14px;color:var(--jaune);font-weight:700;margin-top:2px">Titulaire : ${esc(compteLie.holder || 'Non spécifié')}</div>
-          <div style="font-size:15px;color:var(--jaune);font-weight:600;margin-top:2px">${esc(compteLie.phone)}</div>
-          <div style="font-size:12px;color:var(--succes);font-weight:700;margin-top:6px">● Compte actif pour retraits</div>
-        </div>
-      </div>
-      <button class="btn danger" onclick="detacherCompte()" style="margin-bottom:12px">DÉTACHER CE COMPTE</button>`;
-  } else {
-    c.innerHTML = `
-      <div class="empty-history box" style="margin-bottom:20px">
-        <div style="font-size:40px;margin-bottom:10px">💳</div>
-        <strong>Aucun compte lié</strong>
-        <p style="font-size:13px;margin-top:6px">Veuillez lier votre compte de paiement mobile pour effectuer des retraits.</p>
-      </div>`;
-  }
-}
-
-function detacherCompte() { compteLie = null; sauvegarderTout(); afficherCompteLie(); toast("Compte détaché."); }
-
-function investirPlan(i) {
-  const [nom, montant, gain] = PLANS[i];
-  
-  const dejaAcquis = investissements.some(inv => inv.montant === montant);
-  if (dejaAcquis) {
-    toast(`⚠️ Vous avez déjà investi pour ${montant.toLocaleString('fr-FR')} FCFA. Veuillez progresser vers le plan supérieur !`);
-    return;
-  }
-
-  if (solde < montant) { 
-    toast("Solde insuffisant. Veuillez recharger."); 
-    openPage('rechargePage'); 
-    return; 
-  }
-
-  solde -= montant;
-  investissements.unshift({ nom, montant, gain, date: new Date().toISOString(), derniereDateGain: new Date().toISOString(), statut: 'Actif' });
-  sauvegarderTout();
-  mettreAJourAccueil();
-  rendrePlans();
-  toast(`Plan ${nom} souscrit avec succès ! (Durée : 60 jours)`);
-  openPage('achatsPage');
-}
-
-function afficherAchats() {
-  const l = document.getElementById('achatsList');
-  if (!investissements.length) { l.innerHTML = `<div class="empty-history">Aucun achat effectué pour le moment.</div>`; return; }
-  l.innerHTML = investissements.map(inv => `
-    <div class="history-item">
-      <div class="history-top"><span class="history-type">👑 ${esc(inv.nom)}</span><span class="history-status status-success">${esc(inv.statut || 'Actif')}</span></div>
-      <div class="history-date">Souscrit le ${formatDate(inv.date)} (Durée : 60 jours)</div>
-      <div class="history-amount amount-minus">-${formatArgent(inv.montant)}</div>
-      <div style="font-size:13px;color:var(--succes);font-weight:700;margin-top:4px">Gains : +${formatArgent(inv.gain)} / jour</div>
-    </div>`).join('');
-}
-
-function afficherEquipe() {
-  const l = document.getElementById('teamList');
-  if (!equipe.length) { l.innerHTML = `<div class="empty-history">Aucun filleul enregistré. Copiez et partagez votre lien pour inviter des membres !</div>`; return; }
-  l.innerHTML = equipe.map(m => `
-    <div class="history-item">
-      <div class="history-top"><span class="history-type">👤 ${esc(m.nom || m.name || 'Filleul')}</span><span class="history-status status-success">Membre Actif</span></div>
-      <div class="history-date">${m.phone ? esc(m.phone) : ''}</div>
-    </div>`).join('');
-}
-
-function confirmerDemandeRetrait() {
-  const maintenant = new Date();
-  const jourActuel = maintenant.getDay();
-  const heureActuelle = maintenant.getHours();
-
-  if (jourActuel === 0 || jourActuel === 6) {
-    toast("Les retraits sont uniquement disponibles du lundi au vendredi !");
-    return;
-  }
-
-  if (heureActuelle < 16) {
-    toast("Les retraits ouvrent à partir de 16h00 jusqu'à 00h00 !");
-    return;
-  }
-
-  const montantDemande = parseFloat(document.getElementById('withdrawAmount').value);
-  const code = document.getElementById('withdrawCountryCode').value;
-  const method = document.getElementById('withdrawMethod').value;
-  const holder = document.getElementById('withdrawHolder').value.trim();
-  const phoneRaw = document.getElementById('withdrawPhone').value.trim();
-
-  if (!montantDemande || montantDemande < 500) { toast("Minimum de retrait : 500 FCFA"); return; }
-  if (montantDemande > solde) { toast("Solde insuffisant."); return; }
-  if (!holder || !phoneRaw) { toast("Veuillez remplir le nom du titulaire et le numéro de réception."); return; }
-
-  const frais = Math.round(montantDemande * 0.15);
-  const montantNet = montantDemande - frais;
-  const fullPhone = code + " " + phoneRaw.replace(/^0+/, '');
-
-  solde -= montantDemande;
-  historiqueRetraits.unshift({
-    montant: montantNet,
-    montantBrut: montantDemande,
-    frais: frais,
-    compte: fullPhone,
-    titulaire: holder,
-    methode: method,
-    date: new Date().toISOString(),
-    statut: 'En attente'
-  });
-
-  sauvegarderTout();
-  mettreAJourAccueil();
-  document.getElementById('recapRetrait').style.display = 'none';
-  document.getElementById('withdrawAmount').value = '';
-  document.getElementById('withdrawHolder').value = '';
-  document.getElementById('withdrawPhone').value = '';
-  toast("Demande de retrait transmise (-15% frais réduits).");
-  openPage('historyPage');
-}
-
-function calculerFraisRetrait() {
-  const m = parseFloat(document.getElementById('withdrawAmount').value) || 0;
-  const divRecap = document.getElementById('recapRetrait');
-  if (m > 0) {
-    const frais = Math.round(m * 0.15);
-    const net = Math.max(0, m - frais);
-    document.getElementById('reqMontant').textContent = formatArgent(m);
-    document.getElementById('reqFrais').textContent = '-' + formatArgent(frais);
-    document.getElementById('reqNet').textContent = formatArgent(net);
-    divRecap.style.display = 'block';
-  } else {
-    divRecap.style.display = 'none';
-  }
-}
-
-function afficherHistorique() {
-  const l = document.getElementById('historyAll');
-  // Seules les recharges et les retraits sont affichés dans l'historique
-  const items = [
-    ...historiqueRecharges.map(r => ({ type: 'recharge', ...r })),
-    ...historiqueRetraits.map(r => ({ type: 'retrait', ...r }))
-  ].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée.</div>`; return; }
-  l.innerHTML = items.map(it => {
-    const st = String(it.statut || 'En attente');
-    const cls = (st === 'Validé' || st === 'Actif' || st === 'Gagné') ? 'status-success' : (st === 'Refusé' || st === 'Perdu' ? 'status-cancel' : 'status-pending');
-    let titre, signe, cm;
-    if (it.type === 'recharge') {
-      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 ' + esc(it.methode || 'Recharge'));
-      signe = '+'; cm = 'amount-plus';
-    }
-    else { 
-      titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; 
-    }
-    return `
-      <div class="history-item">
-        <div class="history-top"><span class="history-type">${titre}</span><span class="history-status ${cls}">${esc(st)}</span></div>
-        <div class="history-date">${formatDate(it.date)}</div>
-        <div class="history-amount ${cm}">${signe}${formatArgent(it.montant)}</div>
-        ${it.frais ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Frais 15% déduits (-${formatArgent(it.frais)}) | Bruts : ${formatArgent(it.montantBrut)}</div>` : ''}
-        ${it.titulaire ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Titulaire : ${esc(it.titulaire)}</div>` : ''}
-        ${it.compte ? `<div style="font-size:12px;color:var(--texte-gris);margin-top:2px">Destinataire : ${esc(it.compte)}</div>` : ''}
-      </div>`;
-  }).join('');
-}
-
-function chargerPageTrading() {
-  const el = document.getElementById('tradingBalance');
-  if (el) el.textContent = formatArgent(solde);
-  
-  const aujourdHui = new Date().toDateString();
-  if (tradingStats.date !== aujourdHui) {
-    tradingStats = { date: aujourdHui, roundCount: 0 };
-    sauvegarderTout();
-  }
-}
-
-function executerTrade(direction) {
-  const inputAmount = document.getElementById('tradeAmount').value;
-  const montant = parseFloat(inputAmount);
-  const resultBox = document.getElementById('tradeResultBox');
-
-  if (!montant || montant <= 0) {
-    toast("⚠️ Saisissez un montant valide à miser.");
-    return;
-  }
-
-  const aujourdHui = new Date().toDateString();
-  if (tradingStats.date !== aujourdHui) {
-    tradingStats = { date: aujourdHui, roundCount: 0 };
-  }
-
-  if (solde < montant) {
-    toast("❌ Solde insuffisant ! Redirection vers la recharge.");
-    openPage('rechargePage');
-    return;
-  }
-
-  solde -= montant;
-  sauvegarderTout();
-  chargerPageTrading();
-  mettreAJourAccueil();
-
-  resultBox.innerHTML = `<span style="color: var(--attention);">⚡ Analyse du marché en cours (${direction})...</span>`;
-
-  setTimeout(() => {
-    tradingStats.roundCount++;
-    const tourActuel = tradingStats.roundCount;
-
-    let gagne = false;
-    if (tourActuel === 1 || tourActuel === 11) {
-      gagne = true;
-    } else {
-      gagne = false;
-    }
-    sauvegarderTout();
-
-    if (gagne) {
-      const gainTotal = montant + 500;
-      solde += gainTotal;
-      sauvegarderTout();
-      chargerPageTrading();
-      mettreAJourAccueil();
-      
-      resultBox.innerHTML = `
-        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 Vous avez gagné (Jeu ${tourActuel}) !</div>
-        <div style="color: var(--blanc);">Mise : ${formatArgent(montant)} | Crédité sur le compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
-      `;
-      toast(`🎉 Vous avez gagné ! +${formatArgent(gainTotal)}`);
-    } else {
-      sauvegarderTout();
-      chargerPageTrading();
-      
-      resultBox.innerHTML = `
-        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ Vous avez perdu (Jeu ${tourActuel})</div>
-        <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
-      `;
-      toast(`❌ Vous avez perdu : -${formatArgent(montant)}`);
-    }
-  }, 500);
-}
-
-// ==========================================
-// LOGIQUE DU JEU APPLE OF FORTUNE
-// ==========================================
-function chargerPageAppleGame() {
-  const el = document.getElementById('appleGameBalance');
-  if (el) el.textContent = formatArgent(solde);
-  
-  const aujourdHui = new Date().toDateString();
-  if (appleDailyWinStats.date !== aujourdHui) {
-    appleDailyWinStats = { date: aujourdHui, hasWonToday: false };
-    sauvegarderTout();
-  }
-  initialiserPlateauApple(false);
-}
-
-function appleSetMise(type) {
-  let current = parseFloat(document.getElementById('appleBetAmount').value) || 500;
-  if (type === 'min') current = 200;
-  else if (type === 'half') current = Math.max(200, Math.floor(current / 2));
-  else if (type === 'double') current = current * 2;
-  else if (type === 'max') current = Math.min(solde > 0 ? solde : 100000, 50000);
-  document.getElementById('appleBetAmount').value = current;
-}
-
-function initialiserPlateauApple(actif) {
-  const board = document.getElementById('appleBoard');
-  if (!board) return;
-
-  let html = '';
-  for (let row = 6; row >= 0; row--) {
-    html += `<div style="display: flex; gap: 8px; justify-content: center;">`;
-    for (let col = 0; col < 5; col++) {
-      let activeClass = actif && row === appleCurrentRow ? 'cursor: pointer; border-color: var(--jaune); background: rgba(255,184,0,0.15);' : 'opacity: 0.5; cursor: not-allowed;';
-      let label = actif && row === appleCurrentRow ? '❓' : '🪵';
-      html += `<div onclick="cliquerCaseApple(${row}, ${col})" id="apple-cell-${row}-${col}" style="width: 48px; height: 48px; border-radius: 12px; background: #1a2232; border: 1.5px solid rgba(255,184,0,0.25); display: flex; align-items: center; justify-content: center; font-size: 20px; transition: var(--transition); ${activeClass}">${label}</div>`;
-    }
-    html += `</div>`;
-  }
-  board.innerHTML = html;
-}
-
-function demarrerPartieApple() {
-  const montant = parseFloat(document.getElementById('appleBetAmount').value);
-  if (!montant || montant < 200) {
-    toast("⚠️ Mise minimum de 200 FCFA requise.");
-    return;
-  }
-  if (solde < montant) {
-    toast("❌ Solde insuffisant ! Veuillez recharger.");
-    openPage('rechargePage');
-    return;
-  }
-
-  const aujourdHui = new Date().toDateString();
-  if (appleDailyWinStats.date !== aujourdHui) {
-    appleDailyWinStats = { date: aujourdHui, hasWonToday: false };
-  }
-
-  appleCurrentBet = montant;
-  solde -= montant;
-  sauvegarderTout();
-  chargerPageAppleGame();
-  document.getElementById('appleGameBalance').textContent = formatArgent(solde);
-
-  appleGameActive = true;
-  appleCurrentRow = 0;
-
-  document.getElementById('appleStartBtn').disabled = true;
-  document.getElementById('appleStartBtn').style.opacity = '0.5';
-  document.getElementById('appleResultBox').innerHTML = `<span style="color: var(--attention);">🎮 Partie lancée ! Choisissez une case sur la ligne du bas.</span>`;
-  toast("🍎 Partie lancée ! Faites votre choix.");
-
-  initialiserPlateauApple(true);
-}
-
-function cliquerCaseApple(row, col) {
-  if (!appleGameActive || row !== appleCurrentRow) return;
-
-  const resultBox = document.getElementById('appleResultBox');
-  const cell = document.getElementById(`apple-cell-${row}-${col}`);
-  const aujourdHui = new Date().toDateString();
-
-  const estAvantDerniereCase = (col === 3);
-  const peutGagnerAujourdHui = (!appleDailyWinStats.hasWonToday && appleDailyWinStats.date === aujourdHui);
-
-  if (estAvantDerniereCase && peutGagnerAujourdHui) {
-    cell.innerHTML = '🍎';
-    cell.style.background = 'rgba(16, 185, 129, 0.2)';
-    cell.style.borderColor = 'var(--succes)';
-
-    const gainTotal = appleCurrentBet * 2;
-    solde += gainTotal;
-    appleDailyWinStats.hasWonToday = true;
-    sauvegarderTout();
-
-    appleGameActive = false;
-    document.getElementById('appleStartBtn').disabled = false;
-    document.getElementById('appleStartBtn').style.opacity = '1';
-    document.getElementById('appleGameBalance').textContent = formatArgent(solde);
-    mettreAJourAccueil();
-
-    resultBox.innerHTML = `
-      <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">Vous avez gagné !</div>
-      <div style="color: var(--blanc);">Vous avez choisi l'avant-dernière case. Crédité sur votre compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
-    `;
-    toast(`Vous avez gagné ! +${formatArgent(gainTotal)}`);
-    initialiserPlateauApple(false);
-
-  } else {
-    cell.innerHTML = '❌';
-    cell.style.background = 'rgba(239, 68, 68, 0.2)';
-    cell.style.borderColor = 'var(--erreur)';
-
-    appleGameActive = false;
-    document.getElementById('appleStartBtn').disabled = false;
-    document.getElementById('appleStartBtn').style.opacity = '1';
-
-    resultBox.innerHTML = `
-      <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">Vous avez perdu !</div>
-      <div style="color: var(--texte-gris);">Ce n'était pas la bonne case ou votre gain journalier a déjà été atteint. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
-    `;
-    toast(`Vous avez perdu : -${formatArgent(appleCurrentBet)}`);
-    initialiserPlateauApple(false);
-  }
-}
-
+// INITIALISATION AU CHARGEMENT
 window.addEventListener('load', () => {
-  verifierEtSauvegarderParrain();
-  const stop = auth.onAuthStateChanged(async fb => {
-    stop();
-    try {
-      if (fb) {
-        const cache = JSON.parse(localStorage.getItem('cb_user') || 'null');
-        if (cache && cache.uid === fb.uid) { utilisateur = cache; solde = cache.solde || 0; }
-        const d = await trouverCompte(fb.uid, fb.email, utilisateur ? utilisateur.phone : '');
-        if (d) {
-          utilisateur = { ...(d.user || {}), uid: fb.uid, email: fb.email };
-          utilisateur.phone = utilisateur.phone || d.telephone || '';
-          delete utilisateur.password;
-          appliquerDonnees(d);
-        } else if (!utilisateur) {
-          await auth.signOut(); reinitialiserEtat();
-        }
-      } else {
-        reinitialiserEtat();
-      }
-    } catch (e) { console.error(e); if (!utilisateur) reinitialiserEtat(); }
-    const loader = document.getElementById('appLoading');
+  const loader = document.getElementById('appLoading');
+  if (loader) {
     loader.style.opacity = '0';
-    setTimeout(() => { loader.style.display = 'none'; verifierConnexion(); }, 300);
-  });
+    setTimeout(() => { loader.style.display = 'none'; }, 300);
+  }
 });
 </script>
 </body>
