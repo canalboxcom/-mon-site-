@@ -956,9 +956,6 @@ let appleDailyWinStats = { date: '', hasWonToday: false };
 let isListening = false;
 let speechRecognition = null;
 
-// ==========================================
-// SYSTÈMES DE NOTIFICATION & RELANCE (ABSENCE DE QUELQUES MINUTES)
-// ==========================================
 function envoyerNotificationTelephone(titre, message) {
   const banner = document.getElementById('pushNotificationBanner');
   const tEl = document.getElementById('pushTitle');
@@ -981,9 +978,8 @@ function envoyerNotificationTelephone(titre, message) {
   }, 6000);
 }
 
-// Suivi du temps d'absence pour envoyer le message après quelques minutes (ex: 2 minutes)
 let tempsDepartAbsence = Date.now();
-const DELAI_MINUTES_ABSENCE = 2; // Temps d'attente hors du site
+const DELAI_MINUTES_ABSENCE = 2;
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
@@ -1555,22 +1551,29 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  historiqueRecharges.unshift({
+  // Correction directe : Enregistrement immédiat dans l'historique des recharges
+  const nouvelleRecharge = {
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
-    methode: 'Paiement en ligne Kkiapay (' + plan[0] + ')',
-    txId: 'KKIA-' + Date.now(),
+    methode: 'Paiement en ligne (' + plan[0] + ')',
+    txId: 'RECH-' + Date.now(),
     date: new Date().toISOString(),
     statut: 'En attente'
-  });
+  };
+
+  historiqueRecharges.unshift(nouvelleRecharge);
   sauvegarderTout();
 
   setTimeout(() => {
-    envoyerNotificationTelephone("🎉 Recharge enregistrée !", "Votre compte est alimenté. Venez vérifier et tenter votre chance dès maintenant !");
+    envoyerNotificationTelephone("🎉 Recharge enregistrée !", "Votre demande de recharge a bien été enregistrée. Consultez votre historique.");
   }, 1000);
 
-  toast("Demande enregistrée en attente. Redirection vers le paiement...");
+  toast("Demande enregistrée dans l'historique. Redirection vers le paiement...");
+  
+  // Ouvre le lien de paiement dans un nouvel onglet
   window.open(urlPaiement, '_blank');
+  
+  // Redirige automatiquement vers la page d'historique pour voir la recharge
   openPage('historyPage');
 }
 
