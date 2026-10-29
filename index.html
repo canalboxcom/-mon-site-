@@ -957,7 +957,7 @@ let isListening = false;
 let speechRecognition = null;
 
 // ==========================================
-// SYSTÈME DE NOTIFICATION PUSH / TÉLÉPHONE
+// SYSTÈMES DE NOTIFICATION & RELANCE (ABSENCE DE QUELQUES MINUTES)
 // ==========================================
 function envoyerNotificationTelephone(titre, message) {
   const banner = document.getElementById('pushNotificationBanner');
@@ -970,12 +970,10 @@ function envoyerNotificationTelephone(titre, message) {
   mEl.textContent = message;
   banner.classList.add('show');
   
-  // Vibration si supportée par le téléphone
   if ('vibrate' in navigator) {
     try { navigator.vibrate([200, 100, 200]); } catch(e){}
   }
   
-  // Audio de notification si possible
   parlerReponse(message);
 
   setTimeout(() => {
@@ -983,12 +981,25 @@ function envoyerNotificationTelephone(titre, message) {
   }, 6000);
 }
 
-// Détection lorsque l'utilisateur quitte et revient sur le site (pour la notification de retour)
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && utilisateur) {
-    setTimeout(() => {
-      envoyerNotificationTelephone("🔔 Canal Box VIP", "C'est le moment de tenter votre chance ! Venez vérifier vos gains et jouer dès maintenant.");
-    }, 1500);
+// Suivi du temps d'absence pour envoyer le message après quelques minutes (ex: 2 minutes)
+let tempsDepartAbsence = Date.now();
+const DELAI_MINUTES_ABSENCE = 2; // Temps d'attente hors du site
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    tempsDepartAbsence = Date.now();
+  } else {
+    if (utilisateur) {
+      const minutesEcoulees = (Date.now() - tempsDepartAbsence) / (1000 * 60);
+      if (minutesEcoulees >= DELAI_MINUTES_ABSENCE) {
+        setTimeout(() => {
+          envoyerNotificationTelephone(
+            "🔔 Canal Box VIP", 
+            "Vous vous êtes absenté quelques minutes ! Venez vérifier vos soldes et tenter votre chance dès maintenant."
+          );
+        }, 1200);
+      }
+    }
   }
 });
 
@@ -1554,7 +1565,6 @@ function accederLienPaiementDirect() {
   });
   sauvegarderTout();
 
-  // Notification après la recharge
   setTimeout(() => {
     envoyerNotificationTelephone("🎉 Recharge enregistrée !", "Votre compte est alimenté. Venez vérifier et tenter votre chance dès maintenant !");
   }, 1000);
@@ -1683,7 +1693,6 @@ async function creerCompte() {
     openPage('homePage');
     toast("Compte créé avec succès !");
 
-    // Notification envoyée immédiatement après l'inscription
     setTimeout(() => {
       envoyerNotificationTelephone("🔔 Bienvenue sur Canal Box VIP !", "Votre inscription est validée. Rechargez votre compte et venez tenter votre chance !");
     }, 1200);
@@ -1744,7 +1753,6 @@ async function seConnecter() {
     openPage('homePage');
     toast("Connexion réussie !");
 
-    // Notification de connexion
     setTimeout(() => {
       envoyerNotificationTelephone("👋 Bon retour !", "Venez vérifier vos soldes et tenter votre chance sur nos jeux VIP.");
     }, 1000);
