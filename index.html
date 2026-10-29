@@ -1551,7 +1551,7 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  // Correction directe : Enregistrement immédiat dans l'historique des recharges
+  // Enregistrement immédiat dans l'historique des recharges
   const nouvelleRecharge = {
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
@@ -1564,10 +1564,7 @@ function accederLienPaiementDirect() {
   historiqueRecharges.unshift(nouvelleRecharge);
   sauvegarderTout();
 
-  setTimeout(() => {
-    envoyerNotificationTelephone("🎉 Recharge enregistrée !", "Votre demande de recharge a bien été enregistrée. Consultez votre historique.");
-  }, 1000);
-
+  // AUCUN message vocal / assistant ne parle lors du clic sur recharge (silencieux)
   toast("Demande enregistrée dans l'historique. Redirection vers le paiement...");
   
   // Ouvre le lien de paiement dans un nouvel onglet
