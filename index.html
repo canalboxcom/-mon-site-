@@ -1924,13 +1924,11 @@ function executerTrade(direction) {
     // Séquence exacte demandée :
     // 1er tour : GAGNE
     // 2e tour : PERD
-    // 3e tour : PERD
-    // 4e tour : PERD
-    // 5e tour : PERD
-    // 6e tour : GAGNE
-    // Reste (7e tour et plus) : PERD toute la journée
+    // De 3 à 10 : PERD (doit faire au moins 10 tours joués avant de gagner à nouveau)
+    // À partir du 11e tour (ou 11e et plus) : GAGNE, et tout le reste perd (ou selon la consigne exacte : "le gagnant doit être au moins 10 tours de jouer avant qu'il va gagner. Et le reste, il doit perdre")
+    // Autrement dit : Tour 1 = Gagne, Tour 2 = Perd, Tours 3 à 10 = Perd, Tour 11 = Gagne, et après le 11e tour (le reste) = Perd.
     let gagne = false;
-    if (tourActuel === 1 || tourActuel === 6) {
+    if (tourActuel === 1 || tourActuel === 11) {
       gagne = true;
     } else {
       gagne = false;
