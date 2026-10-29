@@ -410,6 +410,15 @@ a{text-decoration:none;color:inherit}
 .nav-btn span{display:block;font-size:22px;margin-bottom:3px;transition:var(--transition)}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
+
+/* Style pour les notifications push simulées sur mobile */
+#pushNotificationBanner{position:fixed;top:-120px;left:16px;right:16px;background:var(--bg-card);border:1px solid var(--jaune);padding:14px 18px;border-radius:18px;box-shadow:var(--ombre-orange);z-index:99999;transition:top .4s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:14px}
+#pushNotificationBanner.show{top:20px}
+.push-icon{width:46px;height:46px;border-radius:12px;background:var(--gradient-gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;color:var(--bg-main);font-weight:900}
+.push-content{flex:1}
+.push-title{font-size:14px;font-weight:800;color:var(--jaune);margin-bottom:2px}
+.push-text{font-size:12px;color:var(--blanc);line-height:1.3}
+
 #toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%) translateY(20px);background:var(--bg-card);color:var(--blanc);padding:14px 24px;border-radius:14px;opacity:0;transition:.3s;z-index:300;font-size:13px;font-weight:600;text-align:center;max-width:90%;box-shadow:var(--ombre-orange);border:1px solid var(--jaune)}
 #toast.show{opacity:1;transform:translateX(-50%)}
 </style>
@@ -421,6 +430,15 @@ a{text-decoration:none;color:inherit}
 <body>
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
+
+<!-- Bannière de notification mobile -->
+<div id="pushNotificationBanner">
+  <div class="push-icon">CB</div>
+  <div class="push-content">
+    <div id="pushTitle" class="push-title">Canal Box VIP</div>
+    <div id="pushText" class="push-text">Notification reçue...</div>
+  </div>
+</div>
 
 <button id="voiceAssistantBtn" onclick="toggleVoiceAssistant()" title="Assistant Vocal - Appuyez et parlez">🎙️</button>
 
@@ -930,7 +948,6 @@ let planRechargeSelectionneIndex = 0;
 
 let tradingStats = { date: '', roundCount: 0 };
 
-// Variables pour Apple of Fortune (Avant-dernière case gagnante, 1 gain par jour)
 let appleGameActive = false;
 let appleCurrentRow = 0; 
 let appleCurrentBet = 500;
@@ -938,6 +955,42 @@ let appleDailyWinStats = { date: '', hasWonToday: false };
 
 let isListening = false;
 let speechRecognition = null;
+
+// ==========================================
+// SYSTÈME DE NOTIFICATION PUSH / TÉLÉPHONE
+// ==========================================
+function envoyerNotificationTelephone(titre, message) {
+  const banner = document.getElementById('pushNotificationBanner');
+  const tEl = document.getElementById('pushTitle');
+  const mEl = document.getElementById('pushText');
+  
+  if (!banner || !tEl || !mEl) return;
+  
+  tEl.textContent = titre;
+  mEl.textContent = message;
+  banner.classList.add('show');
+  
+  // Vibration si supportée par le téléphone
+  if ('vibrate' in navigator) {
+    try { navigator.vibrate([200, 100, 200]); } catch(e){}
+  }
+  
+  // Audio de notification si possible
+  parlerReponse(message);
+
+  setTimeout(() => {
+    banner.classList.remove('show');
+  }, 6000);
+}
+
+// Détection lorsque l'utilisateur quitte et revient sur le site (pour la notification de retour)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && utilisateur) {
+    setTimeout(() => {
+      envoyerNotificationTelephone("🔔 Canal Box VIP", "C'est le moment de tenter votre chance ! Venez vérifier vos gains et jouer dès maintenant.");
+    }, 1500);
+  }
+});
 
 if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1501,6 +1554,11 @@ function accederLienPaiementDirect() {
   });
   sauvegarderTout();
 
+  // Notification après la recharge
+  setTimeout(() => {
+    envoyerNotificationTelephone("🎉 Recharge enregistrée !", "Votre compte est alimenté. Venez vérifier et tenter votre chance dès maintenant !");
+  }, 1000);
+
   toast("Demande enregistrée en attente. Redirection vers le paiement...");
   window.open(urlPaiement, '_blank');
   openPage('historyPage');
@@ -1624,6 +1682,12 @@ async function creerCompte() {
     verifierConnexion();
     openPage('homePage');
     toast("Compte créé avec succès !");
+
+    // Notification envoyée immédiatement après l'inscription
+    setTimeout(() => {
+      envoyerNotificationTelephone("🔔 Bienvenue sur Canal Box VIP !", "Votre inscription est validée. Rechargez votre compte et venez tenter votre chance !");
+    }, 1200);
+
   } catch (e) {
     reinitialiserEtat();
     const msgErr = erreurAuth(e);
@@ -1679,6 +1743,12 @@ async function seConnecter() {
     verifierConnexion();
     openPage('homePage');
     toast("Connexion réussie !");
+
+    // Notification de connexion
+    setTimeout(() => {
+      envoyerNotificationTelephone("👋 Bon retour !", "Venez vérifier vos soldes et tenter votre chance sur nos jeux VIP.");
+    }, 1000);
+
   } catch (e) {
     await auth.signOut().catch(() => {});
     reinitialiserEtat();
@@ -2001,7 +2071,7 @@ function executerTrade(direction) {
 }
 
 // ==========================================
-// LOGIQUE DU JEU APPLE OF FORTUNE (AVANT-DERNIÈRE CASE GAGNANTE, 1 FOIS PAR JOUR)
+// LOGIQUE DU JEU APPLE OF FORTUNE
 // ==========================================
 function chargerPageAppleGame() {
   const el = document.getElementById('appleGameBalance');
@@ -2029,7 +2099,6 @@ function initialiserPlateauApple(actif) {
   if (!board) return;
 
   let html = '';
-  // 7 lignes (de la ligne 6 en haut jusqu'à la ligne 0 en bas)
   for (let row = 6; row >= 0; row--) {
     html += `<div style="display: flex; gap: 8px; justify-content: center;">`;
     for (let col = 0; col < 5; col++) {
@@ -2066,7 +2135,7 @@ function demarrerPartieApple() {
   document.getElementById('appleGameBalance').textContent = formatArgent(solde);
 
   appleGameActive = true;
-  appleCurrentRow = 0; // On commence par la ligne du bas
+  appleCurrentRow = 0;
 
   document.getElementById('appleStartBtn').disabled = true;
   document.getElementById('appleStartBtn').style.opacity = '0.5';
@@ -2083,18 +2152,14 @@ function cliquerCaseApple(row, col) {
   const cell = document.getElementById(`apple-cell-${row}-${col}`);
   const aujourdHui = new Date().toDateString();
 
-  // Vérification de la règle : l'avant-dernière case (colonne index 3, car 5 colonnes au total : 0, 1, 2, [3], 4)
-  // et l'utilisateur ne doit pas avoir déjà gagné aujourd'hui.
   const estAvantDerniereCase = (col === 3);
   const peutGagnerAujourdHui = (!appleDailyWinStats.hasWonToday && appleDailyWinStats.date === aujourdHui);
 
   if (estAvantDerniereCase && peutGagnerAujourdHui) {
-    // VICTOIRE : C'est l'avant-dernière case et il n'a pas encore gagné aujourd'hui !
     cell.innerHTML = '🍎';
     cell.style.background = 'rgba(16, 185, 129, 0.2)';
     cell.style.borderColor = 'var(--succes)';
 
-    // Calcul du gain basé sur la mise (par exemple, le double ou mise + multiplicateur)
     const gainTotal = appleCurrentBet * 2;
     solde += gainTotal;
     appleDailyWinStats.hasWonToday = true;
@@ -2124,7 +2189,6 @@ function cliquerCaseApple(row, col) {
     initialiserPlateauApple(false);
 
   } else {
-    // DÉFAITE : Soit ce n'est pas l'avant-dernière case, soit il a déjà gagné aujourd'hui
     cell.innerHTML = '❌';
     cell.style.background = 'rgba(239, 68, 68, 0.2)';
     cell.style.borderColor = 'var(--erreur)';
