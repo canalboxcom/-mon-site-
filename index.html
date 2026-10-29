@@ -1551,7 +1551,7 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  // Enregistrement automatique et immédiat dans l'historique des recharges
+  // Enregistrement automatique, immédiat avec unshift pour rester tout en haut
   const nouvelleRecharge = {
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
@@ -1564,13 +1564,10 @@ function accederLienPaiementDirect() {
   historiqueRecharges.unshift(nouvelleRecharge);
   sauvegarderTout();
 
-  // AUCUN message vocal / assistant ne parle lors du clic sur recharge
+  // Aucun assistant vocal ne parle lors de cette action
   toast("Paiement enregistré dans l'historique. Redirection...");
   
-  // Ouvre le lien de paiement dans un nouvel onglet
   window.open(urlPaiement, '_blank');
-  
-  // Redirige automatiquement vers la page d'historique pour voir l'enregistrement
   openPage('historyPage');
 }
 
@@ -1677,7 +1674,7 @@ async function creerCompte() {
           const pData = pDoc.data();
           let listEq = pData.equipe || [];
           if (!listEq.some(f => cle(f.phone) === cle(phone))) {
-            listEq.push({ nom: name, phone, date: new Date().toISOString() });
+            listEq.unshift({ nom: name, phone, date: new Date().toISOString() });
             await parrainRef.update({ equipe: listEq });
             rtdb.ref("comptes_tel/" + parrainCode + "/equipe").set(listEq);
           }
@@ -1968,7 +1965,8 @@ function afficherHistorique() {
     ...historiqueRecharges.map(r => ({ type: 'recharge', ...r })),
     ...historiqueRetraits.map(r => ({ type: 'retrait', ...r })),
     ...investissements.map(i => ({ type: 'achat', ...i }))
-  ].sort((a, b) => new Date(b.date) - new Date(a.date));
+  ].sort((a, b) => new Date(b.date) - new Date(a.date)); // Le tri garantit que le plus récent reste en haut
+
   if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée.</div>`; return; }
   l.innerHTML = items.map(it => {
     const st = String(it.statut || 'En attente');
@@ -2206,10 +2204,10 @@ function cliquerCaseApple(row, col) {
     document.getElementById('appleStartBtn').style.opacity = '1';
 
     resultBox.innerHTML = `
-      <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">Vous avez perdre !</div>
+      <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">Vous avez perdu !</div>
       <div style="color: var(--texte-gris);">Ce n'était pas la bonne case ou votre gain journalier a déjà été atteint. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
     `;
-    toast(`Vous avez perdre : -${formatArgent(appleCurrentBet)}`);
+    toast(`Vous avez perdu : -${formatArgent(appleCurrentBet)}`);
     
     historiqueRecharges.unshift({
       montant: appleCurrentBet,
