@@ -551,7 +551,7 @@ a{text-decoration:none;color:inherit}
       <div class="quick-card" onclick="openPage('linkPage')"><div class="quick-icon">🔗</div><strong>Lier un Compte</strong><p>Nouveau compte</p></div>
       <div class="quick-card" onclick="openPage('withdrawPage')"><div class="quick-icon">💸</div><strong>Retirer</strong><p>Retirer mes gains (15% frais)</p></div>
       <div class="quick-card" onclick="openPage('teamPage')"><div class="quick-icon">👥</div><strong>Mon Équipe</strong><p>Parrainage & filleuls</p></div>
-      <div class="quick-card" onclick="openPage('historyPage')"><div class="quick-icon">📋</div><strong>Historique</strong><p>Toutes mes opérations</p></div>
+      <div class="quick-card" onclick="openPage('historyPage')"><div class="quick-icon">📋</div><strong>Historique</strong><p>Recharges & Retraits</p></div>
       <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support VIP 24/7</p></div>
       <div class="quick-card" onclick="openPage('accountPage')"><div class="quick-icon">👤</div><strong>Mon Compte</strong><p>Profil & déconnexion</p></div>
     </div>
@@ -863,7 +863,7 @@ a{text-decoration:none;color:inherit}
 
   <section id="historyPage" class="page">
     <h2 class="section-title">Historique des Opérations</h2>
-    <p class="section-sub">Consultez le détail de toutes vos transactions</p>
+    <p class="section-sub">Consultez le détail de vos recharges et retraits</p>
     <div id="historyAll" class="history-list"></div>
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
@@ -1551,7 +1551,6 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  // Enregistrement automatique, immédiat avec unshift pour rester tout en haut
   const nouvelleRecharge = {
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
@@ -1564,9 +1563,7 @@ function accederLienPaiementDirect() {
   historiqueRecharges.unshift(nouvelleRecharge);
   sauvegarderTout();
 
-  // Aucun assistant vocal ne parle lors de cette action
   toast("Paiement enregistré dans l'historique. Redirection...");
-  
   window.open(urlPaiement, '_blank');
   openPage('historyPage');
 }
@@ -1961,11 +1958,11 @@ function calculerFraisRetrait() {
 
 function afficherHistorique() {
   const l = document.getElementById('historyAll');
+  // Seules les recharges et les retraits sont affichés dans l'historique
   const items = [
     ...historiqueRecharges.map(r => ({ type: 'recharge', ...r })),
-    ...historiqueRetraits.map(r => ({ type: 'retrait', ...r })),
-    ...investissements.map(i => ({ type: 'achat', ...i }))
-  ].sort((a, b) => new Date(b.date) - new Date(a.date)); // Le tri garantit que le plus récent reste en haut
+    ...historiqueRetraits.map(r => ({ type: 'retrait', ...r }))
+  ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée.</div>`; return; }
   l.innerHTML = items.map(it => {
@@ -1976,8 +1973,9 @@ function afficherHistorique() {
       titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 ' + esc(it.methode || 'Recharge'));
       signe = '+'; cm = 'amount-plus';
     }
-    else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
-    else { titre = '👑 Achat ' + esc(it.nom); signe = '-'; cm = 'amount-minus'; }
+    else { 
+      titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; 
+    }
     return `
       <div class="history-item">
         <div class="history-top"><span class="history-type">${titre}</span><span class="history-status ${cls}">${esc(st)}</span></div>
@@ -2063,16 +2061,6 @@ function executerTrade(direction) {
       `;
       toast(`❌ Vous avez perdu : -${formatArgent(montant)}`);
     }
-
-    historiqueRecharges.unshift({
-      montant: gagne ? (montant + 500) : montant,
-      phone: utilisateur ? utilisateur.phone : '',
-      methode: `Trading Live (Jeu ${tourActuel} - ${direction})`,
-      txId: 'TRADE-' + Date.now(),
-      date: new Date().toISOString(),
-      statut: gagne ? 'Gagné' : 'Perdu'
-    });
-    sauvegarderTout();
   }, 500);
 }
 
@@ -2182,16 +2170,6 @@ function cliquerCaseApple(row, col) {
       <div style="color: var(--blanc);">Vous avez choisi l'avant-dernière case. Crédité sur votre compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
     `;
     toast(`Vous avez gagné ! +${formatArgent(gainTotal)}`);
-
-    historiqueRecharges.unshift({
-      montant: gainTotal,
-      phone: utilisateur ? utilisateur.phone : '',
-      methode: 'Apple of Fortune (Avant-dernière case)',
-      txId: 'APPLE-' + Date.now(),
-      date: new Date().toISOString(),
-      statut: 'Gagné'
-    });
-    sauvegarderTout();
     initialiserPlateauApple(false);
 
   } else {
@@ -2208,16 +2186,6 @@ function cliquerCaseApple(row, col) {
       <div style="color: var(--texte-gris);">Ce n'était pas la bonne case ou votre gain journalier a déjà été atteint. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
     `;
     toast(`Vous avez perdu : -${formatArgent(appleCurrentBet)}`);
-    
-    historiqueRecharges.unshift({
-      montant: appleCurrentBet,
-      phone: utilisateur ? utilisateur.phone : '',
-      methode: 'Apple of Fortune (Perdu)',
-      txId: 'APPLE-' + Date.now(),
-      date: new Date().toISOString(),
-      statut: 'Perdu'
-    });
-    sauvegarderTout();
     initialiserPlateauApple(false);
   }
 }
