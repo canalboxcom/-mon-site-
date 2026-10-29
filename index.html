@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Canal Box VIP — Plateforme d'Investissement Premium</title>
+<title>Canal Box VIP — Plateforme d'Investissement & Trading Premium</title>
 <style>
 :root{
   --bg-main:#0B0E14;--bg-card:#141923;--bg-card-hover:#1D2432;
@@ -282,6 +282,7 @@ a{text-decoration:none;color:inherit}
 .vip-card:hover{transform:translateY(-4px);border-color:var(--jaune);box-shadow:var(--ombre-orange);background:var(--bg-card-hover)}
 .vip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-gold);opacity:0;transition:var(--transition)}
 .vip-card:hover::before{opacity:1}
+.vip-card.deja-souscrit{opacity:0.6;filter:grayscale(0.5);border-color:rgba(255,255,255,0.1)}
 
 .vip-card-img-box {
   width: 100%;
@@ -320,7 +321,6 @@ a{text-decoration:none;color:inherit}
 .vip-details{color:var(--texte-gris);font-size:13px;margin:4px 0;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px}
 .vip-income{font-size:14px;font-weight:800;color:var(--succes);margin:10px 0 14px;background:var(--succes-bg);padding:6px 12px;border-radius:10px;display:inline-block;border:1px solid rgba(16,185,129,0.25)}
 
-/* Grille des options de recharge élégantes */
 .recharge-options-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -525,6 +525,7 @@ a{text-decoration:none;color:inherit}
     </div>
     <div class="cards-grid">
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
+      <div class="quick-card" onclick="openPage('tradingPage')"><div class="quick-icon">📈</div><strong>Trading Live</strong><p>Tentez votre chance à trader et gagner de l'argent</p></div>
       <div class="quick-card" onclick="openPage('bonusPage')"><div class="quick-icon">🎁</div><strong>Mon Bonus</strong><p>Bonus & retrait</p></div>
       <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
       <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Compte Lié</strong><p>Mode de réception</p></div>
@@ -554,6 +555,38 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
   </section>
 
+  <section id="tradingPage" class="page">
+    <h2 class="section-title">Canal Box Trading VIP 📈</h2>
+    <p class="section-sub">Tentez votre chance à trader et gagner de l'argent en temps réel.</p>
+    
+    <div class="hero" style="background:linear-gradient(135deg, #065F46 0%, #047857 100%); margin-bottom: 20px;">
+      <small>Solde disponible pour le trading</small>
+      <div class="hero-balance" id="tradingBalance">0 FCFA</div>
+      <small>Tentez votre chance à trader et gagner de l'argent</small>
+    </div>
+
+    <div class="box" style="margin-bottom: 20px;">
+      <div class="field">
+        <label>Entrez le montant de votre mise (FCFA)</label>
+        <input id="tradeAmount" type="number" placeholder="Ex: 500, 1000, 2000..." style="background: rgba(0,0,0,0.5); font-weight: 800; color: var(--jaune);">
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+        <button class="btn vert" onclick="executerTrade('HAUSSE')" style="padding: 16px; font-size: 15px;">📈 ACHAT (HAUSSE)</button>
+        <button class="btn danger" onclick="executerTrade('BAISSE')" style="padding: 16px; font-size: 15px; margin-top: 0;">📉 VENTE (BAISSE)</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--blanc); margin-bottom: 12px;">📊 Résultat du dernier Trade</h3>
+      <div id="tradeResultBox" style="font-size: 14px; color: var(--texte-gris); text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        Saisissez un montant et placez votre position sur les marchés.
+      </div>
+    </div>
+
+    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
+  </section>
+
   <section id="viewLinkedPage" class="page">
     <h2 class="section-title">Mon Compte Lié</h2>
     <p class="section-sub">Coordonnées de votre compte de réception pour vos retraits</p>
@@ -576,7 +609,6 @@ a{text-decoration:none;color:inherit}
         </select></div>
       <div class="field"><label>Service / Réseau de réception</label>
         <select id="linkedType">
-          <!-- Dynamique par pays -->
         </select></div>
       <div class="field"><label>Nom complet du titulaire du compte</label><input id="linkedHolderName" type="text" placeholder="Prénom et nom sur le compte"></div>
       <div class="field">
@@ -670,7 +702,7 @@ a{text-decoration:none;color:inherit}
 
   <section id="investPage" class="page">
     <h2 class="section-title">Investissements VIP</h2>
-    <p class="section-sub">Optez pour la formule qui correspond à vos objectifs de gains</p>
+    <p class="section-sub">Chaque plan d'une durée de 60 jours ne peut être souscrit qu'une seule fois. Vous devez progresser vers le plan supérieur (ex: après 2500, passez à 5500).</p>
     
     <div class="invest-banner">
       <h3>CANALBOX FIBRE</h3>
@@ -705,7 +737,6 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">Recharger mon Solde</h2>
     <p class="section-sub">Sélectionnez le montant de votre recharge pour accéder au paiement instantané :</p>
     
-    <!-- Grille élégante des options de rechargement -->
     <div id="rechargeOptionsContainer" class="recharge-options-grid"></div>
 
     <div style="margin-top: 24px;">
@@ -748,7 +779,6 @@ a{text-decoration:none;color:inherit}
 
       <div class="field"><label>Réseau de paiement</label>
         <select id="withdrawMethod">
-          <!-- Dynamique -->
         </select>
       </div>
 
@@ -778,8 +808,8 @@ a{text-decoration:none;color:inherit}
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="openPage('homePage')"><span>🏠</span>Accueil</button>
     <button class="nav-btn" onclick="openPage('investPage')"><span>💰</span>Investir</button>
+    <button class="nav-btn" onclick="openPage('tradingPage')"><span>📈</span>Trading</button>
     <button class="nav-btn" onclick="openPage('bonusPage')"><span>🎁</span>Bonus</button>
-    <button class="nav-btn" onclick="openPage('viewLinkedPage')"><span>💳</span>Compte</button>
     <button class="nav-btn" onclick="openPage('accountPage')"><span>👤</span>Profil</button>
   </div>
 </div>
@@ -855,6 +885,8 @@ let pagePrecedente = 'homePage';
 let pageActuelle = 'homePage';
 let planRechargeSelectionneIndex = 0;
 
+let tradingStats = { date: '', wins: 0 };
+
 let isListening = false;
 let speechRecognition = null;
 
@@ -869,7 +901,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     isListening = true;
     const btn = document.getElementById('voiceAssistantBtn');
     if (btn) btn.classList.add('listening');
-    toast("🎙️ Dites votre commande (ex: Ouvre investir, Ouvre retrait, Retour)...");
+    toast("🎙️ Dites votre commande...");
   };
 
   speechRecognition.onresult = (event) => {
@@ -939,6 +971,12 @@ function traiterCommandeVocale(cmd) {
     return;
   }
 
+  if (cmd.includes('trading') || cmd.includes('trade') || cmd.includes('bourse')) {
+    parlerReponse("Ouverture de la page de trading.");
+    openPage('tradingPage');
+    return;
+  }
+
   if (cmd.includes('investir') || cmd.includes('investissement') || cmd.includes('plans') || cmd.includes('offres')) {
     parlerReponse("Ouverture de la page d'investissement.");
     openPage('investPage');
@@ -993,7 +1031,7 @@ function traiterCommandeVocale(cmd) {
     return;
   }
 
-  parlerReponse("Commande non reconnue. Essayez : ouvre investir, ouvre retrait, ou retour.");
+  parlerReponse("Commande non reconnue.");
 }
 
 let mediaRecorderService = null;
@@ -1230,20 +1268,41 @@ function erreurAuth(e) {
 }
 
 function rendrePlans() {
-  const html = lib => PLANS.map((p, i) => `
-    <div class="vip-card" onclick="investirPlan(${i})">
-      <div class="vip-card-img-box">
-        <span class="vip-card-badge">OFFICIEL</span>
-        <img src="${p[3]}" alt="Offre VIP">
-      </div>
-      <div class="vip-name">${p[0]}</div>
-      <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
-      <div class="vip-details">⏳ 90 jours</div>
-      <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
-      <button class="btn accent">${lib}</button>
-    </div>`).join('');
   const elInvest = document.getElementById('vipInvest');
-  if (elInvest) elInvest.innerHTML = html('Souscrire');
+  if (!elInvest) return;
+
+  elInvest.innerHTML = PLANS.map((p, i) => {
+    // Vérifie si l'utilisateur a déjà souscrit à ce plan précis
+    const dejaSouscrit = investissements.some(inv => inv.montant === p[1]);
+    
+    if (dejaSouscrit) {
+      return `
+        <div class="vip-card deja-souscrit">
+          <div class="vip-card-img-box">
+            <span class="vip-card-badge" style="background:var(--texte-gris)">DÉJÀ SOUSCRIT</span>
+            <img src="${p[3]}" alt="Offre VIP">
+          </div>
+          <div class="vip-name">${p[0]}</div>
+          <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
+          <div class="vip-details">⏳ 60 jours</div>
+          <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
+          <button class="btn secondaire" disabled style="opacity:0.6;cursor:not-allowed">Plan déjà acquis (Passez au supérieur)</button>
+        </div>`;
+    } else {
+      return `
+        <div class="vip-card" onclick="investirPlan(${i})">
+          <div class="vip-card-img-box">
+            <span class="vip-card-badge">OFFICIEL</span>
+            <img src="${p[3]}" alt="Offre VIP">
+          </div>
+          <div class="vip-name">${p[0]}</div>
+          <div class="vip-amount">${p[1].toLocaleString('fr-FR')} F</div>
+          <div class="vip-details">⏳ 60 jours</div>
+          <div class="vip-income">+${p[2].toLocaleString('fr-FR')} F / jour</div>
+          <button class="btn accent">Souscrire</button>
+        </div>`;
+    }
+  }).join('');
 }
 
 function reinitialiserEtat() {
@@ -1252,6 +1311,7 @@ function reinitialiserEtat() {
   utilisateur = null; solde = 0;
   historiqueRecharges = []; historiqueRetraits = []; investissements = []; equipe = [];
   compteLie = null;
+  tradingStats = { date: '', wins: 0 };
 }
 
 function appliquerDonnees(d) {
@@ -1261,7 +1321,11 @@ function appliquerDonnees(d) {
   investissements = d.investissements || [];
   compteLie = d.compteLie || null;
   equipe = d.equipe || [];
+  if (d.tradingStats) {
+    tradingStats = d.tradingStats;
+  }
   verifierEtCrediterGainsJournaliers();
+  rendrePlans();
 }
 
 function verifierEtCrediterGainsJournaliers() {
@@ -1318,6 +1382,7 @@ function sauvegarderTout() {
   const payload = {
     solde, nom: utilisateur.name || "Utilisateur", telephone: utilisateur.phone, user: utilisateur,
     recharges: historiqueRecharges, retraits: historiqueRetraits, investissements, compteLie, equipe,
+    tradingStats,
     derniereModif: new Date().toISOString()
   };
   db.collection("comptes_tel").doc(docId).set(payload, { merge: true }).catch(console.error);
@@ -1392,7 +1457,6 @@ function accederLienPaiementDirect() {
   const plan = PLANS[planRechargeSelectionneIndex];
   const urlPaiement = plan[4];
   
-  // Enregistrement strict avec le statut "En attente" pour approbation admin
   historiqueRecharges.unshift({
     montant: plan[1],
     phone: utilisateur ? utilisateur.phone : '',
@@ -1418,11 +1482,13 @@ function openPage(pageId) {
   if (t) t.classList.add('active');
   window.scrollTo(0, 0);
   if (pageId === 'homePage') mettreAJourAccueil();
+  if (pageId === 'investPage') { rendrePlans(); }
   if (pageId === 'achatsPage') afficherAchats();
   if (pageId === 'historyPage') afficherHistorique();
   if (pageId === 'teamPage') afficherEquipe();
   if (pageId === 'viewLinkedPage') afficherCompteLie();
   if (pageId === 'accountPage') chargerProfil();
+  if (pageId === 'tradingPage') chargerPageTrading();
   if (pageId === 'rechargePage') {
     afficherOptionsRecharge();
   }
@@ -1673,12 +1739,26 @@ function detacherCompte() { compteLie = null; sauvegarderTout(); afficherCompteL
 
 function investirPlan(i) {
   const [nom, montant, gain] = PLANS[i];
-  if (solde < montant) { toast("Solde insuffisant. Veuillez recharger."); openPage('rechargePage'); return; }
+  
+  // Vérification si le plan a déjà été acheté
+  const dejaAcquis = investissements.some(inv => inv.montant === montant);
+  if (dejaAcquis) {
+    toast(`⚠️ Vous avez déjà investi pour ${montant.toLocaleString('fr-FR')} FCFA. Veuillez compléter et investir dans le plan supérieur !`);
+    return;
+  }
+
+  if (solde < montant) { 
+    toast("Solde insuffisant. Veuillez recharger."); 
+    openPage('rechargePage'); 
+    return; 
+  }
+
   solde -= montant;
   investissements.unshift({ nom, montant, gain, date: new Date().toISOString(), derniereDateGain: new Date().toISOString(), statut: 'Actif' });
   sauvegarderTout();
   mettreAJourAccueil();
-  toast(`Plan ${nom} souscrit avec succès !`);
+  rendrePlans();
+  toast(`Plan ${nom} souscrit avec succès ! (Durée : 60 jours)`);
   openPage('achatsPage');
 }
 
@@ -1688,7 +1768,7 @@ function afficherAchats() {
   l.innerHTML = investissements.map(inv => `
     <div class="history-item">
       <div class="history-top"><span class="history-type">👑 ${esc(inv.nom)}</span><span class="history-status status-success">${esc(inv.statut || 'Actif')}</span></div>
-      <div class="history-date">Souscrit le ${formatDate(inv.date)}</div>
+      <div class="history-date">Souscrit le ${formatDate(inv.date)} (Durée : 60 jours)</div>
       <div class="history-amount amount-minus">-${formatArgent(inv.montant)}</div>
       <div style="font-size:13px;color:var(--succes);font-weight:700;margin-top:4px">Gains : +${formatArgent(inv.gain)} / jour</div>
     </div>`).join('');
@@ -1780,10 +1860,10 @@ function afficherHistorique() {
   if (!items.length) { l.innerHTML = `<div class="empty-history">Aucune opération enregistrée.</div>`; return; }
   l.innerHTML = items.map(it => {
     const st = String(it.statut || 'En attente');
-    const cls = (st === 'Validé' || st === 'Actif') ? 'status-success' : (st === 'Refusé' ? 'status-cancel' : 'status-pending');
+    const cls = (st === 'Validé' || st === 'Actif' || st === 'Gagné') ? 'status-success' : (st === 'Refusé' || st === 'Perdu' ? 'status-cancel' : 'status-pending');
     let titre, signe, cm;
     if (it.type === 'recharge') {
-      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 Recharge (' + esc(it.methode ? it.methode.toUpperCase() : 'MOMO') + ')');
+      titre = it.methode === 'parrainage' ? '🎁 Bonus de Parrainage (10%)' : ('💳 ' + esc(it.methode || 'Recharge'));
       signe = '+'; cm = 'amount-plus';
     }
     else if (it.type === 'retrait') { titre = '💸 Retrait de gains'; signe = '-'; cm = 'amount-minus'; }
@@ -1800,9 +1880,92 @@ function afficherHistorique() {
   }).join('');
 }
 
+function chargerPageTrading() {
+  const el = document.getElementById('tradingBalance');
+  if (el) el.textContent = formatArgent(solde);
+  
+  const aujourdHui = new Date().toDateString();
+  if (tradingStats.date !== aujourdHui) {
+    tradingStats = { date: aujourdHui, wins: 0 };
+    sauvegarderTout();
+  }
+}
+
+function executerTrade(direction) {
+  const inputAmount = document.getElementById('tradeAmount').value;
+  const montant = parseFloat(inputAmount);
+  const resultBox = document.getElementById('tradeResultBox');
+
+  if (!montant || montant <= 0) {
+    toast("⚠️ Saisissez un montant valide à miser.");
+    return;
+  }
+
+  const aujourdHui = new Date().toDateString();
+  if (tradingStats.date !== aujourdHui) {
+    tradingStats = { date: aujourdHui, wins: 0 };
+  }
+
+  if (solde < montant) {
+    toast("❌ Solde insuffisant ! Redirection vers la recharge.");
+    openPage('rechargePage');
+    return;
+  }
+
+  solde -= montant;
+  sauvegarderTout();
+  chargerPageTrading();
+  mettreAJourAccueil();
+
+  resultBox.innerHTML = `<span style="color: var(--attention);">⏳ Analyse du marché en cours pour une position en ${direction}...</span>`;
+
+  setTimeout(() => {
+    let gagne = false;
+    if (tradingStats.wins < 2) {
+      gagne = true;
+      tradingStats.wins++;
+      sauvegarderTout();
+    } else {
+      gagne = false;
+    }
+
+    if (gagne) {
+      const gainTotal = montant + 500;
+      solde += gainTotal;
+      sauvegarderTout();
+      chargerPageTrading();
+      mettreAJourAccueil();
+      
+      resultBox.innerHTML = `
+        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 TRADE GAGNÉ (${direction}) !</div>
+        <div style="color: var(--blanc);">Vous avez misé ${formatArgent(montant)} et remporté : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+      `;
+      toast(`🎉 Trade gagné ! +${formatArgent(gainTotal)}`);
+    } else {
+      sauvegarderTout();
+      chargerPageTrading();
+      
+      resultBox.innerHTML = `
+        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ TRADE PERDU (${direction})</div>
+        <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
+      `;
+      toast(`❌ Trade perdu : -${formatArgent(montant)}`);
+    }
+
+    historiqueRecharges.unshift({
+      montant: gagne ? (montant + 500) : montant,
+      phone: utilisateur ? utilisateur.phone : '',
+      methode: 'Trading Live (' + direction + ')',
+      txId: 'TRADE-' + Date.now(),
+      date: new Date().toISOString(),
+      statut: gagne ? 'Gagné' : 'Perdu'
+    });
+    sauvegarderTout();
+  }, 1500);
+}
+
 window.addEventListener('load', () => {
   verifierEtSauvegarderParrain();
-  rendrePlans();
   const stop = auth.onAuthStateChanged(async fb => {
     stop();
     try {
