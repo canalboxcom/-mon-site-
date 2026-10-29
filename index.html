@@ -1915,20 +1915,20 @@ function executerTrade(direction) {
   chargerPageTrading();
   mettreAJourAccueil();
 
-  resultBox.innerHTML = `<span style="color: var(--attention);">⏳ Analyse du marché en cours pour une position en ${direction}...</span>`;
+  // Traitement rapide instantané
+  resultBox.innerHTML = `<span style="color: var(--attention);">⚡ Traitement ultra-rapide en cours (${direction})...</span>`;
 
   setTimeout(() => {
     tradingStats.roundCount++;
     const tourActuel = tradingStats.roundCount;
 
-    // Séquence exacte demandée :
-    // 1er tour : GAGNE
-    // 2e tour : PERD
-    // De 3 à 10 : PERD (doit faire au moins 10 tours joués avant de gagner à nouveau)
-    // À partir du 11e tour (ou 11e et plus) : GAGNE, et tout le reste perd (ou selon la consigne exacte : "le gagnant doit être au moins 10 tours de jouer avant qu'il va gagner. Et le reste, il doit perdre")
-    // Autrement dit : Tour 1 = Gagne, Tour 2 = Perd, Tours 3 à 10 = Perd, Tour 11 = Gagne, et après le 11e tour (le reste) = Perd.
+    // Règle demandée :
+    // - 1er jeu : Gagne
+    // - 2e jeu : Perd
+    // - Après la 1ère victoire, il faut au moins 10 tours (tours 2 à 11) avant la 2ème victoire (au tour 12)
+    // - Le reste des jeux : Perd
     let gagne = false;
-    if (tourActuel === 1 || tourActuel === 11) {
+    if (tourActuel === 1 || tourActuel === 12) {
       gagne = true;
     } else {
       gagne = false;
@@ -1943,8 +1943,8 @@ function executerTrade(direction) {
       mettreAJourAccueil();
       
       resultBox.innerHTML = `
-        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 TRADE GAGNÉ (Tour ${tourActuel} - ${direction}) !</div>
-        <div style="color: var(--blanc);">Vous avez misé ${formatArgent(montant)} et remporté : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+        <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 TRADE GAGNÉ (Jeu ${tourActuel} - ${direction}) !</div>
+        <div style="color: var(--blanc);">Mise : ${formatArgent(montant)} | Gain reçu : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
       `;
       toast(`🎉 Trade gagné ! +${formatArgent(gainTotal)}`);
     } else {
@@ -1952,8 +1952,8 @@ function executerTrade(direction) {
       chargerPageTrading();
       
       resultBox.innerHTML = `
-        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ TRADE PERDU (Tour ${tourActuel} - ${direction})</div>
-        <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
+        <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ TRADE PERDU (Jeu ${tourActuel} - ${direction})</div>
+        <div style="color: var(--texte-gris);">Position clôturée. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
       `;
       toast(`❌ Trade perdu : -${formatArgent(montant)}`);
     }
@@ -1961,13 +1961,13 @@ function executerTrade(direction) {
     historiqueRecharges.unshift({
       montant: gagne ? (montant + 500) : montant,
       phone: utilisateur ? utilisateur.phone : '',
-      methode: `Trading Live (Tour ${tourActuel} - ${direction})`,
+      methode: `Trading Live (Jeu ${tourActuel} - ${direction})`,
       txId: 'TRADE-' + Date.now(),
       date: new Date().toISOString(),
       statut: gagne ? 'Gagné' : 'Perdu'
     });
     sauvegarderTout();
-  }, 1500);
+  }, 500); // Résultat affiché très rapidement en 500ms
 }
 
 window.addEventListener('load', () => {
