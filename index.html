@@ -245,7 +245,6 @@ a{text-decoration:none;color:inherit}
 .section-sub{color:var(--texte-gris);margin-bottom:22px;font-size:13px;line-height:1.5;font-weight:500}
 .box{background:var(--bg-card);padding:24px;border-radius:20px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.08)}
 
-/* Style pour la zone de copie du lien de parrainage */
 .copy-row {
   display: flex;
   align-items: center;
@@ -449,7 +448,6 @@ a{text-decoration:none;color:inherit}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
 
-/* Style pour les notifications push simulées sur mobile */
 #pushNotificationBanner{position:fixed;top:-120px;left:16px;right:16px;background:var(--bg-card);border:1px solid var(--jaune);padding:14px 18px;border-radius:18px;box-shadow:var(--ombre-orange);z-index:99999;transition:top .4s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:14px}
 #pushNotificationBanner.show{top:20px}
 .push-icon{width:46px;height:46px;border-radius:12px;background:var(--gradient-gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;color:var(--bg-main);font-weight:900}
@@ -469,7 +467,6 @@ a{text-decoration:none;color:inherit}
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
 
-<!-- Bannière de notification mobile -->
 <div id="pushNotificationBanner">
   <div class="push-icon">CB</div>
   <div class="push-content">
@@ -570,6 +567,25 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <section id="homePage" class="page active">
+    <!-- ===== BLOC VIDÉO CANALBOX PLACÉ AU-DESSUS DU SOLDE DISPONIBLE ===== -->
+    <div class="box" style="margin-bottom: 24px; padding: 12px; text-align: center; border: 1.5px solid var(--border);">
+      <h3 style="font-size: 15px; font-weight: 800; color: var(--jaune); margin-bottom: 10px;">📺 Présentation Canal Box VIP</h3>
+      <div style="position: relative; width: 100%; border-radius: 14px; overflow: hidden; background: #000; box-shadow: var(--ombre);">
+        <video 
+          id="homeVideoPlayer" 
+          src="1001112002.mp4" 
+          autoplay 
+          muted 
+          loop 
+          playsinline 
+          controls 
+          style="width: 100%; height: auto; display: block; border-radius: 14px;">
+          Votre navigateur ne prend pas en charge la lecture vidéo.
+        </video>
+      </div>
+    </div>
+    <!-- ================================================================= -->
+
     <div class="hero">
       <small>Solde disponible</small>
       <div class="hero-balance" id="homeBalance">0 FCFA</div>
@@ -579,6 +595,7 @@ a{text-decoration:none;color:inherit}
         <button class="hero-btn ghost" onclick="openPage('investPage')">Investir</button>
       </div>
     </div>
+
     <div class="cards-grid">
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
       <div class="quick-card" onclick="openPage('appleGamePage')"><div class="quick-icon">🍎</div><strong>Apple of Fortune</strong><p>Jeu des pommes mystères</p></div>
@@ -606,14 +623,11 @@ a{text-decoration:none;color:inherit}
       <small>Gravissez les lignes et choisissez l'avant-dernière case</small>
     </div>
 
-    <!-- Plateau de jeu -->
     <div class="box" style="background: #0f1722; border: 2px solid rgba(16,185,129,0.3); padding: 20px; margin-bottom: 20px;">
       <div id="appleBoard" style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
-        <!-- Généré dynamiquement par JS -->
       </div>
     </div>
 
-    <!-- Contrôles de mise -->
     <div class="box">
       <div class="field">
         <label>Montant de la mise (FCFA)</label>
@@ -994,9 +1008,6 @@ let appleDailyWinStats = { date: '', hasWonToday: false };
 let isListening = false;
 let speechRecognition = null;
 
-// ==========================================
-// FONCTION DE COPIE DU LIEN DE PARRAINAGE
-// ==========================================
 function copierDepuis(btnElement) {
   const targetId = btnElement.getAttribute('data-src');
   const targetEl = document.getElementById(targetId);
@@ -1903,6 +1914,14 @@ function mettreAJourAccueil() {
   document.getElementById('homeBalance').textContent = formatArgent(solde);
   document.getElementById('homeWelcome').textContent = "Bienvenue, " + (utilisateur ? (utilisateur.name || 'Membre') : 'Membre');
   document.getElementById('topUser').textContent = utilisateur ? (utilisateur.name || 'U').charAt(0).toUpperCase() : 'U';
+
+  // Lancement automatique de la vidéo sur l'accueil
+  const videoPlayer = document.getElementById('homeVideoPlayer');
+  if (videoPlayer) {
+    videoPlayer.play().catch(error => {
+      console.log("Lecture automatique de la vidéo bloquée par le navigateur :", error);
+    });
+  }
 }
 
 function enregistrerLien() {
@@ -2166,9 +2185,6 @@ function executerTrade(direction) {
   }, 500);
 }
 
-// ==========================================
-// LOGIQUE DU JEU APPLE OF FORTUNE
-// ==========================================
 function chargerPageAppleGame() {
   const el = document.getElementById('appleGameBalance');
   if (el) el.textContent = formatArgent(solde);
