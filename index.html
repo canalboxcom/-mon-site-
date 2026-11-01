@@ -567,13 +567,13 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <section id="homePage" class="page active">
-    <!-- ===== BLOC VIDÉO CANALBOX PLACÉ AU-DESSUS DU SOLDE DISPONIBLE ===== -->
+    <!-- ===== BLOC VIDÉO DE PUBLICITÉ CANALBOX PLACÉ AU-DESSUS DU SOLDE ===== -->
     <div class="box" style="margin-bottom: 24px; padding: 12px; text-align: center; border: 1.5px solid var(--border);">
-      <h3 style="font-size: 15px; font-weight: 800; color: var(--jaune); margin-bottom: 10px;">📺 Présentation Canal Box VIP</h3>
+      <h3 style="font-size: 15px; font-weight: 800; color: var(--jaune); margin-bottom: 10px;">📺 Publicité Canal Box VIP</h3>
       <div style="position: relative; width: 100%; border-radius: 14px; overflow: hidden; background: #000; box-shadow: var(--ombre);">
         <video 
           id="homeVideoPlayer" 
-          src="1001112002.mp4" 
+          src="video.mp4" 
           autoplay 
           muted 
           loop 
@@ -584,7 +584,7 @@ a{text-decoration:none;color:inherit}
         </video>
       </div>
     </div>
-    <!-- ================================================================= -->
+    <!-- =================================================================== -->
 
     <div class="hero">
       <small>Solde disponible</small>
@@ -1915,7 +1915,7 @@ function mettreAJourAccueil() {
   document.getElementById('homeWelcome').textContent = "Bienvenue, " + (utilisateur ? (utilisateur.name || 'Membre') : 'Membre');
   document.getElementById('topUser').textContent = utilisateur ? (utilisateur.name || 'U').charAt(0).toUpperCase() : 'U';
 
-  // Lancement automatique de la vidéo sur l'accueil
+  // Lancement automatique de la vidéo publicitaire sur l'accueil
   const videoPlayer = document.getElementById('homeVideoPlayer');
   if (videoPlayer) {
     videoPlayer.play().catch(error => {
