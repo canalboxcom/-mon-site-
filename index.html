@@ -449,7 +449,7 @@ a{text-decoration:none;color:inherit}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
 
-/* Styles pour le système d'étoiles, commentaires et bandeau défilant */
+/* Styles pour le système d'étoiles et flux des avis sur l'accueil (juste au-dessus du solde) */
 .rating-stars {
   display: flex;
   gap: 8px;
@@ -465,36 +465,57 @@ a{text-decoration:none;color:inherit}
   color: var(--jaune);
 }
 
-.live-comment-ticker {
-  background: rgba(255, 184, 0, 0.1);
-  border: 1px solid rgba(255, 184, 0, 0.3);
-  border-radius: 12px;
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  font-size: 12px;
+.home-comments-stream {
+  background: linear-gradient(135deg, rgba(20, 25, 35, 0.95) 0%, rgba(11, 14, 20, 0.95) 100%);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 24px;
+  box-shadow: var(--ombre);
+}
+.home-comments-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 8px;
+}
+.home-comments-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--jaune);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.home-comments-scroll {
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  overflow: hidden;
-  white-space: nowrap;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  padding-right: 4px;
 }
-.live-comment-ticker .ticker-badge {
-  background: var(--gradient-gold);
-  color: var(--bg-main);
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-weight: 900;
-  font-size: 10px;
-  text-transform: uppercase;
-  flex-shrink: 0;
+.community-comment-bubble {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  border-radius: 14px;
+  padding: 12px 14px;
+  animation: fadeIn 0.3s ease-out;
 }
-.live-comment-ticker .ticker-text {
+.community-comment-author {
+  font-size: 13px;
+  font-weight: 800;
   color: var(--jaune-clair);
-  font-weight: 600;
-  animation: fadeIn 0.3s ease-in-out;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.community-comment-text {
+  font-size: 13px;
+  color: var(--blanc);
+  line-height: 1.4;
 }
 
 /* Style pour les notifications push simulées sur mobile */
@@ -519,9 +540,9 @@ a{text-decoration:none;color:inherit}
 
 <!-- Bannière de notification mobile -->
 <div id="pushNotificationBanner">
-  <div class="push-icon">CB</div>
+  <div class="push-icon">💬</div>
   <div class="push-content">
-    <div id="pushTitle" class="push-title">Canal Box VIP</div>
+    <div id="pushTitle" class="push-title">Nouvel Avis de la Communauté</div>
     <div id="pushText" class="push-text">Notification reçue...</div>
   </div>
 </div>
@@ -619,10 +640,15 @@ a{text-decoration:none;color:inherit}
 
   <section id="homePage" class="page active">
     
-    <!-- BANDEAU DÉFILANT EN DIRECT DES AVIS CLIENTS -->
-    <div id="homeCommentTicker" class="live-comment-ticker">
-      <span class="ticker-badge">💬 Avis Communauté</span>
-      <span id="tickerText" class="ticker-text">Chargement des derniers avis...</span>
+    <!-- SECTION DES AVIS DE LA COMMUNAUTÉ (AFFICHÉ JUSTE EN HAUT DU SOLDE, DISPARAÎT APRÈS 2 MINUTES) -->
+    <div class="home-comments-stream">
+      <div class="home-comments-header">
+        <div class="home-comments-title">💬 Témoignages (S'effacent après 2 min)</div>
+        <span style="font-size: 11px; color: var(--texte-gris);">En direct</span>
+      </div>
+      <div id="homeCommentsScroll" class="home-comments-scroll">
+        <div class="empty-history" style="padding: 20px;">En attente de nouveaux commentaires...</div>
+      </div>
     </div>
 
     <div class="hero">
@@ -1085,15 +1111,13 @@ let appleCurrentBet = 500;
 let appleDailyWinStats = { date: '', hasWonToday: false };
 
 let selectedRating = 5;
-let tickerInterval = null;
-let listeCommentairesGlobale = [];
-let indexTickerActuel = 0;
+let dernierCommentaireIdConnue = null;
 
 let isListening = false;
 let speechRecognition = null;
 
 // ==========================================
-// GESTION DES AVIS CLIENTS & BANDEAU ACCUEIL
+// GESTION DES AVIS & EXPIRATION 2 MINUTES
 // ==========================================
 function setRating(val) {
   selectedRating = val;
@@ -1116,14 +1140,15 @@ function publierCommentaire() {
   }
 
   const commentObj = {
+    uid: utilisateur.uid,
     nom: utilisateur.name || "Membre VIP",
     note: selectedRating,
     message: texte,
-    date: new Date().toISOString()
+    timestamp: Date.now() // Enregistrement exact du moment de publication en millisecondes
   };
 
   rtdb.ref("commentaires").push(commentObj).then(() => {
-    toast("🎉 Merci ! Votre avis a été publié.");
+    toast("🎉 Merci ! Votre avis a été publié (visible pendant 2 minutes).");
     document.getElementById('commentText').value = '';
     setRating(5);
   }).catch(err => {
@@ -1136,19 +1161,41 @@ function ecouterCommentaires() {
   rtdb.ref("commentaires").on('value', snapshot => {
     const data = snapshot.val();
     const commentsList = document.getElementById('commentsList');
+    const homeScroll = document.getElementById('homeCommentsScroll');
     
     if (!data) {
       if (commentsList) commentsList.innerHTML = `<div class="empty-history">Soyez le premier à laisser un avis sur l'entreprise !</div>`;
-      listeCommentairesGlobale = [];
-      mettreAJourBandeauTicker();
+      if (homeScroll) homeScroll.innerHTML = `<div class="empty-history" style="padding: 15px;">Aucun témoignage récent.</div>`;
       return;
     }
 
-    listeCommentairesGlobale = Object.values(data).reverse();
+    const maintenant = Date.now();
+    const DUREE_EXPIRATION_MS = 2 * 60 * 1000; // Exactement 2 minutes
 
-    // Rendu de la liste complète dans la page Avis Clients
+    // Filtrer pour ne garder QUE les messages de moins de 2 minutes
+    const tousLesCommentaires = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+    const commentairesRecents = tousLesCommentaires.filter(c => (maintenant - c.timestamp) < DUREE_EXPIRATION_MS);
+
+    // Gérer les notifications push pour les nouveaux messages d'autres utilisateurs
+    if (tousLesCommentaires.length > 0) {
+      const dernier = tousLesCommentaires[tousLesCommentaires.length - 1];
+      if (dernierCommentaireIdConnue !== null && dernierCommentaireIdConnue !== dernier.id) {
+        if (!utilisateur || dernier.uid !== utilisateur.uid) {
+          if ((maintenant - dernier.timestamp) < 15000) { // Si posté il y a moins de 15 secondes
+            envoyerNotificationTelephone(
+              `💬 ${dernier.nom} vient d'écrire !`,
+              `"${dernier.message}"`
+            );
+          }
+        }
+      }
+      dernierCommentaireIdConnue = dernier.id;
+    }
+
+    // 1. Rendu dans la page dédiée "Avis Clients" (affiche tout l'historique)
+    const itemsGlobal = [...tousLesCommentaires].reverse();
     if (commentsList) {
-      commentsList.innerHTML = listeCommentairesGlobale.map(c => {
+      commentsList.innerHTML = itemsGlobal.map(c => {
         const etoiles = '★'.repeat(c.note) + '☆'.repeat(5 - c.note);
         return `
           <div class="history-item">
@@ -1156,43 +1203,52 @@ function ecouterCommentaires() {
               <span class="history-type">👤 ${esc(c.nom)}</span>
               <span style="color: var(--jaune); font-weight: 800;">${etoiles}</span>
             </div>
-            <div class="history-date">${formatDate(c.date)}</div>
+            <div class="history-date">${formatDate(c.timestamp)}</div>
             <div style="font-size: 14px; color: var(--blanc); margin-top: 6px; line-height: 1.4;">${esc(c.message)}</div>
           </div>
         `;
       }).join('');
     }
 
-    // Lancer ou rafraîchir le bandeau défilant sur l'accueil
-    mettreAJourBandeauTicker();
-    if (!tickerInterval && listeCommentairesGlobale.length > 0) {
-      tickerInterval = setInterval(faireDefilerTicker, 5000);
+    // 2. Rendu dans le flux d'accueil (Uniquement les messages de moins de 2 minutes)
+    const itemsAccueil = [...commentairesRecents].reverse();
+    if (homeScroll) {
+      if (itemsAccueil.length === 0) {
+        homeScroll.innerHTML = `<div class="empty-history" style="padding: 15px;">Aucun message actif. Écrivez un avis pour l'afficher ici pendant 2 minutes !</div>`;
+      } else {
+        homeScroll.innerHTML = itemsAccueil.map(c => {
+          const etoiles = '★'.repeat(c.note) + '☆'.repeat(5 - c.note);
+          return `
+            <div class="community-comment-bubble">
+              <div class="community-comment-author">
+                <span>👤 ${esc(c.nom)}</span>
+                <span style="color: var(--jaune);">${etoiles}</span>
+              </div>
+              <div class="community-comment-text">${esc(c.message)}</div>
+              <div style="font-size: 10px; color: var(--texte-gris); margin-top: 4px; text-align: right;">Publié récemment (disparaît en moins de 2 min)</div>
+            </div>
+          `;
+        }).join('');
+      }
     }
   });
 }
 
-function mettreAJourBandeauTicker() {
-  const tickerEl = document.getElementById('tickerText');
-  if (!tickerEl) return;
+// Vérification automatique toutes les 5 secondes pour effacer les messages après exactement 2 minutes
+setInterval(() => {
+  rtdb.ref("commentaires").once('value', snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+    const maintenant = Date.now();
+    const DUREE_EXPIRATION_MS = 2 * 60 * 1000;
 
-  if (listeCommentairesGlobale.length === 0) {
-    tickerEl.textContent = "Bienvenue sur Canal Box VIP — Partagez vos avis dans la section dédiée !";
-    return;
-  }
-
-  if (indexTickerActuel >= listeCommentairesGlobale.length) {
-    indexTickerActuel = 0;
-  }
-
-  const com = listeCommentairesGlobale[indexTickerActuel];
-  tickerEl.innerHTML = `<strong>${esc(com.nom)}</strong> : "${esc(com.message)}"`;
-}
-
-function faireDefilerTicker() {
-  if (listeCommentairesGlobale.length === 0) return;
-  indexTickerActuel = (indexTickerActuel + 1) % listeCommentairesGlobale.length;
-  mettreAJourBandeauTicker();
-}
+    Object.entries(data).forEach(([id, val]) => {
+      if ((maintenant - val.timestamp) >= DUREE_EXPIRATION_MS) {
+        rtdb.ref("commentaires/" + id).remove(); // Supprime définitivement le message de Firebase après 2 minutes
+      }
+    });
+  });
+}, 5000);
 
 // ==========================================
 // FONCTION DE COPIE DU LIEN DE PARRAINAGE
@@ -1274,11 +1330,11 @@ function envoyerNotificationTelephone(titre, message) {
     try { navigator.vibrate([200, 100, 200]); } catch(e){}
   }
   
-  parlerReponse(message);
+  parlerReponse(titre + ". " + message);
 
   setTimeout(() => {
     banner.classList.remove('show');
-  }, 6000);
+  }, 7000);
 }
 
 let tempsDepartAbsence = Date.now();
@@ -1294,7 +1350,7 @@ document.addEventListener("visibilitychange", () => {
         setTimeout(() => {
           envoyerNotificationTelephone(
             "🔔 Canal Box VIP", 
-            "Vous vous êtes absenté quelques minutes ! Venez vérifier vos soldes et tenter votre chance dès maintenant."
+            "Vous vous êtes absenté quelques minutes ! Venez découvrir les derniers avis et tenter votre chance."
           );
         }, 1200);
       }
@@ -1383,7 +1439,7 @@ function traiterCommandeVocale(cmd) {
     return;
   }
 
-  if (cmd.includes('commentaire') || cmd.includes('avis') || cmd.includes('réaction')) {
+  if (cmd.includes('commentaire') || cmd.includes('avis') || cmd.includes('témoignage')) {
     parlerReponse("Ouverture des avis clients.");
     openPage('commentsPage');
     return;
@@ -1635,7 +1691,10 @@ function toggleFormulaireClassique() {
 const cle = t => String(t || '').replace(/[^0-9]/g, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const formatArgent = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
-function formatDate(s) { const d = new Date(s); return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
+function formatDate(timestamp) { 
+  const d = new Date(timestamp); 
+  return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); 
+}
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); }
 
 function jouerAudioRetrait() {
