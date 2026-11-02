@@ -449,7 +449,7 @@ a{text-decoration:none;color:inherit}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
 
-/* Styles pour le système d'étoiles et commentaires */
+/* Styles pour le système d'étoiles, commentaires et bandeau défilant */
 .rating-stars {
   display: flex;
   gap: 8px;
@@ -463,6 +463,38 @@ a{text-decoration:none;color:inherit}
 }
 .rating-stars span.active {
   color: var(--jaune);
+}
+
+.live-comment-ticker {
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.live-comment-ticker .ticker-badge {
+  background: var(--gradient-gold);
+  color: var(--bg-main);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 10px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.live-comment-ticker .ticker-text {
+  color: var(--jaune-clair);
+  font-weight: 600;
+  animation: fadeIn 0.3s ease-in-out;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /* Style pour les notifications push simulées sur mobile */
@@ -586,6 +618,13 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <section id="homePage" class="page active">
+    
+    <!-- BANDEAU DÉFILANT EN DIRECT DES AVIS CLIENTS -->
+    <div id="homeCommentTicker" class="live-comment-ticker">
+      <span class="ticker-badge">💬 Avis Communauté</span>
+      <span id="tickerText" class="ticker-text">Chargement des derniers avis...</span>
+    </div>
+
     <div class="hero">
       <small>Solde disponible</small>
       <div class="hero-balance" id="homeBalance">0 FCFA</div>
@@ -637,7 +676,7 @@ a{text-decoration:none;color:inherit}
         <textarea id="commentText" rows="3" placeholder="Écrivez votre message ici... ex: Plateforme super fiable, retrait bien reçu !"></textarea>
       </div>
 
-      <button class="btn vert" onclick="publierCommentaire()">PUBILIER MON AVIS</button>
+      <button class="btn vert" onclick="publierCommentaire()">PUBLIER MON AVIS</button>
     </div>
 
     <!-- Liste globale des commentaires -->
@@ -1046,12 +1085,15 @@ let appleCurrentBet = 500;
 let appleDailyWinStats = { date: '', hasWonToday: false };
 
 let selectedRating = 5;
+let tickerInterval = null;
+let listeCommentairesGlobale = [];
+let indexTickerActuel = 0;
 
 let isListening = false;
 let speechRecognition = null;
 
 // ==========================================
-// FONCTION POUR LES AVIS ET COMMENTAIRES GLOBAL
+// GESTION DES AVIS CLIENTS & BANDEAU ACCUEIL
 // ==========================================
 function setRating(val) {
   selectedRating = val;
@@ -1094,28 +1136,62 @@ function ecouterCommentaires() {
   rtdb.ref("commentaires").on('value', snapshot => {
     const data = snapshot.val();
     const commentsList = document.getElementById('commentsList');
-    if (!commentsList) return;
-
+    
     if (!data) {
-      commentsList.innerHTML = `<div class="empty-history">Soyez le premier à laisser un avis sur l'entreprise !</div>`;
+      if (commentsList) commentsList.innerHTML = `<div class="empty-history">Soyez le premier à laisser un avis sur l'entreprise !</div>`;
+      listeCommentairesGlobale = [];
+      mettreAJourBandeauTicker();
       return;
     }
 
-    const items = Object.values(data).reverse();
-    commentsList.innerHTML = items.map(c => {
-      const etoiles = '★'.repeat(c.note) + '☆'.repeat(5 - c.note);
-      return `
-        <div class="history-item">
-          <div class="history-top">
-            <span class="history-type">👤 ${esc(c.nom)}</span>
-            <span style="color: var(--jaune); font-weight: 800;">${etoiles}</span>
+    listeCommentairesGlobale = Object.values(data).reverse();
+
+    // Rendu de la liste complète dans la page Avis Clients
+    if (commentsList) {
+      commentsList.innerHTML = listeCommentairesGlobale.map(c => {
+        const etoiles = '★'.repeat(c.note) + '☆'.repeat(5 - c.note);
+        return `
+          <div class="history-item">
+            <div class="history-top">
+              <span class="history-type">👤 ${esc(c.nom)}</span>
+              <span style="color: var(--jaune); font-weight: 800;">${etoiles}</span>
+            </div>
+            <div class="history-date">${formatDate(c.date)}</div>
+            <div style="font-size: 14px; color: var(--blanc); margin-top: 6px; line-height: 1.4;">${esc(c.message)}</div>
           </div>
-          <div class="history-date">${formatDate(c.date)}</div>
-          <div style="font-size: 14px; color: var(--blanc); margin-top: 6px; line-height: 1.4;">${esc(c.message)}</div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
+    }
+
+    // Lancer ou rafraîchir le bandeau défilant sur l'accueil
+    mettreAJourBandeauTicker();
+    if (!tickerInterval && listeCommentairesGlobale.length > 0) {
+      tickerInterval = setInterval(faireDefilerTicker, 5000);
+    }
   });
+}
+
+function mettreAJourBandeauTicker() {
+  const tickerEl = document.getElementById('tickerText');
+  if (!tickerEl) return;
+
+  if (listeCommentairesGlobale.length === 0) {
+    tickerEl.textContent = "Bienvenue sur Canal Box VIP — Partagez vos avis dans la section dédiée !";
+    return;
+  }
+
+  if (indexTickerActuel >= listeCommentairesGlobale.length) {
+    indexTickerActuel = 0;
+  }
+
+  const com = listeCommentairesGlobale[indexTickerActuel];
+  tickerEl.innerHTML = `<strong>${esc(com.nom)}</strong> : "${esc(com.message)}"`;
+}
+
+function faireDefilerTicker() {
+  if (listeCommentairesGlobale.length === 0) return;
+  indexTickerActuel = (indexTickerActuel + 1) % listeCommentairesGlobale.length;
+  mettreAJourBandeauTicker();
 }
 
 // ==========================================
