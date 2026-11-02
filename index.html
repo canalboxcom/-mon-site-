@@ -22,7 +22,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 body{background:var(--bg-main);color:var(--blanc);min-height:100vh;-webkit-font-smoothing:antialiased}
-button,input,select{font-family:inherit;border:none;outline:none}
+button,input,select,textarea{font-family:inherit;border:none;outline:none}
 button{cursor:pointer}
 .hidden{display:none!important}
 a{text-decoration:none;color:inherit}
@@ -42,9 +42,9 @@ a{text-decoration:none;color:inherit}
 .tabs button.active{background:var(--gradient-gold);color:var(--bg-main);font-weight:800;box-shadow:var(--ombre-orange)}
 .field{margin-bottom:20px}
 .field label{display:block;margin-bottom:8px;font-size:13px;font-weight:600;color:var(--blanc);letter-spacing:.3px}
-.field input,.field select{width:100%;padding:15px 16px;border:2px solid rgba(255,255,255,0.08);border-radius:var(--radius-sm);font-size:15px;transition:var(--transition);background:rgba(0,0,0,0.3);color:var(--blanc)}
-.field input:focus,.field select:focus{border-color:var(--orange);background:rgba(0,0,0,0.5);box-shadow:0 0 0 4px rgba(255,107,0,0.15)}
-.field input::placeholder{color:#64748B}
+.field input,.field select,.field textarea{width:100%;padding:15px 16px;border:2px solid rgba(255,255,255,0.08);border-radius:var(--radius-sm);font-size:15px;transition:var(--transition);background:rgba(0,0,0,0.3);color:var(--blanc)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--orange);background:rgba(0,0,0,0.5);box-shadow:0 0 0 4px rgba(255,107,0,0.15)}
+.field input::placeholder,.field textarea::placeholder{color:#64748B}
 .phone-group{display:flex;gap:8px}
 .phone-group select{flex:0 0 115px}
 .btn{width:100%;padding:16px;border-radius:var(--radius-sm);font-weight:700;font-size:15px;text-align:center;display:inline-block;transition:var(--transition);letter-spacing:.3px}
@@ -449,6 +449,22 @@ a{text-decoration:none;color:inherit}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
 
+/* Styles pour le système d'étoiles et commentaires */
+.rating-stars {
+  display: flex;
+  gap: 8px;
+  font-size: 26px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+.rating-stars span {
+  color: var(--texte-gris);
+  transition: var(--transition);
+}
+.rating-stars span.active {
+  color: var(--jaune);
+}
+
 /* Style pour les notifications push simulées sur mobile */
 #pushNotificationBanner{position:fixed;top:-120px;left:16px;right:16px;background:var(--bg-card);border:1px solid var(--jaune);padding:14px 18px;border-radius:18px;box-shadow:var(--ombre-orange);z-index:99999;transition:top .4s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:14px}
 #pushNotificationBanner.show{top:20px}
@@ -583,6 +599,7 @@ a{text-decoration:none;color:inherit}
       <div class="quick-card" onclick="openPage('investPage')"><div class="quick-icon">💰</div><strong>Investir</strong><p>Offres VIP & gains</p></div>
       <div class="quick-card" onclick="openPage('appleGamePage')"><div class="quick-icon">🍎</div><strong>Apple of Fortune</strong><p>Jeu des pommes mystères</p></div>
       <div class="quick-card" onclick="openPage('tradingPage')"><div class="quick-icon">📈</div><strong>Trading Live</strong><p>Tentez votre chance à trader et gagner</p></div>
+      <div class="quick-card" onclick="openPage('commentsPage')"><div class="quick-icon">💬</div><strong>Avis Clients</strong><p>Commentaires de la communauté</p></div>
       <div class="quick-card" onclick="openPage('bonusPage')"><div class="quick-icon">🎁</div><strong>Mon Bonus</strong><p>Bonus & retrait</p></div>
       <div class="quick-card" onclick="openPage('achatsPage')"><div class="quick-icon">🛒</div><strong>Mes Achats</strong><p>Plans souscrits</p></div>
       <div class="quick-card" onclick="openPage('viewLinkedPage')"><div class="quick-icon">💳</div><strong>Compte Lié</strong><p>Mode de réception</p></div>
@@ -593,6 +610,43 @@ a{text-decoration:none;color:inherit}
       <div class="quick-card" onclick="openPage('servicePage')"><div class="quick-icon">📞</div><strong>Service Client</strong><p>Support VIP 24/7</p></div>
       <div class="quick-card" onclick="openPage('accountPage')"><div class="quick-icon">👤</div><strong>Mon Compte</strong><p>Profil & déconnexion</p></div>
     </div>
+  </section>
+
+  <!-- PAGE COMMENTAIRES / AVIS CLIENTS -->
+  <section id="commentsPage" class="page">
+    <h2 class="section-title">Avis & Commentaires Clients 💬</h2>
+    <p class="section-sub">Découvrez les retours de notre communauté VIP et partagez le vôtre !</p>
+
+    <!-- Formulaire d'ajout de commentaire -->
+    <div class="box" style="margin-bottom: 24px; border-color: var(--jaune);">
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--jaune); margin-bottom: 12px;">Laissez un avis sur Canal Box VIP</h3>
+      
+      <div class="field">
+        <label>Votre note :</label>
+        <div class="rating-stars" id="starRating">
+          <span onclick="setRating(1)">★</span>
+          <span onclick="setRating(2)">★</span>
+          <span onclick="setRating(3)">★</span>
+          <span onclick="setRating(4)">★</span>
+          <span onclick="setRating(5)" class="active">★</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Votre commentaire :</label>
+        <textarea id="commentText" rows="3" placeholder="Écrivez votre message ici... ex: Plateforme super fiable, retrait bien reçu !"></textarea>
+      </div>
+
+      <button class="btn vert" onclick="publierCommentaire()">PUBILIER MON AVIS</button>
+    </div>
+
+    <!-- Liste globale des commentaires -->
+    <div class="section-title" style="font-size: 16px; margin-bottom: 12px;">Derniers avis publiés :</div>
+    <div id="commentsList" class="history-list">
+      <div class="empty-history">Chargement des avis...</div>
+    </div>
+
+    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
   <!-- PAGE APPLE OF FORTUNE -->
@@ -991,8 +1045,78 @@ let appleCurrentRow = 0;
 let appleCurrentBet = 500;
 let appleDailyWinStats = { date: '', hasWonToday: false };
 
+let selectedRating = 5;
+
 let isListening = false;
 let speechRecognition = null;
+
+// ==========================================
+// FONCTION POUR LES AVIS ET COMMENTAIRES GLOBAL
+// ==========================================
+function setRating(val) {
+  selectedRating = val;
+  const stars = document.querySelectorAll('#starRating span');
+  stars.forEach((star, idx) => {
+    if (idx < val) star.classList.add('active');
+    else star.classList.remove('active');
+  });
+}
+
+function publierCommentaire() {
+  const texte = document.getElementById('commentText').value.trim();
+  if (!texte) {
+    toast("⚠️ Veuillez saisir un commentaire.");
+    return;
+  }
+  if (!utilisateur) {
+    toast("⚠️ Vous devez être connecté pour donner un avis.");
+    return;
+  }
+
+  const commentObj = {
+    nom: utilisateur.name || "Membre VIP",
+    note: selectedRating,
+    message: texte,
+    date: new Date().toISOString()
+  };
+
+  rtdb.ref("commentaires").push(commentObj).then(() => {
+    toast("🎉 Merci ! Votre avis a été publié.");
+    document.getElementById('commentText').value = '';
+    setRating(5);
+  }).catch(err => {
+    console.error("Erreur publication commentaire :", err);
+    toast("❌ Échec de la publication.");
+  });
+}
+
+function ecouterCommentaires() {
+  rtdb.ref("commentaires").on('value', snapshot => {
+    const data = snapshot.val();
+    const commentsList = document.getElementById('commentsList');
+    if (!commentsList) return;
+
+    if (!data) {
+      commentsList.innerHTML = `<div class="empty-history">Soyez le premier à laisser un avis sur l'entreprise !</div>`;
+      return;
+    }
+
+    const items = Object.values(data).reverse();
+    commentsList.innerHTML = items.map(c => {
+      const etoiles = '★'.repeat(c.note) + '☆'.repeat(5 - c.note);
+      return `
+        <div class="history-item">
+          <div class="history-top">
+            <span class="history-type">👤 ${esc(c.nom)}</span>
+            <span style="color: var(--jaune); font-weight: 800;">${etoiles}</span>
+          </div>
+          <div class="history-date">${formatDate(c.date)}</div>
+          <div style="font-size: 14px; color: var(--blanc); margin-top: 6px; line-height: 1.4;">${esc(c.message)}</div>
+        </div>
+      `;
+    }).join('');
+  });
+}
 
 // ==========================================
 // FONCTION DE COPIE DU LIEN DE PARRAINAGE
@@ -1180,6 +1304,12 @@ function traiterCommandeVocale(cmd) {
   if (cmd.includes('accueil') || cmd.includes('maison') || cmd.includes('menu principal')) {
     parlerReponse("Ouverture de l'accueil.");
     openPage('homePage');
+    return;
+  }
+
+  if (cmd.includes('commentaire') || cmd.includes('avis') || cmd.includes('réaction')) {
+    parlerReponse("Ouverture des avis clients.");
+    openPage('commentsPage');
     return;
   }
 
@@ -2294,6 +2424,7 @@ function cliquerCaseApple(row, col) {
 
 window.addEventListener('load', () => {
   verifierEtSauvegarderParrain();
+  ecouterCommentaires();
   const stop = auth.onAuthStateChanged(async fb => {
     stop();
     try {
@@ -2320,4 +2451,4 @@ window.addEventListener('load', () => {
 });
 </script>
 </body>
-                                                                  </html>
+</html>
