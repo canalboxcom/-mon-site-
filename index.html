@@ -245,7 +245,6 @@ a{text-decoration:none;color:inherit}
 .section-sub{color:var(--texte-gris);margin-bottom:22px;font-size:13px;line-height:1.5;font-weight:500}
 .box{background:var(--bg-card);padding:24px;border-radius:20px;box-shadow:var(--ombre);border:1px solid rgba(255,255,255,0.08)}
 
-/* Style pour la zone de copie du lien de parrainage */
 .copy-row {
   display: flex;
   align-items: center;
@@ -359,69 +358,6 @@ a{text-decoration:none;color:inherit}
 .vip-details{color:var(--texte-gris);font-size:13px;margin:4px 0;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px}
 .vip-income{font-size:14px;font-weight:800;color:var(--succes);margin:10px 0 14px;background:var(--succes-bg);padding:6px 12px;border-radius:10px;display:inline-block;border:1px solid rgba(16,185,129,0.25)}
 
-.recharge-options-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.recharge-option-card {
-  background: linear-gradient(135deg, #1A2232 0%, var(--bg-card) 100%);
-  border: 2px solid rgba(255, 184, 0, 0.25);
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: var(--ombre);
-}
-.recharge-option-card:hover {
-  border-color: var(--orange);
-  transform: translateY(-2px);
-  background: var(--bg-card-hover);
-  box-shadow: var(--ombre-orange);
-}
-.recharge-option-card.selected {
-  border-color: var(--jaune);
-  background: linear-gradient(135deg, rgba(255,184,0,0.15) 0%, rgba(255,107,0,0.1) 100%);
-  box-shadow: var(--ombre-orange);
-}
-.recharge-info .plan-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--blanc);
-  letter-spacing: -0.2px;
-}
-.recharge-info .plan-action-text {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--jaune);
-  margin-top: 4px;
-}
-.recharge-radio-circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-.recharge-option-card.selected .recharge-radio-circle {
-  border-color: var(--jaune);
-  background: var(--gradient-gold);
-}
-.recharge-option-card.selected .recharge-radio-circle::after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background: var(--bg-main);
-  border-radius: 50%;
-}
-
 .linked-badge{background:var(--bg-card);border-radius:20px;padding:24px;box-shadow:var(--ombre);border:2px solid var(--orange);display:flex;align-items:center;gap:18px;margin-bottom:20px;position:relative;overflow:hidden}
 .linked-icon{width:60px;height:60px;border-radius:16px;background:var(--gradient-soft);display:flex;justify-content:center;align-items:center;font-size:28px;border:1px solid rgba(255,184,0,0.3);flex-shrink:0}
 .history-list{display:flex;flex-direction:column;gap:12px}
@@ -441,15 +377,12 @@ a{text-decoration:none;color:inherit}
 #servicePage{background:radial-gradient(circle at top,rgba(16,185,129,0.15) 0%,var(--bg-main) 70%)}
 #servicePage .section-title{color:var(--vert-client)}
 .service-green-box{background:var(--bg-card);border:1.5px solid rgba(16,185,129,0.3);box-shadow:var(--ombre-vert);border-radius:20px;padding:24px}
-.service-green-card{text-align:center;padding:24px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:18px;transition:var(--transition)}
-.service-green-card:hover{transform:translateY(-3px);background:rgba(16,185,129,0.12);border-color:var(--vert-client)}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:74px;background:rgba(11,14,20,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;z-index:50;padding:0 6px}
 .nav-btn{flex:1;background:transparent;color:var(--texte-gris);font-size:11px;font-weight:600;text-align:center;padding:6px 2px;transition:var(--transition);border-radius:12px;letter-spacing:.2px}
 .nav-btn span{display:block;font-size:22px;margin-bottom:3px;transition:var(--transition)}
 .nav-btn.active{color:var(--jaune);font-weight:800}
 .nav-btn.active span{transform:scale(1.1)}
 
-/* Styles pour le système d'étoiles et flux des avis sur l'accueil (juste au-dessus du solde) */
 .rating-stars {
   display: flex;
   gap: 8px;
@@ -518,7 +451,6 @@ a{text-decoration:none;color:inherit}
   line-height: 1.4;
 }
 
-/* Style pour les notifications push simulées sur mobile */
 #pushNotificationBanner{position:fixed;top:-120px;left:16px;right:16px;background:var(--bg-card);border:1px solid var(--jaune);padding:14px 18px;border-radius:18px;box-shadow:var(--ombre-orange);z-index:99999;transition:top .4s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:14px}
 #pushNotificationBanner.show{top:20px}
 .push-icon{width:46px;height:46px;border-radius:12px;background:var(--gradient-gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;color:var(--bg-main);font-weight:900}
@@ -538,7 +470,6 @@ a{text-decoration:none;color:inherit}
 
 <div id="appLoading"><div class="spinner"></div><div>CANAL BOX VIP</div></div>
 
-<!-- Bannière de notification mobile -->
 <div id="pushNotificationBanner">
   <div class="push-icon">💬</div>
   <div class="push-content">
@@ -640,7 +571,6 @@ a{text-decoration:none;color:inherit}
 
   <section id="homePage" class="page active">
     
-    <!-- SECTION DES AVIS DE LA COMMUNAUTÉ (AFFICHÉ JUSTE EN HAUT DU SOLDE, DISPARAÎT APRÈS 2 MINUTES) -->
     <div class="home-comments-stream">
       <div class="home-comments-header">
         <div class="home-comments-title">💬 Témoignages (S'effacent après 2 min)</div>
@@ -677,12 +607,10 @@ a{text-decoration:none;color:inherit}
     </div>
   </section>
 
-  <!-- PAGE COMMENTAIRES / AVIS CLIENTS -->
   <section id="commentsPage" class="page">
     <h2 class="section-title">Avis & Commentaires Clients 💬</h2>
     <p class="section-sub">Découvrez les retours de notre communauté VIP et partagez le vôtre !</p>
 
-    <!-- Formulaire d'ajout de commentaire -->
     <div class="box" style="margin-bottom: 24px; border-color: var(--jaune);">
       <h3 style="font-size: 16px; font-weight: 800; color: var(--jaune); margin-bottom: 12px;">Laissez un avis sur Canal Box VIP</h3>
       
@@ -705,7 +633,6 @@ a{text-decoration:none;color:inherit}
       <button class="btn vert" onclick="publierCommentaire()">PUBLIER MON AVIS</button>
     </div>
 
-    <!-- Liste globale des commentaires -->
     <div class="section-title" style="font-size: 16px; margin-bottom: 12px;">Derniers avis publiés :</div>
     <div id="commentsList" class="history-list">
       <div class="empty-history">Chargement des avis...</div>
@@ -714,7 +641,6 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
-  <!-- PAGE APPLE OF FORTUNE -->
   <section id="appleGamePage" class="page">
     <h2 class="section-title">Apple of Fortune 🍎</h2>
     <p class="section-sub">Montez ligne par ligne. L'avant-dernière case (marquée en vert) est votre case gagnante du jour !</p>
@@ -725,14 +651,10 @@ a{text-decoration:none;color:inherit}
       <small>Gravissez les lignes et choisissez l'avant-dernière case</small>
     </div>
 
-    <!-- Plateau de jeu -->
     <div class="box" style="background: #0f1722; border: 2px solid rgba(16,185,129,0.3); padding: 20px; margin-bottom: 20px;">
-      <div id="appleBoard" style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
-        <!-- Généré dynamiquement par JS -->
-      </div>
+      <div id="appleBoard" style="display: flex; flex-direction: column; gap: 10px; align-items: center;"></div>
     </div>
 
-    <!-- Contrôles de mise -->
     <div class="box">
       <div class="field">
         <label>Montant de la mise (FCFA)</label>
@@ -846,6 +768,7 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
   </section>
 
+  <!-- SECTION SERVICE CLIENT (SANS LES ANCIENS LIENS EXTERNES) -->
   <section id="servicePage" class="page">
     <div class="service-green-box">
       <div style="text-align:center;margin-bottom:18px">
@@ -870,33 +793,8 @@ a{text-decoration:none;color:inherit}
           <a id="downloadVoiceLink" class="btn secondaire" style="display:block;padding:12px;font-size:12px">📥 Télécharger l'audio enregistré</a>
         </div>
       </div>
-
-      <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-bottom:20px">
-        
-        <div class="service-green-card">
-          <div style="font-size:36px;margin-bottom:8px">💬</div>
-          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Assistance WhatsApp Directe</div>
-          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Discutez immédiatement avec notre agent pour réclamer vos bonus ou suivre un retrait.</p>
-          <a href="https://wa.me/qr/JZYGKM3FM3XTL1" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">DISCUTER SUR WHATSAPP</a>
-        </div>
-
-        <div class="service-green-card">
-          <div style="font-size:36px;margin-bottom:8px">👥</div>
-          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Groupe WhatsApp Officiel</div>
-          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez le groupe d'entraide et d'échanges entre membres VIP Canal Box.</p>
-          <a href="https://chat.whatsapp.com/CBlYZXLe9um2txk9baGpdh?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE GROUPE WHATSAPP</a>
-        </div>
-
-        <div class="service-green-card">
-          <div style="font-size:36px;margin-bottom:8px">✈️</div>
-          <div style="font-weight:800;font-size:16px;margin-bottom:6px;color:var(--blanc)">Canal Télégram Officiel</div>
-          <p style="font-size:12px;color:var(--texte-gris);margin-bottom:14px">Rejoignez la communauté VIP pour être informé des nouveaux bonus et preuves de paiements.</p>
-          <a href="https://t.me/+HXgd2NLKBUU0ZDVk" target="_blank" rel="noopener" class="btn vert" style="padding:14px;font-size:13px;display:block">REJOINDRE LE TELEGRAM</a>
-        </div>
-
-      </div>
     </div>
-    <button class="btn secondaire" onclick="openPage('homePage')">RETOUR À L'ACCUEIL</button>
+    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top: 20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
   <section id="accountPage" class="page">
@@ -955,13 +853,23 @@ a{text-decoration:none;color:inherit}
 
   <section id="rechargePage" class="page">
     <h2 class="section-title">Recharger mon Solde</h2>
-    <p class="section-sub">Sélectionnez le montant de votre recharge pour accéder au paiement instantané :</p>
+    <p class="section-sub">Entrez ou sélectionnez le montant de votre recharge :</p>
     
-    <div id="rechargeOptionsContainer" class="recharge-options-grid"></div>
+    <div class="box">
+      <div class="field">
+        <label>Montant de la recharge (FCFA)</label>
+        <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap: wrap;">
+          <button class="btn secondaire" onclick="setRechargeAmount(2500)" style="margin-top:0; padding:10px; flex:1;">2.500 F</button>
+          <button class="btn secondaire" onclick="setRechargeAmount(5500)" style="margin-top:0; padding:10px; flex:1;">5.500 F</button>
+          <button class="btn secondaire" onclick="setRechargeAmount(12500)" style="margin-top:0; padding:10px; flex:1;">12.500 F</button>
+          <button class="btn secondaire" onclick="setRechargeAmount(25000)" style="margin-top:0; padding:10px; flex:1;">25.000 F</button>
+        </div>
+        <input id="rechargeCustomAmount" type="number" placeholder="Ex : 5000" style="background: rgba(0,0,0,0.5); font-weight: 800; color: var(--jaune);">
+      </div>
 
-    <div style="margin-top: 24px;">
-      <button class="btn accent" onclick="accederLienPaiementDirect()" style="padding:18px;font-size:16px;">💳 PROCÉDER AU PAIEMENT EN LIGNE</button>
+      <button class="btn accent" onclick="validerEtPayerRecharge()" style="padding:18px;font-size:16px;">💳 PROCÉDER AU PAIEMENT EN LIGNE</button>
     </div>
+
     <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top:12px;">RETOUR À L'ACCUEIL</button>
   </section>
 
@@ -1052,6 +960,7 @@ const db = firebase.firestore();
 const rtdb = firebase.database();
 
 const SITE_BASE_URL = "https://canalboxcom.github.io/-mon-site-/";
+const JEKO_PAYMENT_URL = "https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16";
 
 const SVG_BOX = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'><rect width='200' height='120' fill='%231a2232'/><circle cx='100' cy='60' r='45' fill='%23FF6B00' opacity='0.2'/><path d='M70,50 L130,50 L130,75 L70,75 Z' fill='%23E00072'/><text x='100' y='67' font-family='Arial' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>CANALBOX</text><circle cx='85' cy='42' r='3' fill='%23FFB800'/><circle cx='100' cy='42' r='3' fill='%2310B981'/><circle cx='115' cy='42' r='3' fill='%23FFB800'/></svg>";
 
@@ -1101,7 +1010,6 @@ let historiqueRecharges = [], historiqueRetraits = [], investissements = [], equ
 let compteLie = null, unsubscribeListener = null;
 let pagePrecedente = 'homePage';
 let pageActuelle = 'homePage';
-let planRechargeSelectionneIndex = 0;
 
 let tradingStats = { date: '', roundCount: 0 };
 
@@ -1116,9 +1024,6 @@ let dernierCommentaireIdConnue = null;
 let isListening = false;
 let speechRecognition = null;
 
-// ==========================================
-// GESTION DES AVIS & EXPIRATION 2 MINUTES
-// ==========================================
 function setRating(val) {
   selectedRating = val;
   const stars = document.querySelectorAll('#starRating span');
@@ -1144,7 +1049,7 @@ function publierCommentaire() {
     nom: utilisateur.name || "Membre VIP",
     note: selectedRating,
     message: texte,
-    timestamp: Date.now() // Enregistrement exact du moment de publication en millisecondes
+    timestamp: Date.now()
   };
 
   rtdb.ref("commentaires").push(commentObj).then(() => {
@@ -1152,7 +1057,6 @@ function publierCommentaire() {
     document.getElementById('commentText').value = '';
     setRating(5);
   }).catch(err => {
-    console.error("Erreur publication commentaire :", err);
     toast("❌ Échec de la publication.");
   });
 }
@@ -1170,18 +1074,16 @@ function ecouterCommentaires() {
     }
 
     const maintenant = Date.now();
-    const DUREE_EXPIRATION_MS = 2 * 60 * 1000; // Exactement 2 minutes
+    const DUREE_EXPIRATION_MS = 2 * 60 * 1000;
 
-    // Filtrer pour ne garder QUE les messages de moins de 2 minutes
     const tousLesCommentaires = Object.entries(data).map(([id, val]) => ({ id, ...val }));
     const commentairesRecents = tousLesCommentaires.filter(c => (maintenant - c.timestamp) < DUREE_EXPIRATION_MS);
 
-    // Gérer les notifications push pour les nouveaux messages d'autres utilisateurs
     if (tousLesCommentaires.length > 0) {
       const dernier = tousLesCommentaires[tousLesCommentaires.length - 1];
       if (dernierCommentaireIdConnue !== null && dernierCommentaireIdConnue !== dernier.id) {
         if (!utilisateur || dernier.uid !== utilisateur.uid) {
-          if ((maintenant - dernier.timestamp) < 15000) { // Si posté il y a moins de 15 secondes
+          if ((maintenant - dernier.timestamp) < 15000) {
             envoyerNotificationTelephone(
               `💬 ${dernier.nom} vient d'écrire !`,
               `"${dernier.message}"`
@@ -1192,7 +1094,6 @@ function ecouterCommentaires() {
       dernierCommentaireIdConnue = dernier.id;
     }
 
-    // 1. Rendu dans la page dédiée "Avis Clients" (affiche tout l'historique)
     const itemsGlobal = [...tousLesCommentaires].reverse();
     if (commentsList) {
       commentsList.innerHTML = itemsGlobal.map(c => {
@@ -1210,11 +1111,10 @@ function ecouterCommentaires() {
       }).join('');
     }
 
-    // 2. Rendu dans le flux d'accueil (Uniquement les messages de moins de 2 minutes)
     const itemsAccueil = [...commentairesRecents].reverse();
     if (homeScroll) {
       if (itemsAccueil.length === 0) {
-        homeScroll.innerHTML = `<div class="empty-history" style="padding: 15px;">Aucun message actif. Écrivez un avis pour l'afficher ici pendant 2 minutes !</div>`;
+        homeScroll.innerHTML = `<div class="empty-history" style="padding: 15px;">Aucun message actif. Écrivez un avis pour l'afficher ici pendant 2 min !</div>`;
       } else {
         homeScroll.innerHTML = itemsAccueil.map(c => {
           const etoiles = '★'.repeat(c.note) + '☆'.repeat(5 - c.note);
@@ -1225,7 +1125,7 @@ function ecouterCommentaires() {
                 <span style="color: var(--jaune);">${etoiles}</span>
               </div>
               <div class="community-comment-text">${esc(c.message)}</div>
-              <div style="font-size: 10px; color: var(--texte-gris); margin-top: 4px; text-align: right;">Publié récemment (disparaît en moins de 2 min)</div>
+              <div style="font-size: 10px; color: var(--texte-gris); margin-top: 4px; text-align: right;">Publié récemment</div>
             </div>
           `;
         }).join('');
@@ -1234,7 +1134,6 @@ function ecouterCommentaires() {
   });
 }
 
-// Vérification automatique toutes les 5 secondes pour effacer les messages après exactement 2 minutes
 setInterval(() => {
   rtdb.ref("commentaires").once('value', snapshot => {
     const data = snapshot.val();
@@ -1244,22 +1143,18 @@ setInterval(() => {
 
     Object.entries(data).forEach(([id, val]) => {
       if ((maintenant - val.timestamp) >= DUREE_EXPIRATION_MS) {
-        rtdb.ref("commentaires/" + id).remove(); // Supprime définitivement le message de Firebase après 2 minutes
+        rtdb.ref("commentaires/" + id).remove();
       }
     });
   });
 }, 5000);
 
-// ==========================================
-// FONCTION DE COPIE DU LIEN DE PARRAINAGE
-// ==========================================
 function copierDepuis(btnElement) {
   const targetId = btnElement.getAttribute('data-src');
   const targetEl = document.getElementById(targetId);
   if (!targetEl) return;
 
   const texteACopier = targetEl.dataset.raw || targetEl.textContent;
-
   if (!texteACopier || texteACopier.includes('Génération')) {
     toast("⚠️ Le lien de parrainage n'est pas encore disponible.");
     return;
@@ -1270,7 +1165,6 @@ function copierDepuis(btnElement) {
       changerTexteBoutonCopie(btnElement);
       toast("📋 Lien de parrainage copié dans le presse-papier !");
     }).catch(err => {
-      console.error("Erreur de copie Clipboard API:", err);
       fallbackCopier(texteACopier, btnElement);
     });
   } else {
@@ -1297,7 +1191,6 @@ function fallbackCopier(texte, btnElement) {
       toast("❌ Échec de la copie automatique.");
     }
   } catch (err) {
-    console.error("Erreur fallback copie:", err);
     toast("❌ La copie automatique a échoué.");
   }
 }
@@ -1379,7 +1272,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   };
 
   speechRecognition.onerror = (e) => {
-    console.error("Erreur vocale:", e);
     arreterAssistantVocal();
   };
 
@@ -1399,9 +1291,7 @@ function toggleVoiceAssistant() {
   } else {
     try {
       speechRecognition.start();
-    } catch(e) {
-      console.error(e);
-    }
+    } catch(e) {}
   }
 }
 
@@ -1550,7 +1440,6 @@ async function toggleEnregistrementVocalService() {
       player.classList.add('hidden');
 
     } catch (err) {
-      console.error(err);
       toast("⚠️ Accès au microphone refusé ou non supporté.");
     }
   }
@@ -1892,37 +1781,24 @@ function mettreAJourMethodesRetrait() {
   selMethod.innerHTML = reseaux.map(r => `<option value="${r.id}">${r.nom}</option>`).join('');
 }
 
-function afficherOptionsRecharge() {
-  const container = document.getElementById('rechargeOptionsContainer');
-  if (!container) return;
-  
-  container.innerHTML = PLANS.map((plan, index) => {
-    const isSelected = planRechargeSelectionneIndex === index;
-    return `
-      <div class="recharge-option-card ${isSelected ? 'selected' : ''}" onclick="selectionnerPlanRecharge(${index})">
-        <div class="recharge-info">
-          <div class="plan-title">${esc(plan[0])}</div>
-          <div class="plan-action-text">Je veux recharger ${plan[1].toLocaleString('fr-FR')} FCFA</div>
-        </div>
-        <div class="recharge-radio-circle"></div>
-      </div>
-    `;
-  }).join('');
+function setRechargeAmount(amount) {
+  const inp = document.getElementById('rechargeCustomAmount');
+  if (inp) inp.value = amount;
 }
 
-function selectionnerPlanRecharge(index) {
-  planRechargeSelectionneIndex = index;
-  afficherOptionsRecharge();
-}
+function validerEtPayerRecharge() {
+  const inp = document.getElementById('rechargeCustomAmount');
+  const montant = parseFloat(inp ? inp.value : 0);
 
-function accederLienPaiementDirect() {
-  const plan = PLANS[planRechargeSelectionneIndex];
-  const urlPaiement = plan[4];
-  
+  if (!montant || montant <= 0) {
+    toast("⚠️ Veuillez saisir un montant de recharge valide.");
+    return;
+  }
+
   const nouvelleRecharge = {
-    montant: plan[1],
+    montant: montant,
     phone: utilisateur ? utilisateur.phone : '',
-    methode: 'Paiement en ligne (' + plan[0] + ')',
+    methode: 'Paiement en ligne Jeko',
     txId: 'RECH-' + Date.now(),
     date: new Date().toISOString(),
     statut: 'En attente'
@@ -1931,8 +1807,8 @@ function accederLienPaiementDirect() {
   historiqueRecharges.unshift(nouvelleRecharge);
   sauvegarderTout();
 
-  toast("Paiement enregistré dans l'historique. Redirection...");
-  window.open(urlPaiement, '_blank');
+  toast("Recharge enregistrée. Redirection vers le paiement...");
+  window.open(JEKO_PAYMENT_URL, '_blank');
   openPage('historyPage');
 }
 
@@ -1955,7 +1831,8 @@ function openPage(pageId) {
   if (pageId === 'tradingPage') chargerPageTrading();
   if (pageId === 'appleGamePage') chargerPageAppleGame();
   if (pageId === 'rechargePage') {
-    afficherOptionsRecharge();
+    const inp = document.getElementById('rechargeCustomAmount');
+    if (inp) inp.value = '';
   }
   if (pageId === 'linkPage') {
     mettreAJourMethodesLien();
@@ -2044,9 +1921,7 @@ async function creerCompte() {
             rtdb.ref("comptes_tel/" + parrainCode + "/equipe").set(listEq);
           }
         }
-      } catch (errParrain) {
-        console.error("Erreur parrain :", errParrain);
-      }
+      } catch (errParrain) {}
     }
 
     utilisateur = { uid, name, email, phone, solde: 0 };
@@ -2398,12 +2273,7 @@ function executerTrade(direction) {
     tradingStats.roundCount++;
     const tourActuel = tradingStats.roundCount;
 
-    let gagne = false;
-    if (tourActuel === 1 || tourActuel === 11) {
-      gagne = true;
-    } else {
-      gagne = false;
-    }
+    let gagne = (tourActuel === 1 || tourActuel === 11);
     sauvegarderTout();
 
     if (gagne) {
@@ -2415,7 +2285,7 @@ function executerTrade(direction) {
       
       resultBox.innerHTML = `
         <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">🎉 Vous avez gagné (Jeu ${tourActuel}) !</div>
-        <div style="color: var(--blanc);">Mise : ${formatArgent(montant)} | Crédité sur le compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+        <div style="color: var(--blanc);">Mise : ${formatArgent(montant)} | Crédité : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
       `;
       toast(`🎉 Vous avez gagné ! +${formatArgent(gainTotal)}`);
     } else {
@@ -2424,16 +2294,13 @@ function executerTrade(direction) {
       
       resultBox.innerHTML = `
         <div style="color: var(--erreur); font-weight: 800; font-size: 16px; margin-bottom: 4px;">❌ Vous avez perdu (Jeu ${tourActuel})</div>
-        <div style="color: var(--texte-gris);">Le marché a évolué en sens inverse. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
+        <div style="color: var(--texte-gris);">Montant débité : <strong style="color: var(--erreur);">-${formatArgent(montant)}</strong></div>
       `;
       toast(`❌ Vous avez perdu : -${formatArgent(montant)}`);
     }
   }, 500);
 }
 
-// ==========================================
-// LOGIQUE DU JEU APPLE OF FORTUNE
-// ==========================================
 function chargerPageAppleGame() {
   const el = document.getElementById('appleGameBalance');
   if (el) el.textContent = formatArgent(solde);
@@ -2534,7 +2401,7 @@ function cliquerCaseApple(row, col) {
 
     resultBox.innerHTML = `
       <div style="color: var(--succes); font-weight: 800; font-size: 16px; margin-bottom: 4px;">Vous avez gagné !</div>
-      <div style="color: var(--blanc);">Vous avez choisi l'avant-dernière case. Crédité sur votre compte : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
+      <div style="color: var(--blanc);">Crédité : <strong style="color: var(--succes);">+${formatArgent(gainTotal)}</strong></div>
     `;
     toast(`Vous avez gagné ! +${formatArgent(gainTotal)}`);
     initialiserPlateauApple(false);
@@ -2550,7 +2417,7 @@ function cliquerCaseApple(row, col) {
 
     resultBox.innerHTML = `
       <div style="color: var(--erreur); font-weight: 800; font-size: 15px; margin-bottom: 4px;">Vous avez perdu !</div>
-      <div style="color: var(--texte-gris);">Ce n'était pas la bonne case ou votre gain journalier a déjà été atteint. Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
+      <div style="color: var(--texte-gris);">Montant débité : <strong style="color: var(--erreur);">-${formatArgent(appleCurrentBet)}</strong></div>
     `;
     toast(`Vous avez perdu : -${formatArgent(appleCurrentBet)}`);
     initialiserPlateauApple(false);
@@ -2578,7 +2445,7 @@ window.addEventListener('load', () => {
       } else {
         reinitialiserEtat();
       }
-    } catch (e) { console.error(e); if (!utilisateur) reinitialiserEtat(); }
+    } catch (e) { if (!utilisateur) reinitialiserEtat(); }
     const loader = document.getElementById('appLoading');
     loader.style.opacity = '0';
     setTimeout(() => { loader.style.display = 'none'; verifierConnexion(); }, 300);
