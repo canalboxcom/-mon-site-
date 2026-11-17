@@ -566,11 +566,29 @@ a{text-decoration:none;color:inherit}
 <div id="app">
   <div class="topbar">
     <div class="top-title">Canal Box <span class="badge-vip">VIP 🔒 Officiel</span></div>
+    
+    <!-- COMPTEUR DE MEMBRES EN LIGNE (EN TEMPS RÉEL) -->
+    <div style="display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.15); border: 1px solid var(--vert-client); padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; color: var(--succes);">
+      <span style="width: 8px; height: 8px; background: var(--succes); border-radius: 50%; display: inline-block; animation: pulseVoice 1.5s infinite;"></span>
+      <span id="onlineCountBadge">0 en ligne</span>
+    </div>
+
     <div class="top-user" id="topUser" onclick="openPage('accountPage')">U</div>
   </div>
 
   <section id="homePage" class="page active">
     
+    <!-- BANDEAU DES MEMBRES ACTUELLEMENT EN LIGNE SUR LE SITE -->
+    <div class="home-comments-stream" style="border-color: var(--vert-client); margin-bottom: 20px;">
+      <div class="home-comments-header" style="border-bottom-color: rgba(16,185,129,0.2);">
+        <div class="home-comments-title" style="color: var(--succes);">🟢 Membres Connectés en Direct</div>
+        <span id="onlineCountText" style="font-size: 11px; font-weight: 800; color: var(--jaune);">0 en ligne</span>
+      </div>
+      <div id="onlineMembersScroll" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;">
+        <span style="font-size: 12px; color: var(--texte-gris);">Chargement des membres connectés...</span>
+      </div>
+    </div>
+
     <div class="home-comments-stream">
       <div class="home-comments-header">
         <div class="home-comments-title">💬 Témoignages (S'effacent après 2 min)</div>
@@ -768,7 +786,7 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
   </section>
 
-  <!-- SECTION SERVICE CLIENT & GROUPE WHATSAPP MIS À JOUR AVEC VOS LIENS -->
+  <!-- SECTION SERVICE CLIENT & GROUPE WHATSAPP -->
   <section id="servicePage" class="page">
     <div class="service-green-box">
       <div style="text-align:center;margin-bottom:18px">
@@ -1076,6 +1094,7 @@ let dernierCommentaireIdConnue = null;
 
 let isListening = false;
 let speechRecognition = null;
+let presenceRef = null;
 
 function setRating(val) {
   selectedRating = val;
@@ -1183,6 +1202,52 @@ function ecouterCommentaires() {
           `;
         }).join('');
       }
+    }
+  });
+}
+
+function gererPresenceEnLigne() {
+  if (!utilisateur || !utilisateur.uid) return;
+  
+  const connectedRef = rtdb.ref('.info/connected');
+  presenceRef = rtdb.ref('membres_en_ligne/' + utilisateur.uid);
+
+  connectedRef.on('value', snap => {
+    if (snap.val() === true) {
+      presenceRef.onDisconnect().remove();
+      presenceRef.set({
+        nom: utilisateur.name || "Membre VIP",
+        connecteLe: Date.now()
+      });
+    }
+  });
+
+  rtdb.ref('membres_en_ligne').on('value', snapshot => {
+    const data = snapshot.val();
+    const scrollEl = document.getElementById('onlineMembersScroll');
+    const badgeEl = document.getElementById('onlineCountBadge');
+    const textEl = document.getElementById('onlineCountText');
+
+    if (!data) {
+      if (badgeEl) badgeEl.textContent = "0 en ligne";
+      if (textEl) textEl.textContent = "0 en ligne";
+      if (scrollEl) scrollEl.innerHTML = `<span style="font-size: 12px; color: var(--texte-gris); padding: 4px;">Aucun membre en ligne pour le moment.</span>`;
+      return;
+    }
+
+    const membres = Object.values(data);
+    const count = membres.length;
+
+    if (badgeEl) badgeEl.textContent = `${count} en ligne`;
+    if (textEl) textEl.textContent = `${count} en ligne`;
+
+    if (scrollEl) {
+      scrollEl.innerHTML = membres.map(m => `
+        <div style="display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 6px 12px; border-radius: 14px; flex-shrink: 0; animation: fadeIn 0.3s ease-out;">
+          <span style="width: 7px; height: 7px; background: var(--succes); border-radius: 50%;"></span>
+          <span style="font-size: 13px; font-weight: 700; color: var(--blanc);">👤 ${esc(m.nom)}</span>
+        </div>
+      `).join('');
     }
   });
 }
@@ -1698,6 +1763,7 @@ function rendrePlans() {
 
 function reinitialiserEtat() {
   if (unsubscribeListener) { unsubscribeListener(); unsubscribeListener = null; }
+  if (presenceRef) { presenceRef.remove(); presenceRef = null; }
   localStorage.clear();
   utilisateur = null; solde = 0;
   historiqueRecharges = []; historiqueRetraits = []; investissements = []; equipe = [];
@@ -2083,6 +2149,10 @@ async function seConnecter() {
 }
 
 function deconnexion() {
+  if (presenceRef) {
+    presenceRef.remove();
+    presenceRef = null;
+  }
   auth.signOut().finally(() => {
     reinitialiserEtat();
     verifierConnexion();
@@ -2098,6 +2168,7 @@ function verifierConnexion() {
   if (connecte) {
     mettreAJourAccueil();
     ecouterChangementsFirebase();
+    gererPresenceEnLigne();
     if (utilisateur && utilisateur.phone) {
       const linkFinal = SITE_BASE_URL + "?parrain=" + cle(utilisateur.phone);
       const elLien = document.getElementById('lienParrainage');
