@@ -768,7 +768,7 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
   </section>
 
-  <!-- SECTION SERVICE CLIENT (SANS LES ANCIENS LIENS EXTERNES) -->
+  <!-- SECTION SERVICE CLIENT -->
   <section id="servicePage" class="page">
     <div class="service-green-box">
       <div style="text-align:center;margin-bottom:18px">
@@ -851,11 +851,14 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
+  <!-- SECTION RECHARGE MISE À JOUR AVEC OPTIONS INTERNATIONALES & NUMÉROS DIRECTS -->
   <section id="rechargePage" class="page">
-    <h2 class="section-title">Recharger mon Solde</h2>
-    <p class="section-sub">Entrez ou sélectionnez le montant de votre recharge :</p>
+    <h2 class="section-title">Recharger mon Solde 💳</h2>
+    <p class="section-sub">Choisissez votre mode de rechargement (Côte d'Ivoire & International Togo / Bénin) :</p>
     
-    <div class="box">
+    <!-- OPTION 1 : CÔTE D'IVOIRE (JEKO & PAIEMENT DIRECT) -->
+    <div class="box" style="margin-bottom: 20px; border-color: var(--orange);">
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--jaune); margin-bottom: 12px;">🇨🇮 Côte d'Ivoire : Paiement en Ligne</h3>
       <div class="field">
         <label>Montant de la recharge (FCFA)</label>
         <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap: wrap;">
@@ -867,10 +870,48 @@ a{text-decoration:none;color:inherit}
         <input id="rechargeCustomAmount" type="number" placeholder="Ex : 5000" style="background: rgba(0,0,0,0.5); font-weight: 800; color: var(--jaune);">
       </div>
 
-      <button class="btn accent" onclick="validerEtPayerRecharge()" style="padding:18px;font-size:16px;">💳 PROCÉDER AU PAIEMENT EN LIGNE</button>
+      <button class="btn accent" onclick="validerEtPayerRecharge()" style="padding:16px;font-size:15px; margin-bottom:10px;">💳 PAYER VIA LE LIEN JEKO</button>
     </div>
 
-    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top:12px;">RETOUR À L'ACCUEIL</button>
+    <!-- OPTION 2 : INTERNATIONAL (TOGO, BÉNIN & AUTRES PAYS) - NUMÉROS INTERNATIONAUX -->
+    <div class="box" style="border-color: var(--vert-client); background: rgba(16,185,129,0.03);">
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--vert-client); margin-bottom: 8px;">🌍 Togo, Bénin & International : Dépôt Direct</h3>
+      <p style="font-size: 12px; color: var(--texte-gris); margin-bottom: 16px; line-height: 1.4;">
+        Utilisateurs du Togo, Bénin et autres pays : copiez l'un de nos numéros officiels ci-dessous, effectuez votre transfert Moov Money ou MTN Money, puis validez votre dépôt.
+      </p>
+
+      <!-- Numéro Moov Money International -->
+      <div class="copy-row" style="margin-bottom: 12px; background: rgba(0,0,0,0.4);">
+        <div>
+          <div class="lbl" style="color: #60A5FA;">💙 Moov Money International</div>
+          <div class="val" id="numMoovIntl" data-raw="+2250141139791" style="font-size: 15px; color: var(--blanc);">+225 01 41 13 97 91</div>
+        </div>
+        <button class="copy-btn" data-src="numMoovIntl" onclick="copierDepuis(this)">Copier</button>
+      </div>
+
+      <!-- Numéro MTN Money International -->
+      <div class="copy-row" style="margin-bottom: 16px; background: rgba(0,0,0,0.4);">
+        <div>
+          <div class="lbl" style="color: var(--jaune);">💛 MTN Money International</div>
+          <div class="val" id="numMtnIntl" data-raw="+2250504037734" style="font-size: 15px; color: var(--blanc);">+225 05 04 03 77 34</div>
+        </div>
+        <button class="copy-btn" data-src="numMtnIntl" onclick="copierDepuis(this)">Copier</button>
+      </div>
+
+      <div class="field">
+        <label>Montant effectivement transféré (FCFA)</label>
+        <input id="rechargeIntlAmount" type="number" placeholder="Ex: 10000" style="background: rgba(0,0,0,0.5); font-weight: 800; color: var(--jaune);">
+      </div>
+
+      <div class="field">
+        <label>ID de transaction ou Numéro émetteur</label>
+        <input id="rechargeIntlRef" type="text" placeholder="Ex: TXN-98421 ou votre numéro" style="background: rgba(0,0,0,0.5);">
+      </div>
+
+      <button class="btn vert" onclick="validerRechargeInternationale()" style="padding:16px;font-size:15px;">✅ J'AI EFFECTUÉ LE TRANSFERT (VALIDER)</button>
+    </div>
+
+    <button class="btn secondaire" onclick="openPage('homePage')" style="margin-top:20px;">RETOUR À L'ACCUEIL</button>
   </section>
 
   <section id="withdrawPage" class="page">
@@ -1156,14 +1197,14 @@ function copierDepuis(btnElement) {
 
   const texteACopier = targetEl.dataset.raw || targetEl.textContent;
   if (!texteACopier || texteACopier.includes('Génération')) {
-    toast("⚠️ Le lien de parrainage n'est pas encore disponible.");
+    toast("⚠️ Le lien ou numéro n'est pas disponible.");
     return;
   }
 
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(texteACopier).then(() => {
       changerTexteBoutonCopie(btnElement);
-      toast("📋 Lien de parrainage copié dans le presse-papier !");
+      toast("📋 Élément copié dans le presse-papier !");
     }).catch(err => {
       fallbackCopier(texteACopier, btnElement);
     });
@@ -1186,7 +1227,7 @@ function fallbackCopier(texte, btnElement) {
 
     if (reussi) {
       changerTexteBoutonCopie(btnElement);
-      toast("📋 Lien de parrainage copié !");
+      toast("📋 Élément copié !");
     } else {
       toast("❌ Échec de la copie automatique.");
     }
@@ -1812,6 +1853,39 @@ function validerEtPayerRecharge() {
   openPage('historyPage');
 }
 
+function validerRechargeInternationale() {
+  const inpAmount = document.getElementById('rechargeIntlAmount');
+  const inpRef = document.getElementById('rechargeIntlRef');
+  const montant = parseFloat(inpAmount ? inpAmount.value : 0);
+  const refTx = inpRef ? inpRef.value.trim() : '';
+
+  if (!montant || montant <= 0) {
+    toast("⚠️ Veuillez saisir le montant transféré.");
+    return;
+  }
+  if (!refTx) {
+    toast("⚠️ Veuillez saisir votre ID de transaction ou numéro émetteur.");
+    return;
+  }
+
+  const nouvelleRecharge = {
+    montant: montant,
+    phone: utilisateur ? utilisateur.phone : '',
+    methode: 'Dépôt International (Moov/MTN)',
+    txId: refTx,
+    date: new Date().toISOString(),
+    statut: 'En attente'
+  };
+
+  historiqueRecharges.unshift(nouvelleRecharge);
+  sauvegarderTout();
+
+  toast("✅ Demande de recharge internationale transmise. Validation en cours par le support.");
+  inpAmount.value = '';
+  inpRef.value = '';
+  openPage('historyPage');
+}
+
 function openPage(pageId) {
   if (pageActuelle !== pageId) {
     pagePrecedente = pageActuelle;
@@ -1833,6 +1907,10 @@ function openPage(pageId) {
   if (pageId === 'rechargePage') {
     const inp = document.getElementById('rechargeCustomAmount');
     if (inp) inp.value = '';
+    const inpIntl = document.getElementById('rechargeIntlAmount');
+    if (inpIntl) inpIntl.value = '';
+    const inpRef = document.getElementById('rechargeIntlRef');
+    if (inpRef) inpRef.value = '';
   }
   if (pageId === 'linkPage') {
     mettreAJourMethodesLien();
