@@ -768,18 +768,32 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('viewLinkedPage')">VOIR MON COMPTE LIÉ</button>
   </section>
 
-  <!-- SECTION SERVICE CLIENT -->
+  <!-- SECTION SERVICE CLIENT & GROUPE WHATSAPP MIS À JOUR AVEC VOS LIENS -->
   <section id="servicePage" class="page">
     <div class="service-green-box">
       <div style="text-align:center;margin-bottom:18px">
         <div style="width:70px;height:70px;margin:0 auto 12px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;font-size:32px;border:2px solid var(--vert-client)">💬</div>
-        <h2 class="section-title" style="color:var(--vert-client);font-size:24px">Service Client VIP 24/7</h2>
-        <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée, validation de recharges & réclamation de vos bonus</p>
+        <h2 class="section-title" style="color:var(--vert-client);font-size:24px">Service Client & Groupe VIP</h2>
+        <p style="color:var(--texte-gris);font-size:13px;margin-top:4px">Assistance instantanée WhatsApp, groupe officiel & validation de recharges</p>
+      </div>
+
+      <!-- BOUTON ACCÈS DIRECT SERVICE CLIENT WHATSAPP -->
+      <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--vert-client); border-radius: 16px; padding: 18px; margin-bottom: 16px; text-align: center;">
+        <div style="font-size: 16px; font-weight: 800; color: var(--jaune); margin-bottom: 6px;">💬 Discuter avec le Service Client</div>
+        <p style="font-size: 12px; color: var(--texte-gris); margin-bottom: 14px;">Contactez directement notre équipe support sur WhatsApp.</p>
+        <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" class="btn vert" style="display: block; padding: 14px; font-size: 14px; text-decoration: none;">🚀 OUVRIR LE SUPPORT WHATSAPP</a>
+      </div>
+
+      <!-- BOUTON ACCÈS DIRECT GROUPE WHATSAPP -->
+      <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--jaune); border-radius: 16px; padding: 18px; margin-bottom: 20px; text-align: center;">
+        <div style="font-size: 16px; font-weight: 800; color: var(--jaune); margin-bottom: 6px;">👥 Rejoindre le Groupe WhatsApp VIP</div>
+        <p style="font-size: 12px; color: var(--texte-gris); margin-bottom: 14px;">Échangez avec la communauté et recevez toutes les actualités.</p>
+        <a href="https://chat.whatsapp.com/CBlYZXLe9um2txk9baGpdh?s=cl&p=a&mlu=4&ilr=4&iam=2" target="_blank" class="btn accent" style="display: block; padding: 14px; font-size: 14px; text-decoration: none;">🔗 REJOINDRE LE GROUPE OFFICIEL</a>
       </div>
 
       <div class="service-voice-card">
-        <div style="font-size:20px;font-weight:800;color:var(--vert-client);margin-bottom:4px">🎙️ Assistant Vocal WhatsApp Direct</div>
-        <p style="font-size:12px;color:var(--texte-gris)">Enregistrez votre message audio puis envoyez-le directement au support WhatsApp.</p>
+        <div style="font-size:18px;font-weight:800;color:var(--vert-client);margin-bottom:4px">🎙️ Assistant Vocal Enregistreur</div>
+        <p style="font-size:12px;color:var(--texte-gris)">Enregistrez votre message audio pour l'envoyer au support.</p>
         
         <div id="serviceVoiceBtn" class="service-voice-btn" onclick="toggleEnregistrementVocalService()">🎙️</div>
         
@@ -789,7 +803,6 @@ a{text-decoration:none;color:inherit}
         <audio id="serviceVoiceAudioPlayer" controls class="hidden" style="margin:14px auto 8px;width:100%;max-width:300px"></audio>
 
         <div id="serviceVoiceActions" class="hidden" style="margin-top:14px">
-          <button class="btn vert" onclick="envoyerVocalWhatsAppDirect()" style="padding:14px;font-size:13px;margin-bottom:8px">🚀 ENVOYER DIRECTEMENT SUR WHATSAPP</button>
           <a id="downloadVoiceLink" class="btn secondaire" style="display:block;padding:12px;font-size:12px">📥 Télécharger l'audio enregistré</a>
         </div>
       </div>
@@ -851,7 +864,6 @@ a{text-decoration:none;color:inherit}
     <button class="btn secondaire" onclick="openPage('homePage')">RETOUR</button>
   </section>
 
-  <!-- SECTION RECHARGE MISE À JOUR AVEC OPTIONS INTERNATIONALES & NUMÉROS DIRECTS -->
   <section id="rechargePage" class="page">
     <h2 class="section-title">Recharger mon Solde 💳</h2>
     <p class="section-sub">Choisissez votre mode de rechargement (Côte d'Ivoire & International Togo / Bénin) :</p>
@@ -873,7 +885,7 @@ a{text-decoration:none;color:inherit}
       <button class="btn accent" onclick="validerEtPayerRecharge()" style="padding:16px;font-size:15px; margin-bottom:10px;">💳 PAYER VIA LE LIEN JEKO</button>
     </div>
 
-    <!-- OPTION 2 : INTERNATIONAL (TOGO, BÉNIN & AUTRES PAYS) - NUMÉROS INTERNATIONAUX -->
+    <!-- OPTION 2 : INTERNATIONAL (TOGO, BÉNIN & AUTRES PAYS) -->
     <div class="box" style="border-color: var(--vert-client); background: rgba(16,185,129,0.03);">
       <h3 style="font-size: 16px; font-weight: 800; color: var(--vert-client); margin-bottom: 8px;">🌍 Togo, Bénin & International : Dépôt Direct</h3>
       <p style="font-size: 12px; color: var(--texte-gris); margin-bottom: 16px; line-height: 1.4;">
@@ -1197,7 +1209,7 @@ function copierDepuis(btnElement) {
 
   const texteACopier = targetEl.dataset.raw || targetEl.textContent;
   if (!texteACopier || texteACopier.includes('Génération')) {
-    toast("⚠️ Le lien ou numéro n'est pas disponible.");
+    toast("⚠️ L'élément n'est pas disponible.");
     return;
   }
 
@@ -1439,7 +1451,7 @@ async function toggleEnregistrementVocalService() {
     clearInterval(voiceTimerInterval);
     btn.classList.remove('recording');
     btn.textContent = "🎙️";
-    status.textContent = "Enregistrement terminé ! Écoutez ou envoyez.";
+    status.textContent = "Enregistrement terminé ! Écoutez ou téléchargez.";
   } else {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1484,15 +1496,6 @@ async function toggleEnregistrementVocalService() {
       toast("⚠️ Accès au microphone refusé ou non supporté.");
     }
   }
-}
-
-function envoyerVocalWhatsAppDirect() {
-  const nomMembre = utilisateur ? (utilisateur.name || 'Membre') : 'Membre';
-  const telMembre = utilisateur ? (utilisateur.phone || '') : '';
-  const texteMessage = encodeURIComponent(`Bonjour Service Client VIP Canal Box,\n\nJe suis le membre : ${nomMembre} (${telMembre}).\n\nJ'ai enregistré un message vocal pour votre support. Merci de prendre en charge ma demande.`);
-  const urlWhatsApp = `https://wa.me/qr/JZYGKM3FM3XTL1?text=${texteMessage}`;
-  toast("Redirection vers WhatsApp pour l'envoi direct...");
-  window.open(urlWhatsApp, '_blank');
 }
 
 let currentStepAssistant = 0;
